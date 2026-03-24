@@ -76,6 +76,11 @@ var validStatuses = map[string][]string{
 	"expired":  {"expired", "cancelled"},
 }
 
+// ParseFrontmatterPublic is the exported version of parseFrontmatter for use by other packages.
+func ParseFrontmatterPublic(content string) (*PlanFrontmatter, string, error) {
+	return parseFrontmatter(content)
+}
+
 // parseFrontmatter extracts YAML frontmatter from a markdown file's content.
 func parseFrontmatter(content string) (*PlanFrontmatter, string, error) {
 	if !strings.HasPrefix(content, "---") {

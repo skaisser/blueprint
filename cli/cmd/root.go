@@ -27,6 +27,12 @@ func init() {
 	rootCmd.AddCommand(frontmatterCmd)
 	rootCmd.AddCommand(baseBranchCmd)
 	rootCmd.AddCommand(branchCmd)
+	rootCmd.AddCommand(issueCmd)
+	rootCmd.AddCommand(prBodyCmd)
+	rootCmd.AddCommand(planTasksCmd)
+	rootCmd.AddCommand(planProfileCmd)
+	rootCmd.AddCommand(planStatusCmd)
+	rootCmd.AddCommand(validateCmd)
 }
 
 func Execute() error {
