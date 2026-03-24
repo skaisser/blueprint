@@ -83,7 +83,12 @@ if [ -z "$PLAN_FILE" ]; then
 fi
 ```
 
-Read the plan file. Update frontmatter `status: completed`. Find the PR number:
+Read the plan file. Update frontmatter:
+- `status: completed`
+- `completed_at: DD/MM/YYYY HH:MM`
+- `session: "${CLAUDE_SESSION_ID}"` (for `claude -r` resume — preserves the session that finished the feature)
+
+Find the PR number:
 
 ```bash
 PR_NUMBER=$(gh pr view --json number --jq '.number' 2>/dev/null)
