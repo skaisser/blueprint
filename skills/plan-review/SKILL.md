@@ -113,13 +113,27 @@ Add a brief `## Tech Stack Versions` section to the plan (3-5 lines). Workers ne
 
 Update the plan frontmatter status from `todo` → `awaiting-review` at the start of this step. Add `strategy` and `reviews` fields to frontmatter at Step 5 (after determining strategy).
 
-**Mark ALL tasks** in the Phases section:
+**Mark ALL tasks** in the Phases section by appending `[H]`, `[S]`, or `[O]` at the END of each task line:
 
 | Marker | Tier | When to Use |
 |--------|------|-------------|
 | `[H]` | Fast/small | CRUD, config, i18n, migrations, styling, renaming, views, constants |
 | `[S]` | Balanced | Business logic, services, API integration, complex tests, dynamic components |
 | `[O]` | Strong reasoning | Architecture, multi-system coordination — rare |
+
+**Format — append marker at end of the task line:**
+
+```markdown
+# Before (unmarked):
+- [ ] Implement blueprint config get — read single YAML value from config
+- [ ] Tests: config_test.go — test nested keys, missing file
+
+# After (marked):
+- [ ] Implement blueprint config get — read single YAML value from config [S]
+- [ ] Tests: config_test.go — test nested keys, missing file [H]
+```
+
+Every `- [ ]` and `- [x]` task line MUST have exactly one marker. Sub-bullets (indented descriptions, examples, JSON output) do NOT get markers — only the top-level task lines.
 
 Default to `[H]`. Escalate to `[S]` only when the task needs real reasoning. `[O]` is almost never needed.
 
