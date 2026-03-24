@@ -101,7 +101,7 @@ echo "🔷 BP: plan [2/3] code exploration + sequential thinking"
 
 You MUST use `mcp__sequential-thinking__sequentialthinking`. This is where the plan takes shape:
 
-- Analyze $ARGUMENTS, Linear details, and Explore findings together
+- Analyze $ARGUMENTS, GitHub issue details, and Explore findings together
 - Break into phases with clear acceptance criteria and phase dependencies
 - Ensure the plan is runnable from a clean context:
   - Body has exactly 4 sections: Goal, Non-Goals, Context (bullet list), Phases, Acceptance

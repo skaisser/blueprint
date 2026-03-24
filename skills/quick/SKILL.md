@@ -8,7 +8,7 @@ description: >
   "rename this", "fix this typo", "update the config", "one-liner",
   "trivial change", "swap this", "change this value", "toggle this",
   or any 1-3 file change that doesn't warrant a full /plan workflow.
-  Supports optional Linear integration for issue tracking.
+  Supports optional GitHub issue integration for issue tracking.
 ---
 
 # Quick: Fast Task Execution
@@ -38,7 +38,7 @@ If `$ARGUMENTS` contains a GitHub issue reference (e.g., `/quick #42`, `/quick i
 5. **Implement** — Make the minimal change requested. Do not refactor, clean up, or improve surrounding code
 6. **Verify** — Check the change is correct: no syntax errors, no broken references, run targeted tests if testable logic changed
 7. **Commit** — Use `/ship`. If a GitHub issue was provided, include `Closes #N` in the commit message body
-8. **Linear/GitHub update** — If issue ID provided: push and update status
+8. **GitHub issue update** — If issue number provided: push and update status
 9. **Ask next** — AskUserQuestion:
    - "Yes, we're done"
    - "Create a PR for this" — Run /pr (issue reference will be included in PR body)

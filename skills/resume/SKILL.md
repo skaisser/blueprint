@@ -88,7 +88,7 @@ Last activity: YYYY-MM-DD HH:MM
 ⬜ Phase 4: Frontend (0/4 tasks)
 
 Branch: feat/description
-Linear: KPG-42 (In Progress)
+Issue: #42 (In Progress)
 ```
 
 If memory search found relevant notes from previous session, include them:

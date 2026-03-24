@@ -16,7 +16,7 @@ Fast-lane deployment for urgent fixes. Bypasses normal plan workflow.
 
 Read `blueprint/.config.yml` → `language`. If `auto`, detect from the user's messages. All generated content MUST be in the detected language. Skill instructions stay in English — only output changes.
 
-**Flow:** commit → push to staging branch → PR staging→main → merge → Linear update
+**Flow:** commit → push to staging branch → PR staging→main → merge → GitHub issue update
 
 ## When to Use
 

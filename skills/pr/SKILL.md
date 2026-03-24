@@ -1,7 +1,7 @@
 ---
 name: pr
 description: >
-  Create a Pull Request with plan context, Linear integration, and proper base branch detection.
+  Create a Pull Request with plan context, GitHub issue integration, and proper base branch detection.
   Use this skill whenever the user says "/pr", "create a PR", "open a pull request",
   "make a PR", "create pull request", or any request to create a PR for the current branch.
   Also triggers on "open PR", "submit PR", "PR for this branch", "push and create PR",
@@ -70,7 +70,7 @@ CURRENT_BRANCH=$(git branch --show-current)
 blueprint context "$BASE_BRANCH"
 ```
 
-Read plan file from `blueprint/live/` if exists. Extract Linear issue IDs from plan header.
+Read plan file from `blueprint/live/` if exists. Extract GitHub issue numbers from plan header.
 
 ## Step 4: Create PR
 
@@ -116,7 +116,6 @@ If `blueprint pr-body` is unavailable or returns empty, compose the body manuall
 - [ ] [How to verify change 2]
 
 ## References
-[Linear ticket links if applicable, e.g. Closes LIN-123]
 [Closes #N for each GitHub issue if ISSUE_REF is non-empty]
 ```
 
