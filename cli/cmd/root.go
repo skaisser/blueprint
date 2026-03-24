@@ -23,6 +23,8 @@ func init() {
 	rootCmd.AddCommand(auditCmd)
 	rootCmd.AddCommand(prReviewCmd)
 	rootCmd.AddCommand(updateCmd)
+	rootCmd.AddCommand(configCmd)
+	rootCmd.AddCommand(frontmatterCmd)
 }
 
 func Execute() error {

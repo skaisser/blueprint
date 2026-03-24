@@ -29,20 +29,28 @@ type MetaResult struct {
 	Today      string `json:"today"`
 }
 
-// GetNextNum scans blueprint/ for the highest numbered plan file and returns next.
+// GetNextNum scans blueprint/live/ and blueprint/ for the highest numbered plan file and returns next.
 func GetNextNum(planningDir string) string {
-	entries, err := os.ReadDir(planningDir)
-	if err != nil {
-		return "0001"
+	maxNum := 0
+
+	// Scan both live/ subdirectory and root planning dir
+	dirs := []string{
+		filepath.Join(planningDir, "live"),
+		planningDir,
 	}
 
-	maxNum := 0
-	for _, e := range entries {
-		m := numPrefix.FindStringSubmatch(e.Name())
-		if m != nil {
-			n, _ := strconv.Atoi(m[1])
-			if n > maxNum {
-				maxNum = n
+	for _, dir := range dirs {
+		entries, err := os.ReadDir(dir)
+		if err != nil {
+			continue
+		}
+		for _, e := range entries {
+			m := numPrefix.FindStringSubmatch(e.Name())
+			if m != nil {
+				n, _ := strconv.Atoi(m[1])
+				if n > maxNum {
+					maxNum = n
+				}
 			}
 		}
 	}
@@ -53,27 +61,53 @@ func GetNextNum(planningDir string) string {
 	return fmt.Sprintf("%04d", maxNum+1)
 }
 
-// FindPlanFile finds the active plan file matching the branch, or falls back to most recent.
-func FindPlanFile(planningDir, branch string) string {
-	entries, err := os.ReadDir(planningDir)
+// collectPlanFiles scans a directory for plan files and returns todo files and all plan files
+// with their paths relative to the base planningDir.
+func collectPlanFiles(dir, planningDir string) (todoFiles []string, allPlanFiles []string) {
+	entries, err := os.ReadDir(dir)
 	if err != nil {
-		return ""
+		return nil, nil
 	}
-
-	var todoFiles []string
-	var allPlanFiles []string
 
 	for _, e := range entries {
 		name := e.Name()
 		if strings.HasPrefix(name, ".") || !strings.HasSuffix(name, ".md") {
 			continue
 		}
+		// Build path relative to planningDir so results always use planningDir as base
+		relPath := name
+		if dir != planningDir {
+			rel, err := filepath.Rel(planningDir, filepath.Join(dir, name))
+			if err == nil {
+				relPath = rel
+			}
+		}
 		if strings.HasSuffix(name, "-todo.md") {
-			todoFiles = append(todoFiles, name)
+			todoFiles = append(todoFiles, relPath)
 		}
 		if numPrefix.MatchString(name) {
-			allPlanFiles = append(allPlanFiles, name)
+			allPlanFiles = append(allPlanFiles, relPath)
 		}
+	}
+	return
+}
+
+// FindPlanFile finds the active plan file matching the branch, or falls back to most recent.
+// Searches blueprint/live/ first, then falls back to blueprint/ root.
+func FindPlanFile(planningDir, branch string) string {
+	var todoFiles []string
+	var allPlanFiles []string
+
+	// Search live/ subdirectory first, then root
+	dirs := []string{
+		filepath.Join(planningDir, "live"),
+		planningDir,
+	}
+
+	for _, dir := range dirs {
+		td, ap := collectPlanFiles(dir, planningDir)
+		todoFiles = append(todoFiles, td...)
+		allPlanFiles = append(allPlanFiles, ap...)
 	}
 
 	candidates := todoFiles
@@ -92,7 +126,8 @@ func FindPlanFile(planningDir, branch string) string {
 
 	// Try to match branch suffix against filename
 	for _, f := range candidates {
-		fSlug := regexp.MustCompile(`^\d{4}-[a-z]+-`).ReplaceAllString(f, "")
+		base := filepath.Base(f)
+		fSlug := regexp.MustCompile(`^\d{4}-[a-z]+-`).ReplaceAllString(base, "")
 		fSlug = strings.TrimSuffix(fSlug, "-todo.md")
 		fSlug = strings.TrimSuffix(fSlug, "-completed.md")
 
