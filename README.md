@@ -6,7 +6,7 @@
 
 <p align="center">
   <a href="https://blueprint.skaisser.dev"><img src="https://img.shields.io/badge/docs-blueprint.skaisser.dev-0C447C?style=flat-square" alt="Docs" /></a>
-  <img src="https://img.shields.io/badge/skills-24-185FA5?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/skills-27-185FA5?style=flat-square" alt="Skills" />
   <img src="https://img.shields.io/badge/audit_rules-14-534AB7?style=flat-square" alt="Audit Rules" />
   <img src="https://img.shields.io/badge/Claude_Code-required-blueviolet?style=flat-square" alt="Claude Code" />
   <img src="https://img.shields.io/badge/macOS-arm64_·_amd64-black?style=flat-square&logo=apple" alt="macOS" />
@@ -38,12 +38,11 @@ curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/main/install.sh 
 No Go toolchain required. The installer auto-detects your platform (macOS + Linux), shows an interactive menu via [gum](https://github.com/charmbracelet/gum), and installs only what you choose:
 
 - `blueprint` CLI binary → `~/.blueprint/bin/`
-- 24 SDLC skills → `~/.claude/skills/`
+- 27 SDLC skills → `~/.claude/skills/`
 - Audit hook (14 rules) via Claude Code settings
 - Git hooks (commit-msg, pre-push)
 - GitHub Action (`@claude` review)
 - Obsidian setup with Dataview queries *(optional)*
-- Laravel or Node/TS preset *(optional)*
 
 > **Just want BLUEPRINT? One line. Want to hack the CLI? Clone it.**
 
@@ -101,7 +100,7 @@ Files move between folders automatically on each phase transition. Compatible wi
 /start
 ```
 
-Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Action, and homolog branch.
+Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Action, and a configurable staging branch.
 
 ### 2. Run the full pipeline
 
@@ -142,26 +141,17 @@ Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Acti
 
 ## What's Included
 
-### Core SDLC — 24 skills
+### Core SDLC — 27 skills
 
 | Category | Skills |
 |----------|--------|
 | Pipeline | `/backlog` `/plan` `/plan-review` `/plan-approved` `/plan-check` `/pr` `/review` `/address-pr` `/finish` |
 | Automation | `/flow` `/flow-auto` `/flow-auto-wt` `/batch-flow` |
-| Fast Tracks | `/quick` `/hotfix-push` `/resume` |
-| Git & PR | `/commit` `/ship` `/push` `/branch` `/complete` |
-| Testing | `/test` `/run-tests` `/coverage` `/tdd-review` |
-| Project Setup | `/start` `/workflow-sync` `/context` `/sync` `/status` |
+| Fast Tracks | `/quick` `/hotfix` `/resume` |
+| Git & PR | `/bp-commit` `/bp-ship` `/bp-push` `/bp-branch` |
+| Testing | `/bp-test` `/bp-tdd-review` |
+| Project Setup | `/start` `/bp-context` `/bp-status` `/complete` |
 | Skill Factory | `/skill-creator` |
-
-### Standalone Skills — optional
-
-- `/brand-generator` — DaisyUI + Tailwind 4 design systems from inspiration URLs
-- `/cf-pages-deploy` — Deploy static sites to Cloudflare Pages via Wrangler
-- `/remotion-video` — Full video production pipeline: plan → script → storyboard → render
-- `/yt-search` — YouTube search via yt-dlp, no API key required
-- `/excalidraw-diagram` — Architecture diagrams, Playwright-validated PNG output
-- `/firecrawl` — Web scraping router (requires [Firecrawl CLI](https://firecrawl.dev))
 
 ---
 
@@ -196,7 +186,7 @@ Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Acti
 | 4 | Standalone task count | Warn if 3+ tasks with no team |
 | 5 | Handoff tracking | Track checkpoints at `/flow` pauses |
 | 6 | Checkpoint audit trail | Enforce `/plan-check` before `/pr` |
-| 7 | Workflow creation gate | Block `claude.yml` without homolog branch |
+| 7 | Workflow creation gate | Block `claude-pr-reviewer.yml` without a staging branch |
 | 8 | Test suite enforcement | Block test runner without `--parallel` or `--filter` |
 | 9 | Plan task deletion | Warn when unchecked tasks removed instead of implemented |
 | 10 | Dangerous command block | Block `migrate:fresh`, AI signatures, direct push to main |
@@ -270,7 +260,7 @@ SORT started_at DESC
 
 | Version | Scope |
 |---------|-------|
-| **v1.0** | 24 SDLC skills · `blueprint` CLI · 14-rule audit hook · Obsidian BLUE workspace |
+| **v1.0** | 27 SDLC skills · `blueprint` CLI · 14-rule audit hook · Obsidian BLUE workspace |
 | v1.1 | Laravel TALL preset · Node/TS preset |
 | v1.2 | Standalone skills as optional add-ons |
 | v1.3 | Autoresearch eval dashboard + optimizer |
