@@ -711,10 +711,10 @@ if tool_name == "bash" and command:
         block(
             "Use `blueprint backlog` CLI to read backlog files — it handles both YAML and legacy formats correctly.\n\n"
             "Available commands:\n"
-            "  blueprint sdlc backlog                  # JSON output (default)\n"
-            "  blueprint sdlc backlog --format table   # Pretty table\n"
-            "  blueprint sdlc backlog --archive        # Include archived items\n"
-            "  blueprint sdlc backlog migrate           # Convert old format → YAML\n\n"
+            "  blueprint backlog                  # JSON output (default)\n"
+            "  blueprint backlog --format table   # Pretty table\n"
+            "  blueprint backlog --archive        # Include archived items\n"
+            "  blueprint backlog migrate           # Convert old format → YAML\n\n"
             "Never parse backlog files with grep/sed/awk/cat — the CLI is faster and correct."
         )
 

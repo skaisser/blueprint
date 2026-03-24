@@ -689,9 +689,9 @@ func rule14FlowAutoEnforcement(p *Payload, state *SessionState, log *Logger) {
 					"  1. Initialize → 2. Plan → 3. Review → 4. Execute → 5. Plan Check → 6. PR → 7. Review Loop → 8. Report\n\n" +
 					"You skipped Step 5 (auditing implementation). Run it now:\n" +
 					"  echo \"🤖 [flow-auto:5] auditing implementation\"\n" +
-					"  blueprint sdlc context --diffs\n" +
+					"  blueprint context --diffs\n" +
 					"  # ... compare plan vs implementation, fix mismatches\n" +
-					"  blueprint sdlc sync",
+					"  blueprint update",
 			)
 		}
 	}
@@ -733,10 +733,10 @@ func rule15BacklogCLI(p *Payload, state *SessionState, log *Logger) {
 		log.Block(
 			"Manual backlog file parsing is BLOCKED.\n\n" +
 				"Use the CLI instead — it handles both YAML and legacy formats correctly:\n\n" +
-				"  blueprint sdlc backlog                  # JSON output (default)\n" +
-				"  blueprint sdlc backlog --format table   # Pretty table\n" +
-				"  blueprint sdlc backlog --archive        # Include archived items\n" +
-				"  blueprint sdlc backlog migrate           # Convert old format → YAML\n\n" +
+				"  blueprint backlog                  # JSON output (default)\n" +
+				"  blueprint backlog --format table   # Pretty table\n" +
+				"  blueprint backlog --archive        # Include archived items\n" +
+				"  blueprint backlog migrate           # Convert old format → YAML\n\n" +
 				"Never parse backlog files with grep/sed/awk/cat — the CLI is faster and correct.",
 		)
 	}
