@@ -454,4 +454,5 @@ func init() {
 	reviewPollCmd.Flags().StringVar(&reviewPollTimeout, "timeout", "20m", "Timeout duration (e.g., 20m, 1h)")
 
 	commitFmtCmd.AddCommand(commitFormatCmd)
+	commitFmtCmd.AddCommand(commitPlanCmd)
 }

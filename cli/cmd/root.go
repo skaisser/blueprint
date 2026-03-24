@@ -11,7 +11,7 @@ var Version = "dev"
 var rootCmd = &cobra.Command{
 	Use:     "blueprint",
 	Short:   "BLUEPRINT SDLC — development lifecycle for Claude Code",
-	Long:    "blueprint consolidates SDLC scripts (audit, sdlc, pr-review) into a single high-performance Go binary.",
+	Long:    "blueprint — development lifecycle CLI for Claude Code projects.",
 	Version: Version,
 	Run: func(cmd *cobra.Command, args []string) {
 		cmd.Help()
@@ -19,27 +19,43 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(sdlcCmd)
+	// Core commands (were under sdlcCmd, now directly on root)
+	rootCmd.AddCommand(metaCmd)
+	rootCmd.AddCommand(contextCmd)
+	rootCmd.AddCommand(syncCmd)
+	rootCmd.AddCommand(fullCmd)
+	rootCmd.AddCommand(commitFmtCmd)
+	rootCmd.AddCommand(backlogCmd)
+
+	// Audit & PR
 	rootCmd.AddCommand(auditCmd)
 	rootCmd.AddCommand(prReviewCmd)
 	rootCmd.AddCommand(updateCmd)
+
+	// Config & frontmatter
 	rootCmd.AddCommand(configCmd)
 	rootCmd.AddCommand(frontmatterCmd)
+
+	// Branch operations
 	rootCmd.AddCommand(baseBranchCmd)
 	rootCmd.AddCommand(branchCmd)
-	rootCmd.AddCommand(issueCmd)
-	rootCmd.AddCommand(prBodyCmd)
+
+	// Plan operations
 	rootCmd.AddCommand(planTasksCmd)
 	rootCmd.AddCommand(planProfileCmd)
 	rootCmd.AddCommand(planStatusCmd)
 	rootCmd.AddCommand(validateCmd)
-	rootCmd.AddCommand(timeCmd)
+
+	// GitHub integration
+	rootCmd.AddCommand(issueCmd)
+	rootCmd.AddCommand(prBodyCmd)
+
+	// Complex operations
 	rootCmd.AddCommand(worktreeCmd)
 	rootCmd.AddCommand(mergeChainCmd)
-	rootCmd.AddCommand(commitFmtCmd)
 	rootCmd.AddCommand(reviewPollCmd)
 	rootCmd.AddCommand(detectStackCmd)
-	rootCmd.AddCommand(metaCmd)
+	rootCmd.AddCommand(timeCmd)
 }
 
 func Execute() error {

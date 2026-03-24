@@ -11,14 +11,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var sdlcCmd = &cobra.Command{
-	Use:   "sdlc",
-	Short: "SDLC workflow tools (meta, context, sync, full, commit)",
-	Run: func(cmd *cobra.Command, args []string) {
-		cmd.Help()
-	},
-}
-
 // ─── meta ───────────────────────────────────────────────────────────────────
 
 var metaCmd = &cobra.Command{
@@ -253,9 +245,9 @@ var fullCmd = &cobra.Command{
 
 // ─── commit ─────────────────────────────────────────────────────────────────
 
-var commitCmd = &cobra.Command{
-	Use:   "commit <message> [files...]",
-	Short: "Commit plan + code changes",
+var commitPlanCmd = &cobra.Command{
+	Use:   "plan <message> [files...]",
+	Short: "Commit plan + code changes (stages blueprint/, runs pint on PHP)",
 	Args:  cobra.MinimumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		message := args[0]
@@ -352,9 +344,5 @@ func init() {
 	backlogCmd.Flags().StringVar(&backlogFormat, "format", "json", "Output format: json or table")
 	backlogCmd.AddCommand(backlogMigrateCmd)
 
-	sdlcCmd.AddCommand(contextCmd)
-	sdlcCmd.AddCommand(syncCmd)
-	sdlcCmd.AddCommand(fullCmd)
-	sdlcCmd.AddCommand(commitCmd)
-	sdlcCmd.AddCommand(backlogCmd)
+	// All commands registered on rootCmd — no sdlc subcommand needed
 }
