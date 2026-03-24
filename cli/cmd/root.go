@@ -34,6 +34,11 @@ func init() {
 	rootCmd.AddCommand(planStatusCmd)
 	rootCmd.AddCommand(validateCmd)
 	rootCmd.AddCommand(timeCmd)
+	rootCmd.AddCommand(worktreeCmd)
+	rootCmd.AddCommand(mergeChainCmd)
+	rootCmd.AddCommand(commitFmtCmd)
+	rootCmd.AddCommand(reviewPollCmd)
+	rootCmd.AddCommand(detectStackCmd)
 }
 
 func Execute() error {
