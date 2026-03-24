@@ -109,14 +109,14 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 ## Acceptance
 
-- [ ] Zero `~/.blueprint/bin/` hardcoded paths remaining in skills/
-- [ ] Zero inline Python JSON parsing remaining in skills/
-- [ ] Zero manual branch sanitization (tr+sed) remaining in skills/
-- [ ] Zero manual main/master safety checks remaining in skills/
-- [ ] `blueprint meta plan_file` returns raw value without JSON wrapper
-- [ ] `blueprint meta` works without `sdlc` prefix
-- [ ] All existing Go tests pass (`go test ./...`)
-- [ ] make build-all produces 3 binaries
+- [x] Zero `~/.blueprint/bin/` hardcoded paths remaining in skills/ ✅ 2026-03-24 05:42
+- [x] Zero inline Python JSON parsing remaining in skills/ ✅ 2026-03-24 05:42
+- [x] Zero manual branch sanitization (tr+sed) remaining in skills/ ✅ 2026-03-24 05:42
+- [x] Zero manual main/master safety checks remaining in skills/ ✅ 2026-03-24 05:42
+- [x] `blueprint meta plan_file` returns raw value without JSON wrapper ✅ 2026-03-24 05:42
+- [x] `blueprint meta` works without `sdlc` prefix ✅ 2026-03-24 05:42
+- [x] All existing Go tests pass (`go test ./...`) ✅ 2026-03-24 05:42
+- [x] make build-all produces 3 binaries ✅ 2026-03-24 05:42
 
 ## Execution Strategy
 
