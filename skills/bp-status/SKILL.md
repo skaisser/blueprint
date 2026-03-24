@@ -5,7 +5,7 @@ description: >
   Triggers on "/bp-status", "/status", "show status", "repo status",
   "what branch am I on", "current status", "where am I", "project status",
   "what's the current state", "which branch", "is there a PR open",
-  "what plan am I on". Uses blueprint CLI with Python and git fallbacks.
+  "what plan am I on". Uses blueprint CLI with git fallback.
 ---
 
 # Status: Quick Repo Context
@@ -29,13 +29,7 @@ blueprint status 2>/dev/null
 Parses JSON output with: `branch`, `base_branch`, `plan_file`, `project`, `git_remote`.
 Reads from `blueprint/live/` for active plans and `blueprint/.config.yml` for config.
 
-### 2. Fallback: Python hook
-
-```bash
-python3 hooks/blueprint.py status 2>/dev/null
-```
-
-### 3. Last resort: raw git + gh commands
+### 2. Fallback: raw git + gh commands
 
 ```bash
 git branch --show-current

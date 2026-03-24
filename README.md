@@ -176,7 +176,7 @@ Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Acti
 
 ## Audit Hook — 14 Rules
 
-`blueprint audit` fires on every Claude Code tool call via PreToolUse. A Python fallback ships for environments where the binary isn't yet installed.
+`blueprint audit` fires on every Claude Code tool call via PreToolUse. The Go binary is the only hook — fast, compiled, zero dependencies.
 
 | # | Rule | What it enforces |
 |---|------|-----------------|

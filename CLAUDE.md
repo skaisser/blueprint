@@ -78,4 +78,4 @@ Run `blueprint update` to get the latest skills, hooks, and CLI binary.
 - `temp/` is gitignored — working files during development
 - Pre-compiled binaries are gitignored (`cli/blueprint-darwin-*`, `cli/blueprint-linux-*`)
 - Skills install to `~/.claude/skills/` on user machines, but source lives here in `skills/`
-- Audit hook source: `hooks/blueprint.py` (Python fallback) + Go binary (primary)
+- Audit hook: `blueprint audit` (Go binary) — no Python fallback needed

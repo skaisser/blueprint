@@ -33,7 +33,7 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 - Rewriting skill logic or restructuring skill flow
 - Quality audit against skill-creator patterns (separate backlog item)
 - Touching plan or plan-review skill thoroughness — those stay as-is
-- Python parity in hooks/blueprint.py (separate backlog item)
+- Python fallback — dropped; Go binary is the only hook
 
 ## Context
 
