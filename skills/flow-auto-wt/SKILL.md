@@ -108,12 +108,11 @@ REPO_NAME=$(basename "$PWD")
 REPO_ROOT="$PWD"
 PARENT_DIR=$(dirname "$PWD")
 
-# Generate branch name from description
+# Generate branch name from description (already returns a clean slug)
 BRANCH=$(blueprint branch-name "$DESCRIPTION")
 
 # Worktree path: parent dir / .worktrees / repo-branch-slug
-WORKTREE_SLUG=$(echo "$BRANCH" | tr '/' '-')
-WORKTREE_PATH="${PARENT_DIR}/.worktrees/${REPO_NAME}-${WORKTREE_SLUG}"
+WORKTREE_PATH="${PARENT_DIR}/.worktrees/${REPO_NAME}-${BRANCH}"
 
 # Ensure parent exists
 mkdir -p "${PARENT_DIR}/.worktrees"

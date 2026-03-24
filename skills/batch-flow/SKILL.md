@@ -97,9 +97,9 @@ For each plan in the queue:
 
 ### 3A: Check if already completed
 ```bash
-# Read plan status
-STATUS=$(grep '> \*\*Status:\*\*' "$PLAN_FILE" | head -1)
-if echo "$STATUS" | grep -q "Completed"; then
+# Read plan status via blueprint CLI
+STATUS=$(blueprint plan-status 2>/dev/null | jq -r '.status // empty')
+if [ "$STATUS" = "Completed" ]; then
   echo "🤖 [batch-flow:3] skipping plan $PLAN_NUM — already completed"
   continue
 fi

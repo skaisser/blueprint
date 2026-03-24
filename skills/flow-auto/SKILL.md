@@ -175,7 +175,11 @@ echo "🤖 [flow-auto:5] auditing implementation, quality sweep, and verifying t
 
 Before any external review, the coordinator reviews its own diff to catch issues proactively — this is what makes the PR merge-ready on first attempt:
 
-1. Read the full diff: `git diff $(git merge-base HEAD "${BASE_BRANCH:-main}") HEAD`
+1. Resolve base branch and read the full diff:
+   ```bash
+   BASE_BRANCH=$(blueprint base-branch | jq -r '.base')
+   git diff $(git merge-base HEAD "$BASE_BRANCH") HEAD
+   ```
 2. Scan for common review issues:
    - **Incomplete implementations:** TODO/FIXME/HACK comments, placeholder values, empty method bodies
    - **Import/namespace issues:** unused imports, missing use statements
@@ -194,7 +198,8 @@ Run ALL test files created or modified during execution as a single batch to cat
 
 ```bash
 # Collect all test files touched by this branch
-TEST_FILES=$(git diff --name-only "$(git merge-base HEAD "${BASE_BRANCH:-main}")" HEAD | grep -iE '(Test|test|spec)\.' | tr '\n' ' ')
+BASE_BRANCH=$(blueprint base-branch | jq -r '.base')
+TEST_FILES=$(git diff --name-only "$(git merge-base HEAD "$BASE_BRANCH")" HEAD | grep -iE '(Test|test|spec)\.' | tr '\n' ' ')
 if [ -n "$TEST_FILES" ]; then
   # Run using the project's test command
   $TEST_FILES
@@ -343,8 +348,8 @@ Before posting the final report, trigger a context scan to update CLAUDE.md with
 
 ```bash
 # Only if significant code was added (more than just config changes)
-STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
-FILE_COUNT=$(git diff --name-only "$(git merge-base HEAD "$STAGING_BRANCH" 2>/dev/null || echo HEAD~5)" HEAD | wc -l)
+BASE_BRANCH=$(blueprint base-branch | jq -r '.base')
+FILE_COUNT=$(git diff --name-only "$(git merge-base HEAD "$BASE_BRANCH" 2>/dev/null || echo HEAD~5)" HEAD | wc -l)
 if [ "$FILE_COUNT" -gt 10 ]; then
   echo "🤖 [flow-auto:8] updating project context (CLAUDE.md)"
   # Dispatch a lightweight agent to run /context scan
