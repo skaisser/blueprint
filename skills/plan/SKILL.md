@@ -138,7 +138,7 @@ base: <BASE_BRANCH>
 tags: [relevant, tags]
 backlog: null
 issue: null
-created: "DD/MM/YYYY HH:MM"
+created: "YYYY-MM-DD HH:MM"
 completed: null
 pr: null
 session: null

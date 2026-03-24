@@ -85,7 +85,7 @@ fi
 
 Read the plan file. Update frontmatter:
 - `status: completed`
-- `completed_at: DD/MM/YYYY HH:MM`
+- `completed_at: YYYY-MM-DD HH:MM`
 - `session: "${CLAUDE_SESSION_ID}"` (for `claude -r` resume — preserves the session that finished the feature)
 
 Find the PR number:

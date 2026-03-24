@@ -13,6 +13,6 @@ var timeCmd = &cobra.Command{
 	Long:  "Outputs the current date/time formatted for the user's locale and timezone. Used by skills and plans for consistent timestamps.",
 	Run: func(cmd *cobra.Command, args []string) {
 		now := time.Now()
-		fmt.Println(now.Format("02/01/2006 15:04"))
+		fmt.Println(now.Format("2006-01-02 15:04"))
 	},
 }

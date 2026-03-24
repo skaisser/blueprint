@@ -123,7 +123,7 @@ Fix all orphaned references before proceeding to the audit commit.
 ## Step 3: Update Plan File
 
 - Fix `[x]`/`[ ]` mismatches
-- Add timestamps: `date "+%d/%m/%Y %H:%M"`
+- Add timestamps: `blueprint time`
 - Add "Plan vs Implementation" comparison table
 - Keep existing content — add, don't delete
 - Do NOT add session entries or blockquote status bars — v2 plans use single `session` field set by /plan-approved
@@ -132,7 +132,7 @@ Fix all orphaned references before proceeding to the audit commit.
 
 If the plan has an `## Acceptance Criteria` section, verify each item against the actual implementation:
 - Test each criterion (run commands, check files, confirm behavior)
-- Mark verified items `[x]` with timestamp: `- [x] Criterion ✅ DD/MM/YYYY HH:MM`
+- Mark verified items `[x]` with timestamp: `- [x] Criterion ✅ YYYY-MM-DD HH:MM`
 - Leave items `[ ]` if they fail — note what failed
 - Report any failed AC items in Step 6
 

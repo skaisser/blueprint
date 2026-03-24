@@ -74,7 +74,7 @@ Display a clear summary:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Progress: X/Y tasks completed (N/M phases)
-Last activity: DD/MM/YYYY HH:MM
+Last activity: YYYY-MM-DD HH:MM
 
 ✅ Phase 1: Foundation (8/8 tasks)
 ✅ Phase 2: Service Layer (5/5 tasks)

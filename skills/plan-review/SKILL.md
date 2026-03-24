@@ -335,12 +335,12 @@ Independent phases — Phase 1 touches `app/Services/`, Phase 2 touches `resourc
 
 - Set `status: approved` (from `awaiting-review`)
 - Add `strategy: <chosen-mode>` (e.g., `parallel-teams`, `single-subagent`, `leader-direct`)
-- Add `reviews:` array — FIRST entry MUST be `"Plan Created — DD/MM/YYYY HH:MM"` (get timestamp via `blueprint time`). Subsequent entries are review findings with timestamps. This tracks time spent across sessions.
+- Add `reviews:` array — FIRST entry MUST be `"Plan Created — YYYY-MM-DD HH:MM"` (get timestamp via `blueprint time`). Subsequent entries are review findings with timestamps. This tracks time spent across sessions.
   ```yaml
   reviews:
-    - "Plan Created — 24/03/2026 04:30"
-    - "24/03/2026 05:15 — Restructured into 6 phases with dependencies"
-    - "24/03/2026 05:20 — Added test tasks for every CLI command"
+    - "Plan Created — 2026-03-24 04:30"
+    - "2026-03-24 05:15 — Restructured into 6 phases with dependencies"
+    - "2026-03-24 05:20 — Added test tasks for every CLI command"
   ```
 - Do NOT add `phases_total`, `tasks_total`, `sessions`, or blockquote status bars — these are v1 fields
 

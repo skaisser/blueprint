@@ -96,7 +96,7 @@ priority: high
 size: medium
 project: <project-name>
 tags: [relevant, tags]
-created: "DD/MM/YYYY HH:MM"
+created: "YYYY-MM-DD HH:MM"
 plan: null
 issue: null
 depends: null
@@ -134,7 +134,7 @@ Optional: links, references, edge cases to consider.
 | `size` | enum | `small` (≤5 tasks), `medium` (6-15), `large` (16+, may need multiple plans) |
 | `project` | string | Project slug |
 | `tags` | array | Topic tags — same vocabulary as plan tags |
-| `created` | string | `DD/MM/YYYY HH:MM` |
+| `created` | string | `YYYY-MM-DD HH:MM` |
 | `plan` | string\|null | Plan ID when promoted (e.g., `"0177"`) |
 | `issue` | number\|null | GitHub issue number, or null |
 | `depends` | array\|null | Other backlog IDs this depends on |

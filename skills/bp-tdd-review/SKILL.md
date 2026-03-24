@@ -56,8 +56,8 @@ DO NOT proceed without reading the plan file AND team-execution.md.
 ## Step 2: Add Session Entry
 
 Add `${CLAUDE_SESSION_ID}` to the plan file:
-- Work Sessions: `` `${CLAUDE_SESSION_ID}` DD/MM/YYYY HH:MM - TDD review — `claude -r ${CLAUDE_SESSION_ID}` ``
-- YAML `sessions:` array: `- id: "${CLAUDE_SESSION_ID}" date: "DD/MM/YYYY HH:MM" note: "TDD review"`
+- Work Sessions: `` `${CLAUDE_SESSION_ID}` YYYY-MM-DD HH:MM - TDD review — `claude -r ${CLAUDE_SESSION_ID}` ``
+- YAML `sessions:` array: `- id: "${CLAUDE_SESSION_ID}" date: "YYYY-MM-DD HH:MM" note: "TDD review"`
 
 ## Step 3: Mark Task Complexity
 

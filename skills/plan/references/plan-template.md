@@ -24,7 +24,7 @@ base: staging                  # target branch for PR (read from blueprint/.conf
 tags: [payment, webhook]       # topic tags
 backlog: null                  # backlog item ID this was promoted from, or null
 issue: null                    # GitHub issue number (e.g., 42), or null — /pr adds "Closes #N"
-created: "23/03/2026 14:00"     # DD/MM/YYYY HH:MM — use `blueprint time`
+created: "2026-03-23 14:00"     # YYYY-MM-DD HH:MM — use `blueprint time`
 completed: null                # filled by /finish
 pr: null                       # filled by /pr
 session: null                  # filled on first execution — single resume ID
@@ -36,9 +36,9 @@ session: null                  # filled on first execution — single resume ID
 ```yaml
 strategy: parallel-teams       # execution strategy (see /plan-review)
 reviews:                       # timestamped corrections/findings — first entry is always "Plan Created"
-  - "Plan Created — 23/03/2026 14:00"
-  - "23/03/2026 15:30 — T2: rollback already exists — convert to verify-only"
-  - "23/03/2026 15:35 — T5: use Cache::lock not DB lock"
+  - "Plan Created — 2026-03-23 14:00"
+  - "2026-03-23 15:30 — T2: rollback already exists — convert to verify-only"
+  - "2026-03-23 15:35 — T5: use Cache::lock not DB lock"
 ```
 
 ### Removed fields (and why)
@@ -134,12 +134,12 @@ Bullet list, not prose. No essays.}
 When executing, tasks are marked complete with a timestamp. This format is enforced by `/plan-approved`, not by the plan file itself.
 
 ```markdown
-- [x] [H] Create WebhookController ✅ 23/03/2026 14:32
+- [x] [H] Create WebhookController ✅ 2026-03-23 14:32
 - [ ] [S] Map payload → ProcessPayment input format
 ```
 
 Rules (enforced by execution skills, NOT written in plan):
-- Timestamp from `date "+%d/%m/%Y %H:%M"` — never guessed
+- Timestamp from `blueprint time` — never guessed
 - `✅` emoji marks completion visually
 - `/commit` after each phase
 - **Never collapse phases** — keep all tasks visible
