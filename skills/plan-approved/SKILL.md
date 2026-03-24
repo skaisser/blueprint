@@ -225,7 +225,7 @@ Every worker prompt (subagent or team) MUST include these instructions:
 WHEN YOU FINISH YOUR PHASE:
 
 1. Mark ALL your tasks [x] with timestamp in the plan file:
-   - [x] Task description ✅ YYYY-MM-DD HH:MM
+   - [x] [H] Task description ✅ YYYY-MM-DD HH:MM
    - Get timestamp via: blueprint time — NEVER guess the date
 
 2. Run targeted tests and confirm they pass:

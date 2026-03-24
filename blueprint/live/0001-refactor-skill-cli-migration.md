@@ -57,10 +57,10 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `cli/cmd/sdlc.go`, `cli/cmd/root.go`, `cli/internal/plan/meta.go`
 
-- [ ] Register `metaCmd` on `rootCmd` as alias so `blueprint meta` works without `sdlc` prefix [S]
-- [ ] Add optional positional arg to `blueprint meta` — `blueprint meta plan_file` returns just the value, no JSON wrapper [S]
-- [ ] Support all MetaResult fields: next_num, base_branch, branch, plan_file, plan_num, status, progress, project, git_remote, today [H]
-- [ ] Tests: meta single-field extraction + rootCmd alias in meta_test.go [H]
+- [ ] [S] Register `metaCmd` on `rootCmd` as alias so `blueprint meta` works without `sdlc` prefix
+- [ ] [S] Add optional positional arg to `blueprint meta` — `blueprint meta plan_file` returns just the value, no JSON wrapper
+- [ ] [H] Support all MetaResult fields: next_num, base_branch, branch, plan_file, plan_num, status, progress, project, git_remote, today
+- [ ] [H] Tests: meta single-field extraction + rootCmd alias in meta_test.go
 
 **Verify:** `cd cli && go test ./internal/plan/ ./cmd/ -run "Meta" -v`
 
@@ -68,9 +68,9 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/` (13 skill SKILL.md files), `skills/plan/references/plan-template.md`
 
-- [ ] Replace all `~/.blueprint/bin/blueprint` with `blueprint` across 13 skills: address-pr, bp-status, finish, flow, flow-auto, flow-auto-wt, hotfix, plan, plan-approved, plan-check, plan-review, pr, resume [H]
-- [ ] Fix plan-template.md line 153: `~/.blueprint/bin/blueprint meta` → `blueprint meta` [H]
-- [ ] Verify zero hardcoded `~/.blueprint/bin/` remaining via grep [H]
+- [ ] [H] Replace all `~/.blueprint/bin/blueprint` with `blueprint` across 13 skills: address-pr, bp-status, finish, flow, flow-auto, flow-auto-wt, hotfix, plan, plan-approved, plan-check, plan-review, pr, resume
+- [ ] [H] Fix plan-template.md line 153: `~/.blueprint/bin/blueprint meta` → `blueprint meta`
+- [ ] [H] Verify zero hardcoded `~/.blueprint/bin/` remaining via grep
 
 **Verify:** `grep -r "~/.blueprint/bin/" skills/ && echo "FAIL" || echo "PASS"`
 
@@ -78,10 +78,10 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/flow-auto/SKILL.md`, `skills/flow-auto-wt/SKILL.md`, `skills/bp-push/SKILL.md`, `skills/bp-ship/SKILL.md`
 
-- [ ] flow-auto: replace `tr ' ' '-' | tr '[:upper:]' '[:lower:]' | head -c 50` with `blueprint branch-name "$DESCRIPTION"` [H]
-- [ ] flow-auto-wt: same branch-name replacement [H]
-- [ ] bp-push: replace manual `[ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]` with `blueprint branch safety` [H]
-- [ ] bp-ship: same branch safety replacement [H]
+- [ ] [H] flow-auto: replace `tr ' ' '-' | tr '[:upper:]' '[:lower:]' | head -c 50` with `blueprint branch-name "$DESCRIPTION"`
+- [ ] [H] flow-auto-wt: same branch-name replacement
+- [ ] [H] bp-push: replace manual `[ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]` with `blueprint branch safety`
+- [ ] [H] bp-ship: same branch safety replacement
 
 **Verify:** `grep -n "tr.*upper.*lower\|= \"main\"\|= \"master\"" skills/flow-auto/SKILL.md skills/flow-auto-wt/SKILL.md skills/bp-push/SKILL.md skills/bp-ship/SKILL.md && echo "FAIL" || echo "PASS"`
 
@@ -89,11 +89,11 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/finish/SKILL.md`, `skills/hotfix/SKILL.md`, `skills/pr/SKILL.md`, `skills/plan-review/SKILL.md`
 
-- [ ] finish: replace `blueprint meta | python3 -c "import sys,json; ..."` with `blueprint meta plan_file` [S]
-- [ ] finish: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue` [S]
-- [ ] hotfix: replace inline Python meta parsing with `blueprint meta base_branch` [H]
-- [ ] pr: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue` [H]
-- [ ] plan-review: replace `cat blueprint/.config.yml | grep -A5 'stack:'` with `blueprint detect-stack` [S]
+- [ ] [S] finish: replace `blueprint meta | python3 -c "import sys,json; ..."` with `blueprint meta plan_file`
+- [ ] [S] finish: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue`
+- [ ] [H] hotfix: replace inline Python meta parsing with `blueprint meta base_branch`
+- [ ] [H] pr: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue`
+- [ ] [S] plan-review: replace `cat blueprint/.config.yml | grep -A5 'stack:'` with `blueprint detect-stack`
 
 **Verify:** `grep -n "python3 -c.*json\|grep.*issue.*sed\|cat.*config.yml.*grep" skills/finish/SKILL.md skills/hotfix/SKILL.md skills/pr/SKILL.md skills/plan-review/SKILL.md && echo "FAIL" || echo "PASS"`
 
@@ -101,9 +101,9 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/plan-check/SKILL.md`
 
-- [ ] Replace `git log --oneline | grep "plan: review" | head -1 | awk '{print $1}'` with `blueprint plan-tasks --baseline` for task comparison [S]
-- [ ] Replace raw `grep -E "^- \[[ x]\]"` task counting with `blueprint plan-status` [H]
-- [ ] Replace `git show "$COMMIT:$FILE" | grep` task diffing with `blueprint plan-tasks --baseline $COMMIT` [S]
+- [ ] [S] Replace `git log --oneline | grep "plan: review" | head -1 | awk '{print $1}'` with `blueprint plan-tasks --baseline` for task comparison
+- [ ] [H] Replace raw `grep -E "^- \[[ x]\]"` task counting with `blueprint plan-status`
+- [ ] [S] Replace `git show "$COMMIT:$FILE" | grep` task diffing with `blueprint plan-tasks --baseline $COMMIT`
 
 **Verify:** `grep -n "git log.*grep.*plan.*awk\|git show.*grep.*\\\\[" skills/plan-check/SKILL.md && echo "FAIL" || echo "PASS"`
 
