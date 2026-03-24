@@ -58,16 +58,8 @@ Run `/ship` first to commit and push all current changes. DO NOT skip this.
 **CRITICAL: PRs NEVER target `main` directly. Always go through the staging branch first.**
 
 ```bash
+BASE_BRANCH=$(blueprint base-branch)
 CURRENT_BRANCH=$(git branch --show-current)
-STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
-
-if [ "$CURRENT_BRANCH" = "$STAGING_BRANCH" ]; then
-    BASE_BRANCH="main"
-elif git show-ref --verify --quiet refs/heads/$STAGING_BRANCH || git show-ref --verify --quiet refs/remotes/origin/$STAGING_BRANCH; then
-    BASE_BRANCH="$STAGING_BRANCH"
-else
-    BASE_BRANCH="main"
-fi
 ```
 
 **Flow: `feature/* → {staging_branch} → main`**
@@ -91,28 +83,24 @@ Title format: `<emoji> <type>: <description>` — **MUST be under 70 characters 
 Before composing the PR body, check the plan frontmatter for an `issue:` field:
 
 ```bash
-# Read issue number(s) from plan frontmatter
-ISSUE_REF=""
-if [ -n "$PLAN_FILE" ]; then
-    ISSUE_RAW=$(blueprint meta issue 2>/dev/null || echo "")
-    if [ -n "$ISSUE_RAW" ] && [ "$ISSUE_RAW" != "null" ]; then
-        # Handle array format: [42, 43] or single number: 42
-        if echo "$ISSUE_RAW" | grep -q '\['; then
-            # Array — extract numbers and build "Closes #N" for each
-            ISSUE_REF=$(echo "$ISSUE_RAW" | tr -d '[]' | tr ',' '\n' | sed 's/ //g' | while read -r n; do echo "Closes #$n"; done | paste -sd ', ' -)
-        else
-            ISSUE_REF="Closes #$ISSUE_RAW"
-        fi
-    fi
-fi
+ISSUE_REF=$(blueprint meta issue 2>/dev/null || echo "")
 ```
 
-If `ISSUE_REF` is non-empty, include it in the **References** section of the PR body.
+`blueprint meta issue` returns a single number (e.g. `42`) or a JSON array (e.g. `[42, 43]`). If non-empty and not `null`, build `Closes #N` lines for each issue number and include them in the **References** section of the PR body.
 
 ### Create the PR
 
 ```bash
-PR_URL=$(gh pr create --base "$BASE_BRANCH" --title "<emoji> <type>: <title>" --body "$(cat <<'EOF'
+PR_BODY=$(blueprint pr-body --base "$BASE_BRANCH" 2>/dev/null)
+# Falls back to manual body template if blueprint pr-body unavailable
+
+PR_URL=$(gh pr create --base "$BASE_BRANCH" --title "<emoji> <type>: <title>" --body "$PR_BODY")
+echo "$PR_URL"
+```
+
+If `blueprint pr-body` is unavailable or returns empty, compose the body manually:
+
+```
 ## Summary
 [What and why — 1-3 bullet points]
 
@@ -129,13 +117,8 @@ PR_URL=$(gh pr create --base "$BASE_BRANCH" --title "<emoji> <type>: <title>" --
 
 ## References
 [Linear ticket links if applicable, e.g. Closes LIN-123]
-[ISSUE_REF if present, e.g. Closes #42]
-EOF
-)")
-echo "$PR_URL"
+[Closes #N for each GitHub issue if ISSUE_REF is non-empty]
 ```
-
-**Important:** When composing the actual PR body, replace `[ISSUE_REF if present]` with the real `$ISSUE_REF` value. If there is no issue, omit the line entirely.
 
 Display the PR URL to the user after creation.
 

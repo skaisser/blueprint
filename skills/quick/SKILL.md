@@ -37,7 +37,7 @@ If `$ARGUMENTS` contains a GitHub issue reference (e.g., `/quick #42`, `/quick i
 4. **Confirm approach** — Brief one-liner (mention if referencing past plan)
 5. **Implement** — Make the minimal change requested. Do not refactor, clean up, or improve surrounding code
 6. **Verify** — Check the change is correct: no syntax errors, no broken references, run targeted tests if testable logic changed
-7. **Commit** — Use `/commit`. If a GitHub issue was provided, include `Closes #N` in the commit message body
+7. **Commit** — Use `/ship`. If a GitHub issue was provided, include `Closes #N` in the commit message body
 8. **Linear/GitHub update** — If issue ID provided: push and update status
 9. **Ask next** — AskUserQuestion:
    - "Yes, we're done"

@@ -80,7 +80,7 @@ fi
 
 Read the plan file. Update frontmatter:
 - `status: completed`
-- `completed_at: YYYY-MM-DD HH:MM`
+- `completed_at: $(blueprint time)` — use `blueprint time` for the timestamp
 - `session: "${CLAUDE_SESSION_ID}"` (for `claude -r` resume — preserves the session that finished the feature)
 
 Find the PR number:
@@ -88,7 +88,7 @@ Find the PR number:
 ```bash
 PR_NUMBER=$(gh pr view --json number --jq '.number' 2>/dev/null)
 if [ -z "$PR_NUMBER" ]; then
-    PR_NUMBER=$(grep '^pr:' "$PLAN_FILE" | awk '{print $2}')
+    PR_NUMBER=$(blueprint meta pr 2>/dev/null)
 fi
 ```
 
@@ -207,22 +207,21 @@ git branch -d "$FEATURE_BRANCH"
 If the plan has an `issue:` field in frontmatter, verify the issue was auto-closed by the PR merge:
 
 ```bash
-# Read issue number(s) from plan frontmatter
-if [ -n "$PLAN_FILE" ]; then
-    ISSUE_RAW=$(blueprint meta issue 2>/dev/null || echo "")
-    if [ -n "$ISSUE_RAW" ] && [ "$ISSUE_RAW" != "null" ]; then
-        # Handle array format: [42, 43] or single number: 42
-        ISSUE_NUMBERS=$(echo "$ISSUE_RAW" | tr -d '[]' | tr ',' '\n' | sed 's/ //g')
-        for ISSUE_NUMBER in $ISSUE_NUMBERS; do
-            ISSUE_STATE=$(gh issue view "$ISSUE_NUMBER" --json state --jq '.state')
-            if [ "$ISSUE_STATE" != "CLOSED" ]; then
-                echo "Warning: Issue #$ISSUE_NUMBER not auto-closed — closing manually"
-                gh issue close "$ISSUE_NUMBER"
+ISSUE_REF=$(blueprint meta issue 2>/dev/null || echo "")
+if [ -n "$ISSUE_REF" ] && [ "$ISSUE_REF" != "null" ]; then
+    blueprint issue close 2>/dev/null || {
+        # Fallback: close each issue manually via gh
+        echo "$ISSUE_REF" | tr -d '[]' | tr ',' '\n' | tr -d ' ' | while read -r n; do
+            [ -z "$n" ] && continue
+            STATE=$(gh issue view "$n" --json state --jq '.state' 2>/dev/null)
+            if [ "$STATE" != "CLOSED" ]; then
+                echo "Warning: Issue #$n not auto-closed — closing manually"
+                gh issue close "$n"
             else
-                echo "Issue #$ISSUE_NUMBER confirmed closed"
+                echo "Issue #$n confirmed closed"
             fi
         done
-    fi
+    }
 fi
 ```
 
@@ -240,12 +239,16 @@ If `HAS_STAGING` is true (merged to staging branch):
 
 **Merge to main commands:**
 ```bash
-gh pr create --base main --head "$STAGING_BRANCH" \
-  --title "<emoji> <type>: <description>" \
-  --body "Merges $STAGING_BRANCH → main. Contains PR #$PR_NUMBER: <brief>"
+# Use blueprint merge-chain to handle the staging→main PR flow
+blueprint merge-chain 2>/dev/null || {
+    # Fallback: manual PR creation
+    gh pr create --base main --head "$STAGING_BRANCH" \
+      --title "<emoji> <type>: <description>" \
+      --body "Merges $STAGING_BRANCH → main. Contains PR #$PR_NUMBER: <brief>"
 
-MAIN_PR=$(gh pr list --base main --head "$STAGING_BRANCH" --json number --jq '.[0].number')
-gh pr merge "$MAIN_PR" --merge
+    MAIN_PR=$(gh pr list --base main --head "$STAGING_BRANCH" --json number --jq '.[0].number')
+    gh pr merge "$MAIN_PR" --merge
+}
 ```
 
 If `HAS_STAGING` is false (merged directly to main):
