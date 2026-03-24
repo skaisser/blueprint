@@ -616,12 +616,13 @@ install_skills() {
             count=$((count + 1))
             local name
             name="$(basename "$item")"
+            mkdir -p "$HOME/.claude/skills/$name"
             if [ "$HAS_GUM" = true ]; then
                 gum spin --spinner dot --title "Installing skill ${count}/${total}: ${name}" -- \
-                    cp -rf "$item" "$HOME/.claude/skills/"
+                    cp -rf "$item"* "$HOME/.claude/skills/$name/"
             else
                 printf "  Installing skill %d/%d: %s\r" "$count" "$total" "$name"
-                cp -rf "$item" "$HOME/.claude/skills/"
+                cp -rf "$item"* "$HOME/.claude/skills/$name/"
             fi
         fi
     done
