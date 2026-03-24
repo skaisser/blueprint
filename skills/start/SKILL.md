@@ -71,29 +71,13 @@ git rev-parse --is-inside-work-tree || { echo "Not a git repository"; exit 1; }
 
 ### 2. Detect Project Stack
 
-Before generating anything, read the project to understand the stack. This informs the CLAUDE.md template and the `tests.yml` workflow.
+Before generating anything, detect the project stack. This informs the CLAUDE.md template and the `tests.yml` workflow.
 
 ```bash
-# Language detection
-HAS_COMPOSER=$(test -f composer.json && echo true || echo false)
-HAS_PACKAGE_JSON=$(test -f package.json && echo true || echo false)
-HAS_GEMFILE=$(test -f Gemfile && echo true || echo false)
-HAS_REQUIREMENTS=$(test -f requirements.txt -o -f pyproject.toml && echo true || echo false)
-HAS_GO_MOD=$(test -f go.mod && echo true || echo false)
-
-# PHP specifics
-if [ "$HAS_COMPOSER" = true ]; then
-    PHP_VERSION=$(grep -oP '"php":\s*"\^?\K[0-9.]+' composer.json 2>/dev/null || echo "8.3")
-    HAS_PEST=$(test -f vendor/bin/pest && echo true || echo false)
-    HAS_LARAVEL=$(grep -q laravel/framework composer.json 2>/dev/null && echo true || echo false)
-fi
-
-# Node specifics
-if [ "$HAS_PACKAGE_JSON" = true ]; then
-    NODE_VERSION=$(cat .nvmrc 2>/dev/null || echo "22")
-    HAS_VITE=$(test -f vite.config.js -o -f vite.config.ts && echo true || echo false)
-fi
+blueprint detect-stack
 ```
+
+The output includes: `language`, `framework`, `test_runner`, `has_assets`, and the detected test command. Use these values in steps 4 and 9.
 
 ### 3. Ask Staging Branch Name
 

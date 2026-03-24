@@ -123,7 +123,7 @@ Update plan header:
 ## Step 8: Pre-Commit Checklist + Commit
 
 ```bash
-git add blueprint/ && git commit -m "plan: tdd-review NNNN-<description>"
+git add blueprint/ && git commit -m "📋 plan: tdd-review NNNN-<description>"
 ```
 
 STOP. Use `AskUserQuestion`:
