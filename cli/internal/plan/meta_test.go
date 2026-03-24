@@ -124,3 +124,60 @@ func TestGetNextNum_EmptyDirs(t *testing.T) {
 		t.Errorf("expected 0001, got %s", result)
 	}
 }
+
+func TestMetaResult_GetField_AllFields(t *testing.T) {
+	m := &MetaResult{
+		NextNum:    "0002",
+		BaseBranch: "staging",
+		Branch:     "feat/my-feature",
+		PlanFile:   "blueprint/live/0001-feat-my-feature-todo.md",
+		PlanNum:    "0001",
+		Status:     "in-progress",
+		Progress:   "3/10 tasks",
+		Project:    "blueprint",
+		GitRemote:  "git@github.com:skaisser/blueprint.git",
+		Today:      "2026-03-24 10:00",
+	}
+
+	tests := []struct {
+		field    string
+		expected string
+	}{
+		{"next_num", "0002"},
+		{"base_branch", "staging"},
+		{"branch", "feat/my-feature"},
+		{"plan_file", "blueprint/live/0001-feat-my-feature-todo.md"},
+		{"plan_num", "0001"},
+		{"status", "in-progress"},
+		{"progress", "3/10 tasks"},
+		{"project", "blueprint"},
+		{"git_remote", "git@github.com:skaisser/blueprint.git"},
+		{"today", "2026-03-24 10:00"},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.field, func(t *testing.T) {
+			got := m.GetField(tt.field)
+			if got != tt.expected {
+				t.Errorf("GetField(%q) = %q, want %q", tt.field, got, tt.expected)
+			}
+		})
+	}
+}
+
+func TestMetaResult_GetField_Unknown(t *testing.T) {
+	m := &MetaResult{
+		NextNum: "0001",
+		Branch:  "main",
+	}
+
+	got := m.GetField("nonexistent")
+	if got != "" {
+		t.Errorf("GetField(\"nonexistent\") = %q, want empty string", got)
+	}
+
+	got = m.GetField("")
+	if got != "" {
+		t.Errorf("GetField(\"\") = %q, want empty string", got)
+	}
+}

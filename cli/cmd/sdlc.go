@@ -22,8 +22,18 @@ var sdlcCmd = &cobra.Command{
 // ─── meta ───────────────────────────────────────────────────────────────────
 
 var metaCmd = &cobra.Command{
-	Use:   "meta",
-	Short: "Plan metadata as JSON",
+	Use:   "meta [field]",
+	Short: "Plan metadata as JSON, or a single field value",
+	Long: `Output plan metadata. With no arguments, prints full JSON.
+With a field name, prints just that field's raw value.
+
+Supported fields:
+  next_num, base_branch, branch, plan_file, plan_num,
+  status, progress, project, git_remote, today`,
+	Example: `  blueprint meta              # full JSON
+  blueprint meta plan_file    # just the plan file path
+  blueprint meta branch       # just the current branch`,
+	Args: cobra.MaximumNArgs(1),
 	Run: func(cmd *cobra.Command, args []string) {
 		repo, err := gitpkg.Open("")
 		if err != nil {
@@ -54,6 +64,17 @@ var metaCmd = &cobra.Command{
 			Project:    project,
 			GitRemote:  gitRemote,
 			Today:      time.Now().Format("2006-01-02 15:04"),
+		}
+
+		if len(args) > 0 {
+			field := args[0]
+			value := result.GetField(field)
+			if value == "" {
+				fmt.Fprintf(os.Stderr, "unknown or empty field: %s\n", field)
+				os.Exit(1)
+			}
+			fmt.Println(value)
+			return
 		}
 
 		fmt.Println(result.JSON())
@@ -331,7 +352,6 @@ func init() {
 	backlogCmd.Flags().StringVar(&backlogFormat, "format", "json", "Output format: json or table")
 	backlogCmd.AddCommand(backlogMigrateCmd)
 
-	sdlcCmd.AddCommand(metaCmd)
 	sdlcCmd.AddCommand(contextCmd)
 	sdlcCmd.AddCommand(syncCmd)
 	sdlcCmd.AddCommand(fullCmd)

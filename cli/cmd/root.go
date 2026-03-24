@@ -39,6 +39,7 @@ func init() {
 	rootCmd.AddCommand(commitFmtCmd)
 	rootCmd.AddCommand(reviewPollCmd)
 	rootCmd.AddCommand(detectStackCmd)
+	rootCmd.AddCommand(metaCmd)
 }
 
 func Execute() error {

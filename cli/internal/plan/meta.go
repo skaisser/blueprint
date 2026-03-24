@@ -200,7 +200,35 @@ func ParsePlanHeader(planFile string) PlanHeader {
 	return result
 }
 
-// MetaJSON returns the meta result as indented JSON string.
+// GetField returns the value of a single field by name, or empty string if unknown.
+func (m *MetaResult) GetField(name string) string {
+	switch name {
+	case "next_num":
+		return m.NextNum
+	case "base_branch":
+		return m.BaseBranch
+	case "branch":
+		return m.Branch
+	case "plan_file":
+		return m.PlanFile
+	case "plan_num":
+		return m.PlanNum
+	case "status":
+		return m.Status
+	case "progress":
+		return m.Progress
+	case "project":
+		return m.Project
+	case "git_remote":
+		return m.GitRemote
+	case "today":
+		return m.Today
+	default:
+		return ""
+	}
+}
+
+// JSON returns the meta result as indented JSON string.
 func (m *MetaResult) JSON() string {
 	b, _ := json.MarshalIndent(m, "", "  ")
 	return string(b)
