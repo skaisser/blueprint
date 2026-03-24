@@ -78,10 +78,10 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/flow-auto/SKILL.md`, `skills/flow-auto-wt/SKILL.md`, `skills/bp-push/SKILL.md`, `skills/bp-ship/SKILL.md`
 
-- [ ] [H] flow-auto: replace `tr ' ' '-' | tr '[:upper:]' '[:lower:]' | head -c 50` with `blueprint branch-name "$DESCRIPTION"`
-- [ ] [H] flow-auto-wt: same branch-name replacement
-- [ ] [H] bp-push: replace manual `[ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]` with `blueprint branch safety`
-- [ ] [H] bp-ship: same branch safety replacement
+- [x] [H] flow-auto: replace `tr ' ' '-' | tr '[:upper:]' '[:lower:]' | head -c 50` with `blueprint branch-name "$DESCRIPTION"` ✅ 2026-03-24 05:38
+- [x] [H] flow-auto-wt: same branch-name replacement ✅ 2026-03-24 05:38
+- [x] [H] bp-push: replace manual `[ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]` with `blueprint branch safety` ✅ 2026-03-24 05:38
+- [x] [H] bp-ship: same branch safety replacement ✅ 2026-03-24 05:38
 
 **Verify:** `grep -n "tr.*upper.*lower\|= \"main\"\|= \"master\"" skills/flow-auto/SKILL.md skills/flow-auto-wt/SKILL.md skills/bp-push/SKILL.md skills/bp-ship/SKILL.md && echo "FAIL" || echo "PASS"`
 
