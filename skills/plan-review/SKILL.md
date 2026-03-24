@@ -94,8 +94,8 @@ Refine existing tasks directly — do NOT create new phases, split phases, or re
 During Step 2's sequential thinking, also detect the project's tech stack. Read config FIRST (already populated by `/start` or `/bp-context`), only detect from project files if config is empty:
 
 ```bash
-# Read stack from blueprint/.config.yml (populated by /start or /bp-context)
-cat blueprint/.config.yml 2>/dev/null | grep -A5 'stack:'
+# Read stack from config (populated by /start or /bp-context)
+blueprint detect-stack 2>/dev/null
 
 # If stack not in config, detect from project files
 if [ -f composer.lock ]; then

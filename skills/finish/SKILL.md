@@ -70,7 +70,7 @@ Run: `echo "🔷 BP: finish [2/6] reading plan"`
 
 ```bash
 # CLI first — returns plan_file path
-PLAN_FILE=$(blueprint meta 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('plan_file',''))" 2>/dev/null)
+PLAN_FILE=$(blueprint meta plan_file 2>/dev/null)
 
 # Fallback — find active plan in blueprint/live/
 if [ -z "$PLAN_FILE" ]; then
@@ -209,7 +209,7 @@ If the plan has an `issue:` field in frontmatter, verify the issue was auto-clos
 ```bash
 # Read issue number(s) from plan frontmatter
 if [ -n "$PLAN_FILE" ]; then
-    ISSUE_RAW=$(grep '^issue:' "$PLAN_FILE" | sed 's/^issue: *//')
+    ISSUE_RAW=$(blueprint meta issue 2>/dev/null || echo "")
     if [ -n "$ISSUE_RAW" ] && [ "$ISSUE_RAW" != "null" ]; then
         # Handle array format: [42, 43] or single number: 42
         ISSUE_NUMBERS=$(echo "$ISSUE_RAW" | tr -d '[]' | tr ',' '\n' | sed 's/ //g')

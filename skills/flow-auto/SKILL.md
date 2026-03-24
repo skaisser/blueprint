@@ -82,7 +82,7 @@ echo "🤖 [flow-auto:2] creating plan"
    - Add acceptance criteria
 3. Create the feature branch:
    ```bash
-   BRANCH="feat/$(echo "$DESCRIPTION" | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | head -c 50)"
+   BRANCH=$(blueprint branch-name "$DESCRIPTION")
    git checkout -b "$BRANCH"
    ```
 4. Write the plan file to `blueprint/live/NNNN-feat-description.md` using the template format

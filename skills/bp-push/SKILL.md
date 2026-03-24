@@ -23,11 +23,7 @@ Push the current branch to remote.
 BRANCH=$(git branch --show-current)
 STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
 
-# Block pushes to main/master
-if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
-    echo "ERROR: Cannot push directly to '$BRANCH'. Use a PR from $STAGING_BRANCH → $BRANCH."
-    exit 1
-fi
+blueprint branch safety > /dev/null 2>&1 || { echo "❌ Push blocked — not allowed on this branch"; exit 1; }
 
 # Warn if working tree is dirty
 if [ -n "$(git status --porcelain)" ]; then

@@ -22,10 +22,7 @@ Commit and push changes in one go.
    ```bash
    BRANCH=$(git branch --show-current)
    STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
-   if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
-       echo "ERROR: Cannot push directly to '$BRANCH'. Use a PR workflow ($STAGING_BRANCH → $BRANCH)."
-       exit 1
-   fi
+   blueprint branch safety > /dev/null 2>&1 || { echo "❌ Push blocked — not allowed on this branch"; exit 1; }
    ```
    If on `main`, **refuse** and tell the user to use a PR. All other branches (including the staging branch) are allowed.
 

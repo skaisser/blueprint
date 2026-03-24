@@ -109,7 +109,7 @@ REPO_ROOT="$PWD"
 PARENT_DIR=$(dirname "$PWD")
 
 # Generate branch name from description
-BRANCH="feat/$(echo "$DESCRIPTION" | tr ' ' '-' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9-]//g' | head -c 50)"
+BRANCH=$(blueprint branch-name "$DESCRIPTION")
 
 # Worktree path: parent dir / .worktrees / repo-branch-slug
 WORKTREE_SLUG=$(echo "$BRANCH" | tr '/' '-')

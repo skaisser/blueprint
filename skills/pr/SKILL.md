@@ -94,7 +94,7 @@ Before composing the PR body, check the plan frontmatter for an `issue:` field:
 # Read issue number(s) from plan frontmatter
 ISSUE_REF=""
 if [ -n "$PLAN_FILE" ]; then
-    ISSUE_RAW=$(grep '^issue:' "$PLAN_FILE" | sed 's/^issue: *//')
+    ISSUE_RAW=$(blueprint meta issue 2>/dev/null || echo "")
     if [ -n "$ISSUE_RAW" ] && [ "$ISSUE_RAW" != "null" ]; then
         # Handle array format: [42, 43] or single number: 42
         if echo "$ISSUE_RAW" | grep -q '\['; then
