@@ -75,9 +75,9 @@ That's it. The installer auto-detects your platform (macOS/Linux, arm64/amd64), 
   <img src="assets/installer.png" alt="Blueprint installer with gradient banner" width="640" />
 </p>
 
-### Option 2: Clone and run interactively
+### Option 2: Clone and run locally
 
-Want to pick which components to install? Clone the repo and run the installer directly — you'll get a beautiful TUI with [gum](https://github.com/charmbracelet/gum) where you can toggle each component on/off:
+Clone the repo and run the installer directly — it copies the binary from the repo instead of downloading from GitHub Releases:
 
 ```bash
 git clone https://github.com/skaisser/blueprint.git ~/blueprint
@@ -98,7 +98,6 @@ cd cli && make build-all   # builds arm64 · amd64 · linux
 
 - [Claude Code](https://claude.ai/claude-code) installed and working
 - `curl` and `git` (pre-installed on macOS and most Linux)
-- Homebrew (macOS, optional) — for auto-installing gum TUI
 
 ### Uninstall
 
@@ -120,27 +119,20 @@ blueprint --version    # Should print: blueprint version v1.0.0
 
 ## What Gets Installed
 
-The installer sets up **10 components** — 2 required, 8 optional (all on by default). When run via `curl | bash`, everything installs automatically. When run interactively (`./install.sh`), you choose what you want.
-
-### Core (always installed)
+The installer sets up everything in one shot — no menus, no choices, no dependencies. Both `curl | bash` and `./install.sh` install the same thing.
 
 | Component | Target | What it does |
 |-----------|--------|-------------|
 | **Blueprint CLI** | `~/.blueprint/bin/blueprint` | Compiled Go binary — `blueprint audit`, `blueprint status`, `blueprint update`. Pre-built for macOS (arm64/amd64) and Linux (amd64). Zero runtime dependencies. |
 | **27 SDLC skills** | `~/.claude/skills/` | The slash commands that drive the entire pipeline — from `/backlog` to `/finish`. Each skill is a self-contained prompt with its own references. |
-
-### Optional (all pre-selected)
-
-| Component | What it does |
-|-----------|-------------|
-| **Audit hook** (15 rules) | Fires on every Claude Code tool call. Blocks dangerous commands, enforces test parallelism, requires plan-check before PR. The guardrails that make autonomous execution safe. |
-| **Status line** | Live display in your Claude Code prompt — model, context bar (green/yellow/red), estimated time remaining, git branch, code changes, session duration. |
-| **Permissions** | Pre-approves `git add`, `git push`, sequential-thinking MCP, and `/commit` — no more permission popups on every git operation. |
-| **Agent Teams** | Enables experimental coordinated teams — `/plan-approved` can spawn multiple workers that communicate mid-task. |
-| **Plugins** | ralph-loop (recurring tasks), skill-creator (build/test skills), playground (interactive HTML explorers). |
-| **MCP servers** | Context7 (live docs for any library, free) + Sequential Thinking (structured reasoning). Both via npx, zero config. |
-| **Git hooks** | `commit-msg` enforces emoji+type format. `pre-push` blocks pushes to main. Copied to projects via `/start`. |
-| **GitHub Action** | `claude-pr-reviewer.yml` triggers @claude code review on PRs. Copied to projects via `/start`. |
+| **Audit hook** (15 rules) | `settings.json` | Fires on every Claude Code tool call. Blocks dangerous commands, enforces test parallelism, requires plan-check before PR. |
+| **Status line** | `~/.blueprint/statusline.sh` | Live display — model, context bar, estimated time remaining, git branch, code changes, session duration. |
+| **Permissions** | `settings.json` | Pre-approves `git add`, `git push`, sequential-thinking MCP, and `/commit`. |
+| **Agent Teams** | `settings.json` | Enables experimental coordinated teams — `/plan-approved` can spawn multiple workers. |
+| **Plugins** | `settings.json` | ralph-loop (recurring tasks), skill-creator (build/test skills), playground (interactive HTML explorers). |
+| **MCP servers** | `mcp.json` | Context7 (live docs for any library, free) + Sequential Thinking (structured reasoning). Both via npx, zero config. |
+| **Git hooks** | `~/.blueprint/templates/` | `commit-msg` enforces emoji+type format. `pre-push` blocks pushes to main. Copied to projects via `/start`. |
+| **GitHub Action** | `~/.blueprint/templates/` | `claude-pr-reviewer.yml` triggers @claude code review on PRs. Copied to projects via `/start`. |
 
 All settings are **smart-merged** — the installer never overwrites your existing `settings.json` or `mcp.json`. It only adds missing sections. Existing files are backed up with timestamps before any modification.
 
