@@ -1,14 +1,14 @@
 ---
-name: hotfix-push
+name: hotfix
 description: >
   Emergency hotfix deployment: commit, push to staging branch, create PR to main, and merge.
-  Use this skill when the user says "/hotfix-push", "emergency push", "hotfix to production",
+  Use this skill when the user says "/hotfix", "emergency push", "hotfix to production",
   "push to staging and merge to main", "urgent deploy", "fast push to main",
   "deploy hotfix", or any request for an emergency/urgent deployment bypassing the normal
   /plan → /pr → /finish workflow. This is the fast lane: commit → push → PR → merge.
 ---
 
-# Hotfix Push: Emergency Deploy to Main
+# Hotfix: Emergency Deploy to Main
 
 Fast-lane deployment for urgent fixes. Bypasses normal plan workflow.
 

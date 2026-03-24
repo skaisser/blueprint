@@ -240,7 +240,7 @@ This sounds like a small task. Would you prefer:
 If user says "urgent", "hotfix", or "emergency":
 ```
 This sounds urgent. Would you prefer:
-1. /hotfix-push — Emergency: commit → push → PR → merge (fastest)
+1. /hotfix — Emergency: commit → push → PR → merge (fastest)
 2. /flow — Full pipeline with review checkpoints (safer)
 ```
 
@@ -258,7 +258,7 @@ Redirecting to /resume for efficient re-entry...
 - **Context breaks are conditional** — only needed for large plans (>15 tasks); small/medium plans flow directly
 - **Search memory at entry** — past plans inform the current one
 - **Suggest /quick for small tasks** — don't over-engineer
-- **Suggest /hotfix-push for emergencies** — don't slow down urgent fixes
+- **Suggest /hotfix for emergencies** — don't slow down urgent fixes
 - **Monitor context usage** — proactively warn about context limits
 - **Each stage is idempotent** — safe to re-run with `--from`
 - **Linear flows through** — issue IDs propagate across all stages automatically
