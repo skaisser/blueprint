@@ -2,7 +2,7 @@
 id: "0001"
 title: "refactor: migrate skills to blueprint CLI commands"
 type: refactor
-status: in-progress
+status: completed
 complexity: S
 project: blueprint
 branch: refactor/skill-cli-migration
