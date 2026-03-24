@@ -1,0 +1,58 @@
+#!/bin/bash
+#
+# Git pre-push hook to prevent direct pushes to protected branches
+#
+# Protected branches:
+#   main — production only. Must go through staging → main PR.
+#         (only enforced when the project has a staging branch)
+#
+# Allowed direct pushes:
+#   staging branch — can push directly (plan commits, hotfixes, etc.)
+#   feature/*      — always pushable directly
+#
+# Workflow: feature/* → staging → main (PR only)
+#
+
+BRANCH=$(git branch --show-current)
+
+# Colors for output
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Read staging branch name from blueprint config (default: staging)
+STAGING_BRANCH="staging"
+CONFIG_FILE="blueprint/.config.yml"
+if [ -f "$CONFIG_FILE" ]; then
+    _configured=$(grep 'staging_branch:' "$CONFIG_FILE" | awk '{print $2}')
+    if [ -n "$_configured" ]; then
+        STAGING_BRANCH="$_configured"
+    fi
+fi
+
+# Only block push to main if the staging branch exists (local or remote)
+if [ "$BRANCH" = "main" ]; then
+    HAS_STAGING_LOCAL=$(git branch --list "$STAGING_BRANCH" 2>/dev/null)
+    HAS_STAGING_REMOTE=$(git branch -r --list "*/$STAGING_BRANCH" 2>/dev/null)
+
+    if [ -n "$HAS_STAGING_LOCAL" ] || [ -n "$HAS_STAGING_REMOTE" ]; then
+        echo ""
+        echo -e "${RED}ERROR: Direct push to 'main' is not allowed!${NC}"
+        echo ""
+        echo -e "${YELLOW}Correct workflow:${NC}"
+        echo "  feature/* ──→ ${STAGING_BRANCH} (direct or PR) ──→ main (PR only)"
+        echo ""
+        echo "To deploy to production:"
+        echo "  1. Merge your feature to ${STAGING_BRANCH} (directly or via PR)"
+        echo "  2. Create a PR from ${STAGING_BRANCH} → main"
+        echo "  3. Merge that PR"
+        echo ""
+        echo -e "Use ${GREEN}/pr${NC} to create a pull request from ${STAGING_BRANCH} → main."
+        echo ""
+        exit 1
+    fi
+    # No staging branch exists → single-branch project, allow push to main
+fi
+
+exit 0
