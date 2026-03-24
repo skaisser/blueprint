@@ -41,9 +41,24 @@ Every task in the plan MUST follow these rules:
   - A multi-phase feature: 4–8 tasks per phase
   - If a phase has more than 10 tasks, split it into two phases
 
+## GitHub Issue Integration
+
+If `$ARGUMENTS` contains a GitHub issue number (e.g., `/plan 42`, `/plan #42`, `/plan issue 42`), fetch the issue and use it as context:
+
+1. Parse the issue number from `$ARGUMENTS` (strip `#` prefix or `issue` keyword if present)
+2. Fetch issue details:
+   ```bash
+   gh issue view <NUMBER> --json title,body,labels,assignees
+   ```
+3. Use the issue title as the plan title, and the issue body as context for the Goal/Context sections
+4. Set `issue: <NUMBER>` in the plan's frontmatter
+5. If `$ARGUMENTS` is a plain description (not a number), set `issue: null` as default
+
+**How to distinguish from backlog:** If the number matches a file in `blueprint/backlog/` or `blueprint/expired/`, treat it as a backlog ID (see below). If no backlog file matches, treat it as a GitHub issue number. The user can also be explicit: `/plan issue 42` always means GitHub issue, `/plan backlog 3` always means backlog.
+
 ## Backlog Integration
 
-If `$ARGUMENTS` is a number (e.g., `/plan 3`), it refers to a backlog idea:
+If `$ARGUMENTS` is a number (e.g., `/plan 3`) and matches a backlog item:
 
 1. Check `blueprint/backlog/` and `blueprint/expired/` for that idea number
 2. Use its content as the basis for the plan (Context section feeds the plan's Context)
@@ -122,6 +137,7 @@ branch: <type>/<short-description>
 base: <BASE_BRANCH>
 tags: [relevant, tags]
 backlog: null
+issue: null
 created: "DD/MM/YYYY HH:MM"
 completed: null
 pr: null

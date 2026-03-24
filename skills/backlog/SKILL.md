@@ -98,6 +98,7 @@ project: <project-name>
 tags: [relevant, tags]
 created: "DD/MM/YYYY HH:MM"
 plan: null
+issue: null
 depends: null
 ---
 
@@ -135,6 +136,7 @@ Optional: links, references, edge cases to consider.
 | `tags` | array | Topic tags — same vocabulary as plan tags |
 | `created` | string | `DD/MM/YYYY HH:MM` |
 | `plan` | string\|null | Plan ID when promoted (e.g., `"0177"`) |
+| `issue` | number\|null | GitHub issue number, or null |
 | `depends` | array\|null | Other backlog IDs this depends on |
 
 Keep it lightweight. The backlog is for capturing intent, not writing specs. A few sentences per section is ideal. If the user gave a one-liner ("add notifications"), expand it just enough to be useful later, but don't over-document.
@@ -196,11 +198,12 @@ Promotion is the bridge between "idea" and "implementation." It means the idea h
 
 1. Find and read the idea file
 2. Update its frontmatter: `status: planned`
-3. Ask the user: "Worktree or local?" — this determines whether to run `/plan` (works on current branch) or `/plan-wt` (creates an isolated git worktree)
-4. Hand off to the chosen plan skill with the idea's context
-5. Once the plan is created, update the backlog frontmatter: `plan: "PLAN_ID"` (e.g., `plan: "0177"`)
-6. Move the idea file to `blueprint/expired/` using `git mv` (preserves history)
-7. Commit: `📋 plan: promote backlog NNNN to plan`
+3. Check if the backlog item has an `issue:` field with a GitHub issue number
+4. Ask the user: "Worktree or local?" — this determines whether to run `/plan` (works on current branch) or `/plan-wt` (creates an isolated git worktree)
+5. Hand off to the chosen plan skill with the idea's context. If the backlog item has an `issue:` number, pass it so the plan sets `issue: <NUMBER>` in its frontmatter
+6. Once the plan is created, update the backlog frontmatter: `plan: "PLAN_ID"` (e.g., `plan: "0177"`)
+7. Move the idea file to `blueprint/expired/` using `git mv` (preserves history)
+8. Commit: `📋 plan: promote backlog NNNN to plan`
 
 The `/plan` skill will also set `backlog: "NNNN"` in the plan frontmatter, creating a bidirectional link.
 

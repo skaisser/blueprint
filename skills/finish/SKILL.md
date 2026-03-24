@@ -207,6 +207,30 @@ git pull
 git branch -d "$FEATURE_BRANCH"
 ```
 
+### 6b: Verify GitHub Issue Closure
+
+If the plan has an `issue:` field in frontmatter, verify the issue was auto-closed by the PR merge:
+
+```bash
+# Read issue number(s) from plan frontmatter
+if [ -n "$PLAN_FILE" ]; then
+    ISSUE_RAW=$(grep '^issue:' "$PLAN_FILE" | sed 's/^issue: *//')
+    if [ -n "$ISSUE_RAW" ] && [ "$ISSUE_RAW" != "null" ]; then
+        # Handle array format: [42, 43] or single number: 42
+        ISSUE_NUMBERS=$(echo "$ISSUE_RAW" | tr -d '[]' | tr ',' '\n' | sed 's/ //g')
+        for ISSUE_NUMBER in $ISSUE_NUMBERS; do
+            ISSUE_STATE=$(gh issue view "$ISSUE_NUMBER" --json state --jq '.state')
+            if [ "$ISSUE_STATE" != "CLOSED" ]; then
+                echo "Warning: Issue #$ISSUE_NUMBER not auto-closed — closing manually"
+                gh issue close "$ISSUE_NUMBER"
+            else
+                echo "Issue #$ISSUE_NUMBER confirmed closed"
+            fi
+        done
+    fi
+fi
+```
+
 ## Step 7: Handle Main Branch — MANDATORY
 
 Run: `echo "🏁 [finish:7] asking user about main merge"`

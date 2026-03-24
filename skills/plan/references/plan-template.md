@@ -23,6 +23,7 @@ branch: feat/short-description # feature branch name
 base: staging                  # target branch for PR (read from blueprint/.config.yml staging_branch)
 tags: [payment, webhook]       # topic tags
 backlog: null                  # backlog item ID this was promoted from, or null
+issue: null                    # GitHub issue number (e.g., 42), or null — /pr adds "Closes #N"
 created: "23/03/2026 14:00"    # DD/MM/YYYY HH:MM from date command
 completed: null                # filled by /finish
 pr: null                       # filled by /pr

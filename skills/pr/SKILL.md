@@ -87,7 +87,30 @@ Run: `echo "🏁 [pr:2] creating pull request"`
 
 Title format: `<emoji> <type>: <description>` — **MUST be under 70 characters total.**
 
-Create the PR and capture the URL:
+### GitHub Issue Detection
+
+Before composing the PR body, check the plan frontmatter for an `issue:` field:
+
+```bash
+# Read issue number(s) from plan frontmatter
+ISSUE_REF=""
+if [ -n "$PLAN_FILE" ]; then
+    ISSUE_RAW=$(grep '^issue:' "$PLAN_FILE" | sed 's/^issue: *//')
+    if [ -n "$ISSUE_RAW" ] && [ "$ISSUE_RAW" != "null" ]; then
+        # Handle array format: [42, 43] or single number: 42
+        if echo "$ISSUE_RAW" | grep -q '\['; then
+            # Array — extract numbers and build "Closes #N" for each
+            ISSUE_REF=$(echo "$ISSUE_RAW" | tr -d '[]' | tr ',' '\n' | sed 's/ //g' | while read -r n; do echo "Closes #$n"; done | paste -sd ', ' -)
+        else
+            ISSUE_REF="Closes #$ISSUE_RAW"
+        fi
+    fi
+fi
+```
+
+If `ISSUE_REF` is non-empty, include it in the **References** section of the PR body.
+
+### Create the PR
 
 ```bash
 PR_URL=$(gh pr create --base "$BASE_BRANCH" --title "<emoji> <type>: <title>" --body "$(cat <<'EOF'
@@ -107,10 +130,13 @@ PR_URL=$(gh pr create --base "$BASE_BRANCH" --title "<emoji> <type>: <title>" --
 
 ## References
 [Linear ticket links if applicable, e.g. Closes LIN-123]
+[ISSUE_REF if present, e.g. Closes #42]
 EOF
 )")
 echo "$PR_URL"
 ```
+
+**Important:** When composing the actual PR body, replace `[ISSUE_REF if present]` with the real `$ISSUE_REF` value. If there is no issue, omit the line entirely.
 
 Display the PR URL to the user after creation.
 

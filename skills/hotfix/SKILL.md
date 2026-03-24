@@ -72,7 +72,17 @@ fi
 
 ### 4. Create PR: staging → main
 
+**GitHub Issue Detection:** If `$ARGUMENTS` contains a GitHub issue reference (e.g., `/hotfix #42 fix login timeout`, `/hotfix issue 42 fix crash`), parse the issue number and include `Closes #N` in the PR body.
+
 ```bash
+# Parse issue number from $ARGUMENTS if present
+ISSUE_REF=""
+# Check for patterns: #42, issue 42, or leading number
+ISSUE_NUM=$(echo "$ARGUMENTS" | grep -oE '(#|issue ?)([0-9]+)' | grep -oE '[0-9]+' | head -1)
+if [ -n "$ISSUE_NUM" ]; then
+    ISSUE_REF="Closes #$ISSUE_NUM"
+fi
+
 # Create PR
 gh pr create \
     --base main \
@@ -90,6 +100,9 @@ $(git log main..$STAGING_BRANCH --oneline)
 ### Verification
 - [ ] Targeted tests pass
 - [ ] Manual smoke test completed
+
+### References
+${ISSUE_REF}
 "
 ```
 
