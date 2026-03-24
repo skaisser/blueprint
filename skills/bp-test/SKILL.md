@@ -1,8 +1,8 @@
 ---
-name: bp:test
+name: bp-test
 description: >
   Create tests following project conventions with proper factories and real implementations.
-  Triggers on "/bp:test", "/test", "write tests", "create tests",
+  Triggers on "/bp-test", "/test", "write tests", "create tests",
   "add tests for", or any request to create new test files.
   Also triggers on "test this", "write a test for", "feature test",
   "unit test", or any request to generate test code.

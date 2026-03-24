@@ -1,11 +1,11 @@
 ---
-name: bp:ship
+name: bp-ship
 description: >
   Commit and push changes in one go with branch safety checks.
-  Triggers on "/bp:ship", "/ship", "ship it", "commit and push",
+  Triggers on "/bp-ship", "/ship", "ship it", "commit and push",
   "push my changes", or any request to commit and push in a single step.
   Also triggers on "ship this", "send it", "deploy changes", "save and push",
-  or "let's ship". This is /bp:commit + /bp:push combined with a branch safety gate.
+  or "let's ship". This is /bp-commit + /bp-push combined with a branch safety gate.
 ---
 
 # Ship: Commit and Push
@@ -30,14 +30,14 @@ Commit and push changes in one go.
    ```
    If on `main`, **refuse** and tell the user to use a PR. All other branches (including the staging branch) are allowed.
 
-2. Run `/bp:commit` (review, stage, commit with emoji format)
+2. Run `/bp-commit` (review, stage, commit with emoji format)
 
 3. Push to current branch:
    ```bash
    git push -u origin $(git branch --show-current)
    ```
 
-That's it. This is just `/bp:commit` + `/bp:push` combined, with a branch safety gate.
+That's it. This is just `/bp-commit` + `/bp-push` combined, with a branch safety gate.
 
 ## Rules
 - Do NOT stage `.env` files or secrets — skip them.

@@ -1,8 +1,8 @@
 ---
-name: bp:run-tests
+name: bp-run-tests
 description: >
   Run targeted tests, handle failures, and report results.
-  Triggers on "/bp:run-tests", "/run-tests", "run tests", "test this",
+  Triggers on "/bp-run-tests", "/run-tests", "run tests", "test this",
   "run the tests", or any request to execute existing tests.
   Also triggers on "check tests", "are tests passing", "test suite", or "verify tests".
   Agent runs targeted tests only — full suite is always run by the user in a separate terminal.

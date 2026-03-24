@@ -1,11 +1,11 @@
 ---
-name: bp:push
+name: bp-push
 description: >
   Push the current branch to remote with branch safety checks.
-  Triggers on "/bp:push", "/push", "push this", "push to remote",
+  Triggers on "/bp-push", "/push", "push this", "push to remote",
   "push branch", or any request to push code to the remote repository.
   Also triggers on "push my code", "push the branch", or "send it to remote".
-  Does NOT trigger on "push my changes" — use /bp:ship if uncommitted changes exist.
+  Does NOT trigger on "push my changes" — use /bp-ship if uncommitted changes exist.
   Blocks pushes to main/master — only staging and feature branches are allowed.
 ---
 
@@ -32,7 +32,7 @@ fi
 
 # Warn if working tree is dirty
 if [ -n "$(git status --porcelain)" ]; then
-    echo "Working tree has uncommitted changes. Use /bp:ship to commit and push, or /bp:commit first."
+    echo "Working tree has uncommitted changes. Use /bp-ship to commit and push, or /bp-commit first."
     exit 1
 fi
 ```

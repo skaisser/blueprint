@@ -1,8 +1,8 @@
 ---
-name: bp:branch
+name: bp-branch
 description: >
   Create a new feature branch following type/kebab-case conventions.
-  Triggers on "/bp:branch", "/branch", "create branch", "new branch",
+  Triggers on "/bp-branch", "/branch", "create branch", "new branch",
   "make a branch", or any request to create a git branch.
   Also triggers on "checkout new branch", "start a branch", "feature branch",
   "I need a new branch", or "branch for [something]".

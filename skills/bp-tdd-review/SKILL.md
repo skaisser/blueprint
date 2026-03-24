@@ -1,8 +1,8 @@
 ---
-name: bp:tdd-review
+name: bp-tdd-review
 description: >
   TDD variant of plan-review — restructures the plan to follow Red/Green/Refactor cycle.
-  Triggers on "/bp:tdd-review", "/tdd-review", "tdd plan", "test-driven review",
+  Triggers on "/bp-tdd-review", "/tdd-review", "tdd plan", "test-driven review",
   "red green refactor", or any request to prepare a plan for TDD execution.
   Also triggers on "tdd mode", "write tests first", "test-first approach", "tdd planning",
   "prepare plan for TDD", or "write tests before code".
@@ -16,12 +16,12 @@ description: >
 
 Read `blueprint/.config.yml` → `language`. If `auto`, detect from the user's messages. All generated content MUST be in the detected language. Skill instructions stay in English — only output changes.
 
-TDD variant of `/bp:plan-review`. Restructures the plan to follow Red/Green/Refactor: all tests written first (failing), implementation makes them pass, coverage phase reaches 100%.
+TDD variant of `/bp-plan-review`. Restructures the plan to follow Red/Green/Refactor: all tests written first (failing), implementation makes them pass, coverage phase reaches 100%.
 
 This skill ONLY restructures the plan file — NEVER write actual test or implementation code.
 
 ```
-/bp:plan → /bp:tdd-review → [clear context] → /bp:plan-approved → /bp:plan-check → /bp:pr → /bp:finish
+/bp-plan → /bp-tdd-review → [clear context] → /bp-plan-approved → /bp-plan-check → /bp-pr → /bp-finish
 ```
 
 ## Critical Rules

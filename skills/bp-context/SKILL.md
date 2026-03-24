@@ -1,8 +1,8 @@
 ---
-name: context
+name: bp-context
 description: >
   Scan project and generate/audit CLAUDE.md files with stack auto-detection and Context7 docs.
-  Triggers on "/bp:context", "/context", "generate context", "audit CLAUDE.md",
+  Triggers on "/bp-context", "/context", "generate context", "audit CLAUDE.md",
   "scan project", or any request to create or update CLAUDE.md documentation files.
   Also triggers on "brownfield", "onboard project", "onboard this project",
   "onboard existing project", "scan existing project", "update context docs",
@@ -20,7 +20,7 @@ Scan the project, auto-detect the tech stack, query framework documentation via 
 
 ## When to Run
 
-- After `/bp:start` on an existing codebase (brownfield onboarding)
+- After `/bp-start` on an existing codebase (brownfield onboarding)
 - When onboarding to a project for the first time
 - After adding major new packages or refactoring a directory
 - When a CLAUDE.md feels stale or has incorrect info
@@ -411,7 +411,7 @@ Show summary:
 - **Skipped**: directories that exist but don't need CLAUDE.md
 - **README.md**: staleness findings if any
 
-Remind the user: "Review the generated files. Run `/bp:commit` when satisfied."
+Remind the user: "Review the generated files. Run `/bp-commit` when satisfied."
 
 ## Flags
 

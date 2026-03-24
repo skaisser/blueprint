@@ -1,8 +1,8 @@
 ---
-name: bp:status
+name: bp-status
 description: >
   Show quick repo status — branch, base, plan, PR info in one shot.
-  Triggers on "/bp:status", "/status", "show status", "repo status",
+  Triggers on "/bp-status", "/status", "show status", "repo status",
   "what branch am I on", or any request to see the current project state.
   Also triggers on "current status", "where am I", "project status", "git status",
   "what's the current state", "which branch", "is there a PR open", or "what plan am I on".

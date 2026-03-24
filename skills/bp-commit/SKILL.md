@@ -1,12 +1,12 @@
 ---
-name: bp:commit
+name: bp-commit
 description: >
   Commit current changes following emoji+type conventions with code formatting.
-  Triggers on "/bp:commit", "/commit", "commit this", "commit changes",
+  Triggers on "/bp-commit", "/commit", "commit this", "commit changes",
   "save my changes", or any request to create a git commit.
   Also triggers on "stage and commit", "commit with message", "make a commit",
   "let's commit", or "save this progress".
-  Do NOT trigger when the user also mentions pushing — route to /bp:ship instead.
+  Do NOT trigger when the user also mentions pushing — route to /bp-ship instead.
   Runs code formatting on changed files before committing.
 ---
 
