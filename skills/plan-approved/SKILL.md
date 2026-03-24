@@ -115,7 +115,7 @@ fi
 
 # Check 2: get plan metadata
 echo "🔷 BP: plan-approved [1/4] reading plan file"
-~/.blueprint/bin/blueprint meta
+blueprint meta
 ```
 
 If the lock file exists, STOP and inform the user. Do not proceed — conflicting execution will cause merge conflicts.

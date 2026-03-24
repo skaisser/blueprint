@@ -52,7 +52,7 @@ The normal `/flow` has 2 mandatory checkpoints where it asks the user what to do
 
 ```bash
 echo "🤖 [flow-auto:1] initializing autonomous pipeline"
-~/.blueprint/bin/blueprint meta 2>/dev/null
+blueprint meta 2>/dev/null
 ```
 
 **If active plan exists** (blueprint meta returns plan_file):
@@ -162,7 +162,7 @@ echo "🤖 [flow-auto:5] auditing implementation, quality sweep, and verifying t
 
 ### 5a: Audit plan vs implementation
 
-1. Run `~/.blueprint/bin/blueprint context --diffs` to get all changes
+1. Run `blueprint context --diffs` to get all changes
 2. Compare plan vs implementation:
    - Check all `[x]`/`[ ]` marks are accurate
    - Detect deleted tasks (compare plan-review baseline vs current)
@@ -234,7 +234,7 @@ echo "🤖 [flow-auto:6] creating pull request"
    ```bash
    git push -u origin "$BRANCH"
    ```
-3. Gather context: `~/.blueprint/bin/blueprint context`
+3. Gather context: `blueprint context`
 4. Create PR with `gh pr create`:
    - Title: emoji + type + short description (under 70 chars)
    - Body: summary bullets, test plan, Linear issue link if provided
@@ -316,7 +316,7 @@ If no Claude workflow is found, skip the entire review loop and proceed to Step 
 3. **If no review comments after 20 min:** The @claude GitHub Action may not be set up or is slow. Skip the review loop and go to Step 8.
 
 4. **If review comments exist:**
-   - Fetch all comments: `~/.blueprint/bin/blueprint pr-review $PR_NUM`
+   - Fetch all comments: `blueprint pr-review $PR_NUM`
    - Categorize feedback by type (bugs, style, missing tests, etc.)
    - Dispatch fix agents (one per category) — same pattern as /address-pr
    - Push fixes: `git push`

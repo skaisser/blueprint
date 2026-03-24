@@ -41,7 +41,7 @@ PR_NUMBER="${ARGUMENTS:-$(gh pr view --json number -q .number)}"
 Run: `echo "🔷 BP: address-pr [2/4] reading review comments"`
 
 ```bash
-~/.blueprint/bin/blueprint pr-review "$PR_NUMBER"
+blueprint pr-review "$PR_NUMBER"
 ```
 
 DO NOT fabricate review feedback. DO NOT proceed without reading real comments.

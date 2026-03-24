@@ -3,7 +3,7 @@
 ## Primary Method (use this)
 
 ```bash
-~/.blueprint/bin/blueprint pr-review [PR_NUMBER]
+blueprint pr-review [PR_NUMBER]
 ```
 
 Single command that fetches ALL review sources at once:

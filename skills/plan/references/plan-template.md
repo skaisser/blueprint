@@ -150,7 +150,7 @@ Rules (enforced by execution skills, NOT written in plan):
 
 ## Getting Plan Metadata
 
-Use `~/.blueprint/bin/blueprint meta` to get plan metadata as JSON.
+Use `blueprint meta` to get plan metadata as JSON.
 Returns: `next_num`, `base_branch`, `plan_file`, `project`, `team`, `git_remote`.
 
 Note: `blueprint meta` returns `base_branch` (the script's field name). In plan frontmatter, use `base` instead.

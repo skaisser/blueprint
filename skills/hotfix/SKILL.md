@@ -32,7 +32,7 @@ Read `blueprint/.config.yml` → `language`. If `auto`, detect from the user's m
 ```bash
 BRANCH=$(git branch --show-current)
 STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
-BASE=$(~/.blueprint/bin/blueprint meta 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('base_branch','$STAGING_BRANCH'))")
+BASE=$(blueprint meta 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('base_branch','$STAGING_BRANCH'))")
 ```
 
 **Verify:**

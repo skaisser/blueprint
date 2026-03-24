@@ -47,7 +47,7 @@ These are non-negotiable:
 ```bash
 echo "🔷 BP: plan-review [1/3] reading plan + team-execution ref"
 # Primary: CLI-first plan discovery
-~/.blueprint/bin/blueprint meta
+blueprint meta
 
 # Fallback if CLI unavailable: find active plan manually
 # ls blueprint/live/[0-9]*-*.md
@@ -56,7 +56,7 @@ echo "🔷 BP: plan-review [1/3] reading plan + team-execution ref"
 cat blueprint/.config.yml 2>/dev/null
 ```
 
-Primary: `~/.blueprint/bin/blueprint meta` returns JSON with branch, base_branch, plan_file, project, etc. Derive PLAN_NUM from the leading digits in `plan_file`. If $ARGUMENTS is a path or number, use that instead.
+Primary: `blueprint meta` returns JSON with branch, base_branch, plan_file, project, etc. Derive PLAN_NUM from the leading digits in `plan_file`. If $ARGUMENTS is a path or number, use that instead.
 
 Fallback: If the CLI is unavailable, use `ls blueprint/live/[0-9]*-*.md` to find the active plan. Also read `blueprint/.config.yml` for `staging_branch` and `stack` info needed in later steps.
 

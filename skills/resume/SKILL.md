@@ -34,7 +34,7 @@ Read `blueprint/.config.yml` → `language`. If `auto`, detect from the user's m
 ### Step 1: Find Active Plan
 
 ```bash
-~/.blueprint/bin/blueprint meta
+blueprint meta
 ```
 
 Returns `plan_file`, `branch`, `base_branch`, `project`, `team`. If `$ARGUMENTS` is a path or number, use that instead.

@@ -78,7 +78,7 @@ if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   fi
 fi
 
-~/.blueprint/bin/blueprint meta 2>/dev/null
+blueprint meta 2>/dev/null
 ```
 
 **If active plan exists** with worktree field:
@@ -209,7 +209,7 @@ echo "🤖 [flow-auto-wt:6] auditing implementation"
 ```
 
 Same as flow-auto Step 5:
-1. `~/.blueprint/bin/blueprint context --diffs`
+1. `blueprint context --diffs`
 2. Compare plan vs implementation
 3. Fix mismatches
 4. Sync frontmatter
@@ -233,7 +233,7 @@ echo "🤖 [flow-auto-wt:7] creating pull request"
    ```bash
    git push -u origin "$BRANCH"
    ```
-3. Gather context: `~/.blueprint/bin/blueprint context`
+3. Gather context: `blueprint context`
 4. Create PR with `gh pr create`
 
 ## Step 8: Review Loop

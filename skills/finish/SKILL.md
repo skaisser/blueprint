@@ -70,7 +70,7 @@ Run: `echo "🔷 BP: finish [2/6] reading plan"`
 
 ```bash
 # CLI first — returns plan_file path
-PLAN_FILE=$(~/.blueprint/bin/blueprint meta 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('plan_file',''))" 2>/dev/null)
+PLAN_FILE=$(blueprint meta 2>/dev/null | python3 -c "import sys,json; print(json.load(sys.stdin).get('plan_file',''))" 2>/dev/null)
 
 # Fallback — find active plan in blueprint/live/
 if [ -z "$PLAN_FILE" ]; then

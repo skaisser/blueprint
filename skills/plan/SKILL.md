@@ -77,7 +77,7 @@ echo "🔷 BP: plan [1/3] parallel data gather — blueprint meta + template + p
 
 Run these **simultaneously in a single step** (do not wait between them):
 
-1. `~/.blueprint/bin/blueprint meta` — returns next_num, base_branch, project, team, git_remote as JSON. Use `next_num` for NEXT_NUM, `base_branch` for BASE_BRANCH.
+1. `blueprint meta` — returns next_num, base_branch, project, team, git_remote as JSON. Use `next_num` for NEXT_NUM, `base_branch` for BASE_BRANCH.
 2. Read `references/plan-template.md` (bundled with this skill) — plan FORMAT and phase structure reference. Use blueprint meta for the number, not this file.
 3. `git checkout "$BASE_BRANCH" && git pull origin "$BASE_BRANCH"`
 

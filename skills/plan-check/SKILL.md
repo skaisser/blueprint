@@ -36,8 +36,8 @@ Run: `echo "🔷 BP: plan-check [1/3] reading plan context + diffs"`
 
 Run these **simultaneously in a single step** (do not wait between them):
 
-1. `~/.blueprint/bin/blueprint meta` — returns branch, base_branch, plan_file, project as JSON
-2. `~/.blueprint/bin/blueprint context --diffs` — returns commits, changed files, diff stat, AND per-file diffs
+1. `blueprint meta` — returns branch, base_branch, plan_file, project as JSON
+2. `blueprint context --diffs` — returns commits, changed files, diff stat, AND per-file diffs
 
 If $ARGUMENTS is a plan path or number, locate that file directly instead of using plan_file from meta.
 

@@ -23,7 +23,7 @@ Try each source in order — use the first that succeeds.
 ### 1. Primary: `blueprint status` (Go CLI)
 
 ```bash
-~/.blueprint/bin/blueprint status 2>/dev/null
+blueprint status 2>/dev/null
 ```
 
 Parses JSON output with: `branch`, `base_branch`, `plan_file`, `project`, `git_remote`.

@@ -35,7 +35,7 @@ Create a Pull Request to base branch with descriptive summary.
 ## Step 0: Plan Check Gate
 
 ```bash
-~/.blueprint/bin/blueprint meta
+blueprint meta
 ```
 
 Use `plan_file` from JSON output to check if a plan exists. If a plan file exists, check if `/plan-check` was run:
@@ -75,7 +75,7 @@ fi
 ## Step 3: Gather Context
 
 ```bash
-~/.blueprint/bin/blueprint context "$BASE_BRANCH"
+blueprint context "$BASE_BRANCH"
 ```
 
 Read plan file from `blueprint/live/` if exists. Extract Linear issue IDs from plan header.

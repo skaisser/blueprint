@@ -66,7 +66,7 @@ The flow skill monitors actual context usage and suggests breaks only when genui
 
 ```bash
 echo "🔀 [flow:1] determining entry point"
-~/.blueprint/bin/blueprint meta 2>/dev/null
+blueprint meta 2>/dev/null
 ```
 
 **If `--from` flag:** Jump to that stage directly.
