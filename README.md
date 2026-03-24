@@ -1,74 +1,51 @@
 # BLUEPRINT SDLC
 
-> A complete, portable software development lifecycle for Claude Code.
+<p align="center">
+  <img src="assets/sdlc-infographic.webp" alt="BLUEPRINT SDLC Pipeline" width="720" />
+</p>
+
+<p align="center">
+  <a href="https://blueprint.skaisser.dev"><img src="https://img.shields.io/badge/docs-blueprint.skaisser.dev-0C447C?style=flat-square" alt="Docs" /></a>
+  <img src="https://img.shields.io/badge/skills-24-185FA5?style=flat-square" alt="Skills" />
+  <img src="https://img.shields.io/badge/audit_rules-14-534AB7?style=flat-square" alt="Audit Rules" />
+  <img src="https://img.shields.io/badge/Claude_Code-required-blueviolet?style=flat-square" alt="Claude Code" />
+  <img src="https://img.shields.io/badge/macOS-arm64_·_amd64-black?style=flat-square&logo=apple" alt="macOS" />
+  <img src="https://img.shields.io/badge/Linux-amd64-black?style=flat-square&logo=linux" alt="Linux" />
+  <img src="https://img.shields.io/badge/license-Apache_2.0-0F6E56?style=flat-square" alt="License" />
+</p>
+
+<p align="center">
+  A complete, portable software development lifecycle for Claude Code.<br/>
+  <strong>Stack-agnostic. Zero paid dependencies. Works on any Claude Code project.</strong>
+</p>
+
+---
 
 BLUEPRINT turns Claude Code from a code assistant into a disciplined engineering partner — with planning, execution, review, and merge all governed by a structured pipeline of slash commands, an audit hook enforcing 14 rules on every tool call, and a Go CLI binary shipping pre-compiled for macOS and Linux.
 
-**Stack-agnostic. Zero dependencies on paid services. Works on any Claude Code project.**
-
----
-
-## The Pipeline
-
-Every letter in **BLUEPRINT** maps to a pipeline phase:
-
-| # | Letter | Command | Phase |
-|---|--------|---------|-------|
-| 1 | **B** | `/backlog` | Backlog — capture and prioritise ideas |
-| 2 | **L** | `/plan` | Layout — create branch + blueprint file |
-| 3 | **U** | `/plan-review` | Unpack — validate, assign complexity |
-| 4 | **E** | `/plan-approved` | Endorse — execute, spawn parallel subagents |
-| 5 | **P** | `/plan-check` | Preflight — audit code vs blueprint |
-| 6 | **R** | `/pr` | Raise — open pull request with full context |
-| 7 | **I** | `/review` | Inspect — trigger @claude code review |
-| 8 | **N** | `/address-pr` | Negotiate — fetch feedback, fix, push |
-| 9 | **T** | `/finish` | Tag — merge, rename blueprint to upstream |
-
----
-
-## The BLUE Workspace
-
-The `blueprint/` directory uses the first four letters as folder names — your file path _is_ your status:
-
-| Folder | Trigger | Meaning |
-|--------|---------|---------|
-| `blueprint/backlog/` | `/backlog` | Ideas not yet planned |
-| `blueprint/live/` | `/plan` | Currently in development |
-| `blueprint/upstream/` | `/finish` | Shipped and merged |
-| `blueprint/expired/` | `/backlog --archive` | Cancelled or deferred |
-
-Files move between folders as work progresses. Compatible with [Obsidian](https://obsidian.md) + Dataview out of the box.
-
----
-
-## Why BLUEPRINT?
-
-If you've tried GTD-style workflows with Claude Code, you know the pain: too slow, too manual, too much overhead.
-
-| Before | BLUEPRINT |
-|--------|-----------|
-| Manual task capture | `/backlog` — one command, file created |
-| You manage the system | Audit hook enforces the system for you |
-| Context switches kill flow | 1M context + `/flow` keeps everything in one session |
-| Folders you maintain by hand | BLUE folders move automatically on phase transitions |
-| Trust yourself to follow the process | 14 rules catch you when you don't |
+> If you've tried GTD-style workflows with Claude Code, you know the pain: too slow, too manual, too much overhead. BLUEPRINT fixes that.
+>
+> **GTD taught you to capture everything. BLUEPRINT ships it.**
 
 ---
 
 ## Install
 
-### Quick install (recommended)
-
 ```bash
 curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/main/install.sh | bash
 ```
 
-No Go toolchain required. The installer auto-detects your platform, shows an interactive menu via [gum](https://github.com/charmbracelet/gum), and installs:
+No Go toolchain required. The installer auto-detects your platform (macOS + Linux), shows an interactive menu via [gum](https://github.com/charmbracelet/gum), and installs only what you choose:
 
-- `blueprint` CLI binary to `~/.blueprint/bin/`
-- 24 SDLC skills to `~/.claude/skills/`
+- `blueprint` CLI binary → `~/.blueprint/bin/`
+- 24 SDLC skills → `~/.claude/skills/`
 - Audit hook (14 rules) via Claude Code settings
 - Git hooks (commit-msg, pre-push)
+- GitHub Action (`@claude` review)
+- Obsidian setup with Dataview queries *(optional)*
+- Laravel or Node/TS preset *(optional)*
+
+> **Just want BLUEPRINT? One line. Want to hack the CLI? Clone it.**
 
 ### Clone (contributors / CLI hackers)
 
@@ -77,13 +54,42 @@ git clone git@github.com:skaisser/blueprint.git ~/Sites/blueprint
 cd ~/Sites/blueprint && ./install.sh
 ```
 
-Build your own binary:
-
 ```bash
-cd cli && make build-all
+cd cli && make build-all   # builds arm64 · amd64 · linux
 ```
 
-> **Just want BLUEPRINT? One line. Want to hack the CLI? Clone it.**
+---
+
+## The Pipeline
+
+Every letter in **BLUEPRINT** maps to a pipeline phase:
+
+| # | | Command | Phase |
+|---|---|---------|-------|
+| 1 | **B** | `/backlog` | **B**acklog — capture and prioritise ideas |
+| 2 | **L** | `/plan` | **L**ayout — create branch + blueprint file |
+| 3 | **U** | `/plan-review` | **U**npack — validate, assign complexity |
+| 4 | **E** | `/plan-approved` | **E**ndorse — execute, spawn parallel subagents |
+| 5 | **P** | `/plan-check` | **P**reflight — audit code vs blueprint |
+| 6 | **R** | `/pr` | **R**aise — open pull request with full context |
+| 7 | **I** | `/review` | **I**nspect — trigger @claude code review |
+| 8 | **N** | `/address-pr` | **N**egotiate — fetch feedback, fix, push |
+| 9 | **T** | `/finish` | **T**ag — merge, rename blueprint to `upstream/` |
+
+---
+
+## The BLUE Workspace
+
+The `blueprint/` directory uses the first four letters as folder names — your file path _is_ your status:
+
+| | Folder | Trigger | Meaning |
+|---|--------|---------|---------|
+| **B** | `blueprint/backlog/` | `/backlog` | Ideas not yet planned |
+| **L** | `blueprint/live/` | `/plan` | Currently in development |
+| **U** | `blueprint/upstream/` | `/finish` | Shipped and merged |
+| **E** | `blueprint/expired/` | `/backlog --archive` | Cancelled or deferred |
+
+Files move between folders automatically on each phase transition. Compatible with [Obsidian](https://obsidian.md) + Dataview out of the box — open `blueprint/` as a vault and your kanban is ready.
 
 ---
 
@@ -95,7 +101,7 @@ cd cli && make build-all
 /start
 ```
 
-Sets up git hooks, CLAUDE.md template, `blueprint/` workspace, GitHub Action, and homolog branch.
+Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Action, and homolog branch.
 
 ### 2. Run the full pipeline
 
@@ -115,15 +121,28 @@ Sets up git hooks, CLAUDE.md template, `blueprint/` workspace, GitHub Action, an
 
 ```bash
 /flow                 # Guided pipeline with 2 review pauses
-/flow-auto            # Zero-touch — model decides everything
-/batch-flow 2-6       # Execute blueprints 0002 through 0006 sequentially
+/flow-auto            # Zero-touch — model decides everything, PR ready for merge
+/batch-flow 2-6       # Execute blueprints 0002–0006 sequentially
 ```
+
+---
+
+## Why BLUEPRINT?
+
+| Before | BLUEPRINT |
+|--------|-----------|
+| Manual task capture | `/backlog` — one command, file created instantly |
+| You manage the system | Audit hook enforces the system for you |
+| Context switches kill flow | 1M context + `/flow` keeps everything in one session |
+| Folders you maintain by hand | BLUE folders move automatically on phase transitions |
+| Trust yourself to follow the process | 14 rules catch you when you don't |
+| Someday/Maybe pile | `blueprint/expired/` — archived, not lost |
 
 ---
 
 ## What's Included
 
-### Core SDLC (24 skills)
+### Core SDLC — 24 skills
 
 | Category | Skills |
 |----------|--------|
@@ -135,20 +154,20 @@ Sets up git hooks, CLAUDE.md template, `blueprint/` workspace, GitHub Action, an
 | Project Setup | `/start` `/workflow-sync` `/context` `/sync` `/status` |
 | Skill Factory | `/skill-creator` |
 
-### Standalone Skills (optional)
+### Standalone Skills — optional
 
 - `/brand-generator` — DaisyUI + Tailwind 4 design systems from inspiration URLs
-- `/cf-pages-deploy` — Deploy static sites to Cloudflare Pages
+- `/cf-pages-deploy` — Deploy static sites to Cloudflare Pages via Wrangler
 - `/remotion-video` — Full video production pipeline: plan → script → storyboard → render
-- `/yt-search` — YouTube search via yt-dlp (no API key)
+- `/yt-search` — YouTube search via yt-dlp, no API key required
 - `/excalidraw-diagram` — Architecture diagrams, Playwright-validated PNG output
-- `/firecrawl` — Web scraping router (requires Firecrawl CLI)
+- `/firecrawl` — Web scraping router (requires [Firecrawl CLI](https://firecrawl.dev))
 
 ---
 
 ## Execution Strategies
 
-`/plan-review` assigns complexity and picks the fastest execution mode:
+`/plan-review` assigns complexity and picks the fastest execution mode automatically:
 
 | Complexity | Meaning |
 |------------|---------|
@@ -158,19 +177,19 @@ Sets up git hooks, CLAUDE.md template, `blueprint/` workspace, GitHub Action, an
 
 | Strategy | When | How |
 |----------|------|-----|
-| Parallel Subagents | 2+ independent phases | Multiple Agent calls in one message |
+| Parallel Subagents *(default)* | 2+ independent phases | Multiple Agent calls in one message — true parallelism |
 | Coordinated Team | Workers need mid-task handoffs | Team messaging between agents |
-| Single Subagent | 1 phase or strictly sequential | One Agent call |
+| Single Subagent | 1 phase or strictly sequential | One Agent call, no spawn overhead |
 | Leader Direct | ≤3 `[H]` tasks total | Lead model handles directly |
 
 ---
 
 ## Audit Hook — 14 Rules
 
-`blueprint audit` fires on every Claude Code tool call via PreToolUse:
+`blueprint audit` fires on every Claude Code tool call via PreToolUse. A Python fallback ships for environments where the binary isn't yet installed.
 
-| # | Rule | What it does |
-|---|------|--------------|
+| # | Rule | What it enforces |
+|---|------|-----------------|
 | 1 | Skill read gate | Block writes without reading relevant SKILL.md |
 | 2 | Reference tracking | Track reads of key reference files |
 | 3 | Team compliance | Warn if teams used without reading team-execution.md |
@@ -179,9 +198,9 @@ Sets up git hooks, CLAUDE.md template, `blueprint/` workspace, GitHub Action, an
 | 6 | Checkpoint audit trail | Enforce `/plan-check` before `/pr` |
 | 7 | Workflow creation gate | Block `claude.yml` without homolog branch |
 | 8 | Test suite enforcement | Block test runner without `--parallel` or `--filter` |
-| 9 | Plan task deletion | Warn when unchecked tasks removed |
+| 9 | Plan task deletion | Warn when unchecked tasks removed instead of implemented |
 | 10 | Dangerous command block | Block `migrate:fresh`, AI signatures, direct push to main |
-| 11 | Review enforcement | Block short `@claude review` comments |
+| 11 | Review enforcement | Block short `@claude review` — require full prompt |
 | 12 | Plan-check skip detection | Warn if `/pr` invoked without `/plan-check` |
 | 13 | Acceptance criteria gate | Warn if PR has unchecked acceptance criteria |
 | 14 | Flow-auto enforcement | Block PR if mandatory steps were skipped |
@@ -190,10 +209,10 @@ Sets up git hooks, CLAUDE.md template, `blueprint/` workspace, GitHub Action, an
 
 ## Commit Format
 
-BLUEPRINT enforces emoji + type on every commit:
+BLUEPRINT enforces emoji + type on every commit via the `commit-msg` hook. AI signatures (`Co-Authored-By`, `Generated by Claude`) are blocked.
 
 ```
-<emoji> <type>: <description>
+<emoji> <type>: <description>   (present tense, lowercase)
 ```
 
 | Emoji | Type | Use case |
@@ -201,12 +220,39 @@ BLUEPRINT enforces emoji + type on every commit:
 | ✨ | `feat` | New feature |
 | 🐛 | `fix` | Bug fix |
 | 📚 | `docs` | Documentation |
-| ♻️ | `refactor` | Restructuring |
-| 🧪 | `test` | Tests |
+| ♻️ | `refactor` | Restructuring, no behavior change |
+| 🧪 | `test` | Tests only |
 | 📋 | `plan` | Blueprint file updates |
 | 🔀 | `merge` | Branch merge |
-| 🩹 | `hotfix` | Urgent fix |
+| 🩹 | `hotfix` | Urgent production fix |
 | 🚀 | `deploy` | Deployment / CI |
+
+---
+
+## Blueprint Frontmatter
+
+Every blueprint file is Obsidian + Dataview compatible:
+
+```yaml
+---
+id: 0002
+title: Auth flow refactor
+status: live              # backlog | live | upstream | expired
+complexity: H             # H | S | O
+linear_issue: KPG-42
+branch: feat/auth-flow-refactor
+strategy: parallel
+started_at: 2026-03-20
+completed_at:
+tags: [auth, security]
+---
+```
+
+```dataview
+TABLE complexity, linear_issue, started_at
+FROM "blueprint/live"
+SORT started_at DESC
+```
 
 ---
 
@@ -220,27 +266,15 @@ BLUEPRINT enforces emoji + type on every commit:
 
 ---
 
-## Obsidian Integration
-
-`blueprint/` is designed as a first-class Obsidian vault subfolder. With Dataview:
-
-```dataview
-TABLE complexity, linear_issue, started_at
-FROM "blueprint/live"
-SORT started_at DESC
-```
-
----
-
 ## Roadmap
 
 | Version | Scope |
 |---------|-------|
-| **v1.0** | 24 SDLC skills + CLI + 14-rule audit hook + Obsidian BLUE workspace |
-| v1.1 | Laravel TALL preset, Node/TS preset |
+| **v1.0** | 24 SDLC skills · `blueprint` CLI · 14-rule audit hook · Obsidian BLUE workspace |
+| v1.1 | Laravel TALL preset · Node/TS preset |
 | v1.2 | Standalone skills as optional add-ons |
-| v1.3 | Autoresearch eval dashboard |
-| v2.0 | Improved multi-agent execution, inter-agent handoffs |
+| v1.3 | Autoresearch eval dashboard + optimizer |
+| v2.0 | Improved multi-agent execution · inter-agent blueprint handoffs |
 
 ---
 
@@ -250,4 +284,7 @@ Apache 2.0 — see [LICENSE](LICENSE) for details.
 
 ---
 
-Built by [Shirleyson Kaisser](https://github.com/skaisser)
+<p align="center">
+  Built by <a href="https://github.com/skaisser">Shirleyson Kaisser</a> ·
+  <a href="https://blueprint.skaisser.dev">blueprint.skaisser.dev</a>
+</p>
