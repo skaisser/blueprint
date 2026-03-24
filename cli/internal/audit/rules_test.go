@@ -15,8 +15,8 @@ func TestLoadBlueprintConfig_Default(t *testing.T) {
 	defer os.Chdir(origDir)
 
 	cfg := LoadBlueprintConfig()
-	if cfg.StagingBranch != "homolog" {
-		t.Errorf("expected default staging_branch 'homolog', got %q", cfg.StagingBranch)
+	if cfg.StagingBranch != "staging" {
+		t.Errorf("expected default staging_branch 'staging', got %q", cfg.StagingBranch)
 	}
 }
 

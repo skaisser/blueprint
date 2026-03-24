@@ -19,7 +19,7 @@ type BlueprintConfig struct {
 // LoadBlueprintConfig reads blueprint/.config.yml and returns the config.
 // Returns defaults if the file doesn't exist.
 func LoadBlueprintConfig() *BlueprintConfig {
-	cfg := &BlueprintConfig{StagingBranch: "homolog"} // default
+	cfg := &BlueprintConfig{StagingBranch: "staging"} // default
 
 	data, err := os.ReadFile("blueprint/.config.yml")
 	if err != nil {
@@ -31,7 +31,7 @@ func LoadBlueprintConfig() *BlueprintConfig {
 	}
 
 	if cfg.StagingBranch == "" {
-		cfg.StagingBranch = "homolog"
+		cfg.StagingBranch = "staging"
 	}
 
 	return cfg
@@ -309,7 +309,7 @@ func rule5CommandCheckpoints(p *Payload, state *SessionState, log *Logger) {
 		state.AppendLine("checkpoints.txt", checkpoint)
 		activeCmd := strings.Split(checkpoint, ":")[0]
 		state.WriteText("active-command", activeCmd)
-		log.Log("🏁 CHECKPOINT: " + checkpoint)
+		log.Log("🔷 BP CHECKPOINT: " + checkpoint)
 	}
 
 	// Prerequisite: /finish must AskUserQuestion before second gh pr merge

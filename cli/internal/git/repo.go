@@ -46,13 +46,19 @@ func (r *Repo) CurrentBranch() string {
 	return ""
 }
 
-// DetectBaseBranch returns "homolog" if it exists, else "main" or "master".
-func (r *Repo) DetectBaseBranch() string {
-	// Check homolog first (local and remote)
-	for _, refName := range []string{"refs/heads/homolog", "refs/remotes/origin/homolog"} {
+// DetectBaseBranch returns the staging branch if it exists, else "main" or "master".
+// If stagingBranch is empty, defaults to "staging".
+func (r *Repo) DetectBaseBranch(stagingBranch ...string) string {
+	sb := "staging"
+	if len(stagingBranch) > 0 && stagingBranch[0] != "" {
+		sb = stagingBranch[0]
+	}
+
+	// Check staging branch first (local and remote)
+	for _, refName := range []string{"refs/heads/" + sb, "refs/remotes/origin/" + sb} {
 		_, err := r.R.Reference(plumbing.ReferenceName(refName), false)
 		if err == nil {
-			return "homolog"
+			return sb
 		}
 	}
 
@@ -75,12 +81,18 @@ func (r *Repo) DetectBaseBranch() string {
 	return "main"
 }
 
-// DetectBaseBranchSimple returns "homolog" if exists, else "main" (no master fallback).
-func (r *Repo) DetectBaseBranchSimple() string {
-	for _, refName := range []string{"refs/heads/homolog", "refs/remotes/origin/homolog"} {
+// DetectBaseBranchSimple returns the staging branch if it exists, else "main" (no master fallback).
+// If stagingBranch is empty, defaults to "staging".
+func (r *Repo) DetectBaseBranchSimple(stagingBranch ...string) string {
+	sb := "staging"
+	if len(stagingBranch) > 0 && stagingBranch[0] != "" {
+		sb = stagingBranch[0]
+	}
+
+	for _, refName := range []string{"refs/heads/" + sb, "refs/remotes/origin/" + sb} {
 		_, err := r.R.Reference(plumbing.ReferenceName(refName), false)
 		if err == nil {
-			return "homolog"
+			return sb
 		}
 	}
 	return "main"
