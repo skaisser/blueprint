@@ -24,7 +24,7 @@ base: staging                  # target branch for PR (read from blueprint/.conf
 tags: [payment, webhook]       # topic tags
 backlog: null                  # backlog item ID this was promoted from, or null
 issue: null                    # GitHub issue number (e.g., 42), or null — /pr adds "Closes #N"
-created: "23/03/2026 14:00"    # DD/MM/YYYY HH:MM from date command
+created: "23/03/2026 14:00"     # DD/MM/YYYY HH:MM — use `blueprint time`
 completed: null                # filled by /finish
 pr: null                       # filled by /pr
 session: null                  # filled on first execution — single resume ID
@@ -35,9 +35,10 @@ session: null                  # filled on first execution — single resume ID
 
 ```yaml
 strategy: parallel-teams       # execution strategy (see /plan-review)
-reviews:                       # corrections/findings from review
-  - "T2: rollback already exists — convert to verify-only"
-  - "T5: use Cache::lock not DB lock"
+reviews:                       # timestamped corrections/findings — first entry is always "Plan Created"
+  - "Plan Created — 23/03/2026 14:00"
+  - "23/03/2026 15:30 — T2: rollback already exists — convert to verify-only"
+  - "23/03/2026 15:35 — T5: use Cache::lock not DB lock"
 ```
 
 ### Removed fields (and why)

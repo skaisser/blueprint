@@ -33,6 +33,7 @@ func init() {
 	rootCmd.AddCommand(planProfileCmd)
 	rootCmd.AddCommand(planStatusCmd)
 	rootCmd.AddCommand(validateCmd)
+	rootCmd.AddCommand(timeCmd)
 }
 
 func Execute() error {
