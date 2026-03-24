@@ -1,3 +1,17 @@
+# BLUEPRINT SDLC
+
+> One command. Complete software development lifecycle for Claude Code.
+
+**Up to 200x faster. Fully automatic. Stack-agnostic. Zero paid dependencies.**
+
+[![Install](https://img.shields.io/badge/Install-curl_blueprint.skaisser.dev_|_bash-blue?style=for-the-badge)](https://blueprint.skaisser.dev) [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-0F6E56?style=for-the-badge)](LICENSE)
+
+> macOS + Linux · Apple Silicon + Intel · Requires Claude Code
+
+<p align="center">
+  <img src="assets/blueprint.png" alt="Blueprint — SDLC Pipeline for Claude Code" width="720" />
+</p>
+
 <p align="center">
   <a href="https://github.com/skaisser/blueprint/releases/latest"><img src="https://img.shields.io/github/v/release/skaisser/blueprint?style=flat-square&color=0C447C" alt="Release" /></a>
   <img src="https://img.shields.io/badge/skills-27-185FA5?style=flat-square" alt="Skills" />
@@ -5,18 +19,6 @@
   <img src="https://img.shields.io/badge/Claude_Code-required-blueviolet?style=flat-square" alt="Claude Code" />
   <img src="https://img.shields.io/badge/macOS-arm64_·_amd64-black?style=flat-square&logo=apple" alt="macOS" />
   <img src="https://img.shields.io/badge/Linux-amd64-black?style=flat-square&logo=linux" alt="Linux" />
-  <img src="https://img.shields.io/badge/license-Apache_2.0-0F6E56?style=flat-square" alt="License" />
-</p>
-
-<p align="center">
-  <img src="assets/blueprint.png" alt="Blueprint — SDLC Pipeline for Claude Code" width="720" />
-</p>
-
-<h1 align="center">BLUEPRINT SDLC</h1>
-
-<p align="center">
-  A complete, portable software development lifecycle for Claude Code.<br/>
-  <strong>Stack-agnostic. Zero paid dependencies. Works on any Claude Code project.</strong>
 </p>
 
 ---
@@ -31,20 +33,19 @@ BLUEPRINT turns Claude Code from a code assistant into a disciplined engineering
 
 ## Install
 
+### Run in any terminal
+
 ```bash
-curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/main/install.sh | bash
+curl -fsSL blueprint.skaisser.dev | bash
 ```
 
-No Go toolchain required. The installer auto-detects your platform (macOS + Linux), shows an interactive menu via [gum](https://github.com/charmbracelet/gum), and installs only what you choose:
+<p align="center">
+  <img src="assets/installer.png" alt="Blueprint installer with gradient banner" width="640" />
+</p>
 
-- `blueprint` CLI binary → `~/.blueprint/bin/`
-- 27 SDLC skills → `~/.claude/skills/`
-- Audit hook (15 rules) via Claude Code settings
-- Git hooks (commit-msg, pre-push)
-- GitHub Action (`@claude` review)
-- Obsidian setup with Dataview queries *(optional)*
+[gum](https://github.com/charmbracelet/gum) installs automatically if missing for a beautiful TUI experience. Falls back to plain prompts if gum isn't available.
 
-> **Just want BLUEPRINT? One line. Want to hack the CLI? Clone it.**
+A component picker lets you choose exactly what to install. Core components always install, everything else is optional — all pre-selected by default.
 
 ### Clone (contributors / CLI hackers)
 
@@ -56,6 +57,89 @@ cd ~/Sites/blueprint && ./install.sh
 ```bash
 cd cli && make build-all   # builds arm64 · amd64 · linux
 ```
+
+### Uninstall
+
+```bash
+./install.sh --uninstall
+# or remotely:
+bash <(curl -fsSL blueprint.skaisser.dev) --uninstall
+```
+
+Removes `~/.blueprint/`, Blueprint skills from `~/.claude/skills/`, and the audit hook from settings — your other Claude Code settings are preserved.
+
+---
+
+## What gets installed
+
+The installer has a **component picker** — core items always install, everything else is toggleable. All components are pre-selected by default.
+
+### Core (always installed)
+
+| Component | Target | What it does |
+|-----------|--------|-------------|
+| **Blueprint CLI binary** | `~/.blueprint/bin/blueprint` | Go binary — runs `blueprint audit`, `blueprint status`, `blueprint update`. Pre-compiled for macOS (arm64/amd64) and Linux. |
+| **27 SDLC skills** | `~/.claude/skills/` | Slash commands that drive the entire pipeline — from `/backlog` to `/finish`. |
+
+### Optional components
+
+Toggle with Space, confirm with Enter. All pre-selected by default.
+
+#### Audit hook — 15 rules (recommended)
+
+| | |
+|---|---|
+| **Target** | `~/.claude/settings.json` |
+| **What it does** | Fires on every Claude Code tool call via PreToolUse. Enforces skill read gates, test parallelism, plan-check before PR, blocks dangerous commands, and 11 more rules. Fast, compiled Go binary — zero runtime dependencies. |
+
+#### Status line — context/git/duration bar (recommended)
+
+| | |
+|---|---|
+| **Target** | `~/.blueprint/statusline.sh` + `~/.claude/settings.json` |
+| **What it does** | Live display in your Claude Code prompt — model name, visual context bar (green/yellow/red), estimated time remaining, session duration, git branch with ahead/behind, code changes (+/-), and current folder. |
+
+#### Permissions — git push, sequential-thinking
+
+| | |
+|---|---|
+| **Target** | `~/.claude/settings.json` |
+| **What it does** | Pre-approves `git add`, `git push`, sequential-thinking MCP, and `/commit` so Claude Code doesn't prompt for permission on every git operation. |
+
+#### Agent Teams — experimental
+
+| | |
+|---|---|
+| **Target** | `~/.claude/settings.json` |
+| **What it does** | Enables `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS` — allows `/plan-approved` to spawn coordinated teams of workers for parallel execution. |
+
+#### Plugins — ralph-loop, skill-creator, playground
+
+| | |
+|---|---|
+| **Target** | `~/.claude/settings.json` |
+| **What it does** | Enables three Claude Code plugins: **ralph-loop** (recurring task runner), **skill-creator** (build/test/optimize skills), **playground** (interactive HTML explorers). |
+
+#### MCP servers — Context7, Sequential Thinking
+
+| | |
+|---|---|
+| **Target** | `~/.claude/mcp.json` |
+| **What it does** | **Context7** — live documentation lookup for any library (free, no API key). **Sequential Thinking** — structured reasoning for complex planning. Both run via npx, zero config. |
+
+#### Git hook templates
+
+| | |
+|---|---|
+| **Target** | `~/.blueprint/templates/.githooks/` |
+| **What it does** | `commit-msg` hook enforces emoji+type format on every commit. `pre-push` hook blocks pushes to main/master. Copied to projects via `/start`. |
+
+#### GitHub Action templates
+
+| | |
+|---|---|
+| **Target** | `~/.blueprint/templates/.github/` |
+| **What it does** | `claude-pr-reviewer.yml` — triggers `@claude` code review on PRs. `tests.yml` — CI test runner template. Copied to projects via `/start`. |
 
 ---
 
@@ -139,9 +223,7 @@ Sets up git hooks, CLAUDE.md, `blueprint/` workspace (BLUE folders), GitHub Acti
 
 ---
 
-## What's Included
-
-### Core SDLC — 27 skills
+## All 27 Skills
 
 | Category | Skills |
 |----------|--------|
@@ -274,11 +356,10 @@ SORT created DESC
 
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE) for details.
+Apache 2.0 — use freely, build openly. See [LICENSE](LICENSE) for details.
 
 ---
 
 <p align="center">
-  Built by <a href="https://github.com/skaisser">Shirleyson Kaisser</a> ·
-  <a href="https://blueprint.skaisser.dev">blueprint.skaisser.dev</a>
+  Made with ❤️ by <a href="https://github.com/skaisser">Shirleyson Kaisser</a>
 </p>

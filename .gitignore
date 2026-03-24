@@ -1,6 +1,9 @@
 # OS
 .DS_Store
+**/.DS_Store
 Thumbs.db
+Desktop.ini
+._*
 
 # Go
 cli/blueprint-darwin-*
@@ -10,18 +13,30 @@ cli/blueprint-linux-*
 __pycache__/
 *.pyc
 .venv/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
 
 # IDE
 .idea/
 .vscode/
 *.swp
 *.swo
+*~
 
 # Logs
 hooks/logs/
+*.log
 
 # Firecrawl cache
 .firecrawl/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
 
 # DB sync (per-project)
 .db-sync.env
