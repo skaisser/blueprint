@@ -68,9 +68,9 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/` (13 skill SKILL.md files), `skills/plan/references/plan-template.md`
 
-- [ ] [H] Replace all `~/.blueprint/bin/blueprint` with `blueprint` across 13 skills: address-pr, bp-status, finish, flow, flow-auto, flow-auto-wt, hotfix, plan, plan-approved, plan-check, plan-review, pr, resume
-- [ ] [H] Fix plan-template.md line 153: `~/.blueprint/bin/blueprint meta` → `blueprint meta`
-- [ ] [H] Verify zero hardcoded `~/.blueprint/bin/` remaining via grep
+- [x] [H] Replace all `~/.blueprint/bin/blueprint` with `blueprint` across 13 skills: address-pr, bp-status, finish, flow, flow-auto, flow-auto-wt, hotfix, plan, plan-approved, plan-check, plan-review, pr, resume ✅ 2026-03-24 05:36
+- [x] [H] Fix plan-template.md line 153: `~/.blueprint/bin/blueprint meta` → `blueprint meta` ✅ 2026-03-24 05:36
+- [x] [H] Verify zero hardcoded `~/.blueprint/bin/` remaining via grep ✅ 2026-03-24 05:36
 
 **Verify:** `grep -r "~/.blueprint/bin/" skills/ && echo "FAIL" || echo "PASS"`
 
