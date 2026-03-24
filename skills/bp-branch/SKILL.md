@@ -47,17 +47,17 @@ Create a new feature branch following our conventions.
 
 2. Start from latest base branch:
    ```bash
-   # Determine base: use staging branch if it exists, otherwise main
-   STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
-   if git show-ref --verify --quiet refs/heads/$STAGING_BRANCH; then
-       BASE="$STAGING_BRANCH"
-   else
-       BASE="main"
-   fi
+   BASE=$(blueprint base-branch)
    git checkout "$BASE" && git pull origin "$BASE"
    ```
 
-3. Create the branch:
+3. Generate a slug for the branch name if not provided:
+   ```bash
+   blueprint branch-name "<description>"
+   # outputs: kebab-case-slug
+   ```
+
+4. Create the branch:
    ```bash
    git checkout -b <type>/<branch-name>
    ```

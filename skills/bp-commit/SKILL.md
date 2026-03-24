@@ -25,7 +25,12 @@ Commit the current changes following our conventions. **Commit only — do not p
 3. NEVER stage `.env`, `.env.*`, `*-api-key`, `credentials.json`, or files containing API keys/tokens
 4. Run code formatting if the project has a formatter configured (check project conventions)
 5. Write a concise 1-2 sentence commit message focusing on **why** the change was made, not just what changed
-6. Commit with emoji format: `<emoji> <type>: <description>`
+6. Format the commit message with the CLI, then commit:
+   ```bash
+   blueprint commit format <type> "<message>"
+   # outputs: <emoji> <type>: <message>
+   git commit -m "$(blueprint commit format <type> '<message>')"
+   ```
 
 ## Emoji Types
 
