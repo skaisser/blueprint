@@ -20,7 +20,7 @@ Scan the project, auto-detect the tech stack, query framework documentation via 
 
 ## When to Run
 
-- After `/bp-start` on an existing codebase (brownfield onboarding)
+- After `/start` on an existing codebase (brownfield onboarding)
 - When onboarding to a project for the first time
 - After adding major new packages or refactoring a directory
 - When a CLAUDE.md feels stale or has incorrect info
