@@ -25,6 +25,8 @@ func init() {
 	rootCmd.AddCommand(updateCmd)
 	rootCmd.AddCommand(configCmd)
 	rootCmd.AddCommand(frontmatterCmd)
+	rootCmd.AddCommand(baseBranchCmd)
+	rootCmd.AddCommand(branchCmd)
 }
 
 func Execute() error {
