@@ -36,10 +36,10 @@ Default to Sonnet for `[H]` tasks (fast output for simple work). Use Opus for an
 
 ### Why Always Delegate?
 
-Data from plan 0116 (TikTok Shop):
-- Phase 1 Direct (leader coded): 8 tasks, **13 min**, heavy context
-- Phases 3+4+5a Coordinated team (3 workers): 6 tasks, **4 min**, light context
-- Phase 6 Coordinated team (2 workers): 4 tasks, **6 min**, light context
+Real-world performance data shows consistent patterns:
+- Leader implementing directly: 8 tasks, ~13 min, ~80% context consumed
+- Coordinated team (3 workers): 6 tasks, ~4 min, ~20% context consumed
+- Coordinated team (2 workers): 4 tasks, ~6 min, ~20% context consumed
 
 Delegating everything keeps the leader at ~20% context usage vs ~80% when implementing directly.
 
@@ -110,8 +110,4 @@ Track execution times to build evidence for team vs subagent decisions.
 
 | Plan | Phase | Strategy | Tasks | Time | Context |
 |------|-------|----------|-------|------|---------|
-| 0116 TikTok | Phase 1 | Direct (leader) | 8 | 13 min | Heavy (~80%) |
-| 0116 TikTok | Phases 3+4+5a | Coordinated team (3 workers) | 6 | 4 min | Light (~20%) |
-| 0116 TikTok | Phase 6 | Coordinated team (2 workers) | 4 | 6 min | Light (~20%) |
-
-Add rows after completing plans to build a real dataset over time.
+| *Add rows after completing plans* | | | | | |

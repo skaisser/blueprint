@@ -2,8 +2,9 @@
 name: plan-review
 description: >
   Review, validate, and prepare a plan for optimal execution by subagents or coordinated teams.
-  This skill analyzes the plan, marks task complexity ([H]/[S]/[O]), determines the fastest
-  execution strategy (parallel subagents, teams, mixed dispatch), and commits the reviewed plan.
+  And also Assign Execution Plan — this skill both validates the plan AND determines the execution
+  strategy (parallel subagents, teams, mixed dispatch), marks task complexity ([H]/[S]/[O]),
+  and commits the reviewed plan with its assigned execution mode.
   Use this skill whenever the user says "/plan-review", "review the plan", "prepare plan for execution",
   "optimize the plan", "is the plan ready", "plan readiness", or any request to validate and prepare
   an existing plan before implementation. Also triggers on "mark complexity", "execution strategy",
@@ -23,7 +24,7 @@ Review, validate, and prepare a plan for execution. This is the pre-flight check
 
 ```
 /plan → /plan-review → /plan-approved → /plan-check → /pr → /finish
-                     ↑ context clear only if context usage > 50% after plan-review
+                     ↑ context clear only if context usage > 30% after plan-review
 /plan → /plan-review -wt → [worktree created] → cd worktree → /plan-approved → ...
 ```
 
@@ -45,10 +46,19 @@ These are non-negotiable:
 
 ```bash
 echo "🏁 [plan-review:1] reading plan + team-execution ref"
+# Primary: CLI-first plan discovery
 ~/.blueprint/bin/blueprint meta
+
+# Fallback if CLI unavailable: find active plan manually
+# ls blueprint/live/[0-9]*-*.md
+
+# Also read config for staging_branch and stack info
+cat blueprint/.config.yml 2>/dev/null
 ```
 
-Returns branch, base_branch, plan_file, next_num, project, team as JSON. Derive PLAN_NUM from the leading digits in `plan_file`. If $ARGUMENTS is a path or number, use that instead.
+Primary: `~/.blueprint/bin/blueprint meta` returns JSON with branch, base_branch, plan_file, project, etc. Derive PLAN_NUM from the leading digits in `plan_file`. If $ARGUMENTS is a path or number, use that instead.
+
+Fallback: If the CLI is unavailable, use `ls blueprint/live/[0-9]*-*.md` to find the active plan. Also read `blueprint/.config.yml` for `staging_branch` and `stack` info needed in later steps.
 
 Run these **simultaneously in a single step** (do not wait between them):
 1. **READ the full plan file** — required before Step 2
@@ -81,14 +91,20 @@ Refine existing tasks directly — do NOT create new phases, split phases, or re
 
 ## Step 2B: Auto-Detect Tech Stack Versions (parallel with Step 2)
 
-During Step 2's sequential thinking, also run ONE command to detect versions:
+During Step 2's sequential thinking, also detect the project's tech stack. Read config FIRST (already populated by `/start` or `/bp-context`), only detect from project files if config is empty:
 
 ```bash
-# Detect tech stack from project files (composer.lock, package.json, Gemfile.lock, etc.)
-# Adapt this command to the project's detected stack from blueprint/.config.yml
-cat composer.lock 2>/dev/null | grep -A1 '"name": "laravel/framework"\|"livewire/livewire"\|"filament/filament"' | grep '"version"' || \
-cat package.json 2>/dev/null | grep -E '"(next|react|vue|angular|svelte)"' || \
-echo "Stack detection: check blueprint/.config.yml for project stack"
+# Read stack from blueprint/.config.yml (populated by /start or /bp-context)
+cat blueprint/.config.yml 2>/dev/null | grep -A5 'stack:'
+
+# If stack not in config, detect from project files
+if [ -f composer.lock ]; then
+    grep -A1 '"name": "laravel/framework"\|"livewire/livewire"' composer.lock | grep '"version"'
+elif [ -f package-lock.json ]; then
+    grep -E '"(next|react|vue|angular|svelte)":' package.json
+elif [ -f go.mod ]; then
+    head -5 go.mod
+fi
 ```
 
 Add a brief `## Tech Stack Versions` section to the plan (3-5 lines). Workers need this to avoid framework compatibility issues.
@@ -421,3 +437,12 @@ Use $ARGUMENTS as plan file path or flags.
 - Use sequential thinking to analyze — don't rubber-stamp
 - Refine existing tasks, preserve existing plan content
 - Keep your own context lean for the `/plan-approved` that follows
+
+## CLI Acceleration Opportunities
+
+These operations could be delegated to `blueprint` CLI in future versions:
+- `blueprint validate <plan-file>` — automated completeness check (missing tests, unmarked tasks, stale file refs)
+- `blueprint plan-profile <plan-file>` — extract Quick Plan Profile metrics (task count, complexity distribution, parallel potential)
+- `blueprint file-matrix <plan-file>` — generate file-touch matrix from plan task descriptions
+
+These would make Step 2-4 faster by pre-computing what the model currently does manually.
