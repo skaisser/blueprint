@@ -3,9 +3,9 @@ name: bp-status
 description: >
   Show quick repo status — branch, base, plan, PR info in one shot.
   Triggers on "/bp-status", "/status", "show status", "repo status",
-  "what branch am I on", or any request to see the current project state.
-  Also triggers on "current status", "where am I", "project status", "git status",
-  "what's the current state", "which branch", "is there a PR open", or "what plan am I on".
+  "what branch am I on", "current status", "where am I", "project status",
+  "what's the current state", "which branch", "is there a PR open",
+  "what plan am I on". Uses blueprint CLI with Python and git fallbacks.
 ---
 
 # Status: Quick Repo Context
@@ -14,40 +14,59 @@ description: >
 
 Read `blueprint/.config.yml` → `language`. If `auto`, detect from the user's messages. All generated content MUST be in the detected language. Skill instructions stay in English — only output changes.
 
-Show quick repo status (branch/base/plan/PR) in one shot.
+Show quick repo status (branch/base/plan/PR/config/changes) in one shot.
 
-## Data Sources
-This skill uses **git** and **gh** commands to gather real-time repo state. Data must reflect the current git state — never cache or reuse stale data from prior calls.
+## Execution Chain
 
-## Run
+Try each source in order — use the first that succeeds.
 
-Try `blueprint status` first. If it fails, fall back to direct commands.
+### 1. Primary: `blueprint status` (Go CLI)
 
-### Primary
 ```bash
-~/.blueprint/bin/blueprint status
+~/.blueprint/bin/blueprint status 2>/dev/null
 ```
 
-### Fallback (if blueprint CLI is unavailable or errors)
-Run these git/gh commands directly:
+Parses JSON output with: `branch`, `base_branch`, `plan_file`, `project`, `git_remote`.
+Reads from `blueprint/live/` for active plans and `blueprint/.config.yml` for config.
+
+### 2. Fallback: Python hook
+
+```bash
+python3 hooks/blueprint.py status 2>/dev/null
+```
+
+### 3. Last resort: raw git + gh commands
+
 ```bash
 git branch --show-current
 git log --oneline -3
 git status --short
 gh pr view --json number,title,url,state 2>/dev/null || echo "No open PR"
+ls blueprint/live/*.md 2>/dev/null || echo "No active plan"
+cat blueprint/.config.yml 2>/dev/null
 ```
-And check `blueprint/` for any active plan file.
 
 ## Rules
+
 - Do NOT modify anything — this is a read-only operation.
 - Do NOT scan or analyze code — status is metadata only.
 - Data must be fresh — always run commands, never rely on cached or prior results.
+- Try CLI first, fall back gracefully — never error out if a source is missing.
+- Show `blueprint/.config.yml` info (staging_branch, language).
+- Show active plan from `blueprint/live/` if any.
+- Show uncommitted changes summary.
 
 ## Output
-Present results in a scannable format — not a wall of text. Show:
-- Current branch + base branch
-- Active plan (if any)
-- Open PR (if any)
-- Uncommitted changes summary
+
+Present results in a clean, scannable format:
+
+```
+Branch:    feat/auth-flow
+Base:      staging
+Plan:      blueprint/live/0002-auth-flow.md (in-progress, 12/18 tasks)
+PR:        #42 — Auth flow refactor (open)
+Config:    staging_branch=staging, language=auto
+Changes:   3 modified, 1 untracked
+```
 
 All info in one response — no follow-up needed.
