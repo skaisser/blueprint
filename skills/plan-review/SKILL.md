@@ -72,6 +72,8 @@ Do NOT proceed to Step 2 until you have read both.
 echo "🔷 BP: plan-review [2/3] running sequential thinking validation"
 ```
 
+Run `blueprint validate <plan-file>` first for automated checks (missing tests, unmarked tasks, stale refs), then use sequential thinking to validate what the CLI can't:
+
 You MUST use `mcp__sequential-thinking__sequentialthinking` here. This is MANDATORY — never skip it, even for small plans. Use it to validate:
 
 - **Completeness**: Does each phase have clear, actionable tasks?
@@ -163,14 +165,14 @@ This forces the plan to account for parallel fix dispatch upfront, rather than t
 
 ### Quick Plan Profile
 
-Before entering the decision tree, extract:
+Run `blueprint plan-profile <plan-file>` to extract metrics automatically, then supplement with parallelism analysis:
 
-| Metric | Value |
-|--------|-------|
-| Total open tasks | count `[ ]` items |
-| Phase count | number of `###` phase headings |
-| Max task complexity | highest marker: H / S / O |
-| Parallel potential | any phases with zero file overlap? yes / no |
+| Metric | Source |
+|--------|--------|
+| Total open tasks | `blueprint plan-profile` → `open_tasks` |
+| Phase count | `blueprint plan-profile` → `phases` |
+| Max task complexity | `blueprint plan-profile` → `max_complexity` |
+| Parallel potential | Manual: any phases with zero file overlap? yes / no |
 
 ### Size Thresholds (override decision tree for small plans)
 
@@ -462,11 +464,8 @@ Use $ARGUMENTS as plan file path or flags.
 - Refine existing tasks, preserve existing plan content
 - Keep your own context lean for the `/plan-approved` that follows
 
-## CLI Acceleration Opportunities
+## CLI Tools Available
 
-These operations could be delegated to `blueprint` CLI in future versions:
+These CLI commands accelerate Steps 2-4 — use them instead of manual counting:
 - `blueprint validate <plan-file>` — automated completeness check (missing tests, unmarked tasks, stale file refs)
-- `blueprint plan-profile <plan-file>` — extract Quick Plan Profile metrics (task count, complexity distribution, parallel potential)
-- `blueprint file-matrix <plan-file>` — generate file-touch matrix from plan task descriptions
-
-These would make Step 2-4 faster by pre-computing what the model currently does manually.
+- `blueprint plan-profile <plan-file>` — extract Quick Plan Profile metrics (task count, complexity distribution, parallel potential) — use this for the Quick Plan Profile in Step 4
