@@ -45,6 +45,13 @@ If $ARGUMENTS is a plan path or number, locate that file directly instead of usi
 
 ## Step 2: Compare Plan vs Implementation
 
+Get current task counts:
+
+```bash
+# Returns JSON: {"total": N, "done": N, "phases": N, "phases_done": N, "status": "in-progress|done|..."}
+blueprint plan-status
+```
+
 - Was every planned task implemented?
 - Are `[x]`/`[ ]` marks accurate?
 - Unplanned files modified? (document why)
@@ -54,36 +61,22 @@ If $ARGUMENTS is a plan path or number, locate that file directly instead of usi
 
 **Agents sometimes delete `[ ]` tasks they couldn't solve instead of reporting failure.** Compare the plan at plan-review time vs now to catch any removed tasks.
 
-### 1. Get the plan file at plan-review commit
+### 1. Compare tasks against plan-review baseline
 
 ```bash
-PLAN_REVIEW_COMMIT=$(git log --oneline | grep "plan: review" | head -1 | awk '{print $1}')
 # PLAN_FILE already available from Step 1's blueprint meta output
-echo "Comparing plan at $PLAN_REVIEW_COMMIT vs current"
+# blueprint plan-tasks --baseline finds the plan-review commit automatically,
+# extracts tasks from both versions, and returns structured JSON with:
+#   tasks (current), added (new since review), removed (deleted since review)
+blueprint plan-tasks --baseline
 ```
 
-### 2. Extract tasks from both versions
+The `removed` array contains tasks that were **deleted during execution**.
 
-```bash
-# Tasks at plan-review time (the approved baseline)
-git show "$PLAN_REVIEW_COMMIT:$PLAN_FILE" 2>/dev/null | grep -E "^- \[[ x]\]" > /tmp/plan-review-tasks.txt
+### 2. Flag deleted tasks
 
-# Tasks now (after execution)
-grep -E "^- \[[ x]\]" "$PLAN_FILE" > /tmp/plan-current-tasks.txt
-```
-
-### 3. Diff the task lists
-
-```bash
-diff /tmp/plan-review-tasks.txt /tmp/plan-current-tasks.txt
-```
-
-Look for lines only in the review version (prefixed with `<`) — these are tasks that were **deleted during execution**.
-
-### 4. Flag deleted tasks
-
-If any tasks were removed:
-- **List each deleted task** in the report (Step 6)
+If the `removed` array is non-empty:
+- **List each deleted task** in the report (Step 5)
 - **Re-add them** to the plan as `[ ]` with a note: `(restored by plan-check — removed during execution)`
 - These must be implemented or explicitly marked as descoped by the user
 
@@ -96,7 +89,7 @@ This is a hard failure — deleted tasks indicate an agent tried to hide incompl
 ### 1. Find the plan-review baseline commit
 
 ```bash
-PLAN_REVIEW_COMMIT=$(git log --oneline | grep "plan: review" | head -1 | awk '{print $1}')
+PLAN_REVIEW_COMMIT=$(git log --oneline --all | grep "plan: review" | head -1 | cut -d' ' -f1)
 echo "Plan-review baseline: $PLAN_REVIEW_COMMIT"
 ```
 
