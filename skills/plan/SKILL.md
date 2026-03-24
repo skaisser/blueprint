@@ -121,7 +121,6 @@ project: <project>
 branch: <type>/<short-description>
 base: <BASE_BRANCH>
 tags: [relevant, tags]
-linear: null
 backlog: null
 created: "DD/MM/YYYY HH:MM"
 completed: null

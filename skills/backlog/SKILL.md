@@ -96,7 +96,6 @@ priority: high
 size: medium
 project: <project-name>
 tags: [relevant, tags]
-linear: null
 created: "DD/MM/YYYY HH:MM"
 plan: null
 depends: null
@@ -134,7 +133,6 @@ Optional: links, references, edge cases to consider.
 | `size` | enum | `small` (≤5 tasks), `medium` (6-15), `large` (16+, may need multiple plans) |
 | `project` | string | Project slug |
 | `tags` | array | Topic tags — same vocabulary as plan tags |
-| `linear` | array\|null | Linear issue IDs |
 | `created` | string | `DD/MM/YYYY HH:MM` |
 | `plan` | string\|null | Plan ID when promoted (e.g., `"0177"`) |
 | `depends` | array\|null | Other backlog IDs this depends on |

@@ -22,7 +22,6 @@ project: my-project            # git repo name
 branch: feat/short-description # feature branch name
 base: staging                  # target branch for PR (read from blueprint/.config.yml staging_branch)
 tags: [payment, webhook]       # topic tags
-linear: [KPG-42]               # Linear issue IDs, or null
 backlog: null                  # backlog item ID this was promoted from, or null
 created: "23/03/2026 14:00"    # DD/MM/YYYY HH:MM from date command
 completed: null                # filled by /finish

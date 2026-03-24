@@ -266,7 +266,6 @@ Redirecting to /resume for efficient re-entry...
 ## Flags
 
 - `--from <stage>`: Start from specific stage (plan, plan-review, plan-approved, plan-check, pr, finish)
-- `--no-linear`: Skip Linear integration even if configured
 - `--wt`: Use worktree mode (passed to plan-review)
 
 Use $ARGUMENTS as the task description, Linear issue ID, or flags.
