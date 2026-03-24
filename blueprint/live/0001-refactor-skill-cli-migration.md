@@ -2,7 +2,7 @@
 id: "0001"
 title: "refactor: migrate skills to blueprint CLI commands"
 type: refactor
-status: approved
+status: in-progress
 complexity: S
 project: blueprint
 branch: refactor/skill-cli-migration
@@ -14,7 +14,7 @@ issue: null
 created: "2026-03-24 05:22"
 completed: null
 pr: null
-session: null
+session: "d4c2df65-571d-4494-aa3a-68673c5220af"
 reviews:
   - "Plan Created — 2026-03-24 05:22"
   - "2026-03-24 05:26 — Added meta rootCmd alias task (meta is under sdlcCmd, skills call blueprint meta without sdlc prefix)"
