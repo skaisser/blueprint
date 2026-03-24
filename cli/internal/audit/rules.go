@@ -39,7 +39,8 @@ func LoadBlueprintConfig() *BlueprintConfig {
 
 // Pre-compiled regex patterns for performance (hot path).
 var (
-	reCheckpoint     = regexp.MustCompile(`\[([a-z-]+:[0-9a-z-]+)\]`)
+	reCheckpoint     = regexp.MustCompile(`\[([a-z-]+:[0-9a-z-]+)\]`)               // legacy: [skill:step]
+	reCheckpointBP   = regexp.MustCompile(`BP:\s+([a-z-]+)\s+\[(\d+)/(\d+)\]`)    // new: BP: skill [N/TOTAL]
 	reMigrateFresh   = regexp.MustCompile(`migrate:fresh`)
 	reGitPushMain    = regexp.MustCompile(`git\s+push(?:\s+-\S+)*\s+\S+\s+main\b`)
 	reBarePush       = regexp.MustCompile(`(?:^|&&|;)\s*git\s+push\s*$`)
@@ -303,8 +304,14 @@ func rule5CommandCheckpoints(p *Payload, state *SessionState, log *Logger) {
 		return
 	}
 
-	// Track checkpoints
-	if m := reCheckpoint.FindStringSubmatch(p.Command); m != nil {
+	// Track checkpoints — new format: 🔷 BP: skill [N/TOTAL], legacy: 🏁 [skill:step]
+	if m := reCheckpointBP.FindStringSubmatch(p.Command); m != nil {
+		activeCmd := m[1]
+		checkpoint := activeCmd + ":" + m[2]
+		state.AppendLine("checkpoints.txt", checkpoint)
+		state.WriteText("active-command", activeCmd)
+		log.Log("🔷 BP CHECKPOINT: " + checkpoint)
+	} else if m := reCheckpoint.FindStringSubmatch(p.Command); m != nil {
 		checkpoint := m[1]
 		state.AppendLine("checkpoints.txt", checkpoint)
 		activeCmd := strings.Split(checkpoint, ":")[0]

@@ -30,7 +30,7 @@ Address PR review feedback — fetch review comments, create a fix plan, and imp
 
 ## Step 1: Get PR Number
 
-Run: `echo "🏁 [address-pr:1] fetching PR number"`
+Run: `echo "🔷 BP: address-pr [1/4] fetching PR number"`
 
 ```bash
 PR_NUMBER="${ARGUMENTS:-$(gh pr view --json number -q .number)}"
@@ -38,7 +38,7 @@ PR_NUMBER="${ARGUMENTS:-$(gh pr view --json number -q .number)}"
 
 ## Step 2: Fetch Review Data — MANDATORY
 
-Run: `echo "🏁 [address-pr:2] reading review comments"`
+Run: `echo "🔷 BP: address-pr [2/4] reading review comments"`
 
 ```bash
 ~/.blueprint/bin/blueprint pr-review "$PR_NUMBER"
@@ -56,7 +56,7 @@ DO NOT modify any file you haven't read first.
 
 ## Step 4: Present Fix Summary
 
-Run: `echo "🏁 [address-pr:3] presenting fix summary"`
+Run: `echo "🔷 BP: address-pr [3/4] presenting fix summary"`
 
 ```
 PR #XX Review Summary:
@@ -89,7 +89,7 @@ If `blueprint/live/` has a matching plan: add "PR Review Fixes" section, mark fi
 
 ## Step 7: Commit & Push
 
-Run: `echo "🏁 [address-pr:4] committing fixes"`
+Run: `echo "🔷 BP: address-pr [4/4] committing fixes"`
 
 Use `/ship` with: `🐛 fix: address PR #XX review feedback` (include actual PR number)
 

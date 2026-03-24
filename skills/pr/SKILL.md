@@ -49,7 +49,7 @@ grep -q "Plan vs Implementation\|Plan check[:\—–-]" "$PLAN_FILE" 2>/dev/null
 
 ## Step 1: Ship Changes — MANDATORY
 
-Run: `echo "🏁 [pr:1] shipping changes before PR"`
+Run: `echo "🔷 BP: pr [1/2] shipping changes before PR"`
 
 Run `/ship` first to commit and push all current changes. DO NOT skip this.
 
@@ -83,7 +83,7 @@ Read plan file from `blueprint/live/` if exists. Extract Linear issue IDs from p
 
 ## Step 4: Create PR
 
-Run: `echo "🏁 [pr:2] creating pull request"`
+Run: `echo "🔷 BP: pr [2/2] creating pull request"`
 
 Title format: `<emoji> <type>: <description>` — **MUST be under 70 characters total.**
 

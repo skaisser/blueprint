@@ -72,7 +72,7 @@ If `$ARGUMENTS` is a number (e.g., `/plan 3`) and matches a backlog item:
 ## Step 1: Parallel Data Gather
 
 ```bash
-echo "🏁 [plan:1] parallel data gather — blueprint meta + template + pull"
+echo "🔷 BP: plan [1/3] parallel data gather — blueprint meta + template + pull"
 ```
 
 Run these **simultaneously in a single step** (do not wait between them):
@@ -86,7 +86,7 @@ Do NOT create a plan from memory. Do NOT proceed without reading the template.
 ## Step 2: Explore + Sequential Thinking
 
 ```bash
-echo "🏁 [plan:2] code exploration + sequential thinking"
+echo "🔷 BP: plan [2/3] code exploration + sequential thinking"
 ```
 
 **First — launch Explore agents in parallel** (before sequential thinking, not after):
@@ -116,7 +116,7 @@ You MUST use `mcp__sequential-thinking__sequentialthinking`. This is where the p
 ## Step 3: Create Plan and Branch
 
 ```bash
-echo "🏁 [plan:3] creating plan file and branch"
+echo "🔷 BP: plan [3/3] creating plan file and branch"
 ```
 
 Write the plan file using the v2 format. The frontmatter has NO `plan_file`, `phases_total/done`, `tasks_total/done`, `sessions` array, or `name` field. Status starts as `todo`.

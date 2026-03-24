@@ -195,7 +195,7 @@ if write_like and paths_to_check:
             continue
         marker = SESSION_DIR / f"skill-read-{skill_name}"
         if not marker.exists():
-            skill_file = f"~/.blueprint/skills/{skill_name}/SKILL.md"
+            skill_file = f"~/.claude/skills/{skill_name}/SKILL.md"
             block(
                 f"Tried to modify '{p}' without reading SKILL.md first. Read {skill_file} before proceeding."
             )
@@ -280,24 +280,39 @@ if tool_name in ("askuserquestion", "question"):
 # ─── ENFORCEMENT 5: Command checkpoint tracking & prerequisites ──────────────
 
 if tool_name == "bash" and command:
-    # Track checkpoints: 🏁 [command:step]
-    match = re.search(r"\[([a-z-]+:[0-9a-z-]+)\]", command)
-    if match:
-        checkpoint = match.group(1)
+    # Track checkpoints — new format: 🔷 BP: skill [N/TOTAL], legacy: 🏁 [skill:step]
+    bp_match = re.search(r"BP:\s+([a-z-]+)\s+\[(\d+)/(\d+)\]", command)
+    legacy_match = re.search(r"\[([a-z-]+:[0-9a-z-]+)\]", command)
+    if bp_match:
+        active_cmd = bp_match.group(1)
+        checkpoint = f"{active_cmd}:{bp_match.group(2)}"
+        with open(SESSION_DIR / "checkpoints.txt", "a") as f:
+            f.write(f"{checkpoint}\n")
+        (SESSION_DIR / "active-command").write_text(active_cmd)
+        log(f"🔷 BP CHECKPOINT: {checkpoint}")
+    elif legacy_match:
+        checkpoint = legacy_match.group(1)
         with open(SESSION_DIR / "checkpoints.txt", "a") as f:
             f.write(f"{checkpoint}\n")
         active_cmd = checkpoint.split(":")[0]
         (SESSION_DIR / "active-command").write_text(active_cmd)
-        log(f"🏁 CHECKPOINT: {checkpoint}")
+        log(f"🔷 BP CHECKPOINT: {checkpoint}")
+
+    # ── Helper: autonomous pipelines that should NOT require AskUserQuestion ──
+    def _is_autonomous_pipeline(cmd_name: str) -> bool:
+        return cmd_name in ("batch-flow", "flow-auto", "flow-auto-wt")
 
     # ── Prerequisite: /finish must AskUserQuestion before second gh pr merge ──
+    # Exception: autonomous pipelines (flow-auto, flow-auto-wt, batch-flow)
     if "gh pr merge" in command:
         active_cmd_file = SESSION_DIR / "active-command"
         active_cmd = (
             active_cmd_file.read_text().strip() if active_cmd_file.exists() else ""
         )
 
-        if active_cmd == "finish":
+        if _is_autonomous_pipeline(active_cmd):
+            log(f"✅ gh pr merge in autonomous pipeline ({active_cmd}) — allowed")
+        elif active_cmd == "finish":
             merge_count_file = SESSION_DIR / "gh-pr-merge-count"
             merge_count = (
                 int(merge_count_file.read_text()) if merge_count_file.exists() else 0
@@ -310,14 +325,16 @@ if tool_name == "bash" and command:
                     f"Second gh pr merge during /finish without AskUserQuestion. Step 6 requires asking the user before merging {STAGING_BRANCH} → main."
                 )
 
-    # ── Prerequisite: gh pr create requires /pr or /finish context ──
+    # ── Prerequisite: gh pr create requires /pr, /finish, or pipeline context ──
     if "gh pr create" in command:
         active_cmd_file = SESSION_DIR / "active-command"
         active_cmd = (
             active_cmd_file.read_text().strip() if active_cmd_file.exists() else ""
         )
 
-        if active_cmd not in ("pr", "finish", "hotfix-push"):
+        if _is_autonomous_pipeline(active_cmd):
+            log(f"✅ gh pr create in autonomous pipeline ({active_cmd}) — allowed")
+        elif active_cmd not in ("pr", "finish", "hotfix-push"):
             warn(
                 f"gh pr create called outside /pr, /finish, or /hotfix-push context. PRs should only be created via these skills. Active context: '{active_cmd or 'none'}'"
             )
@@ -680,6 +697,26 @@ if tool_name == "bash" and command:
                 "If the GitHub Action is not set up, poll for 5 min then continue.\n"
                 "You MUST at least attempt the review step."
             )
+
+# ─── ENFORCEMENT 15: Backlog CLI enforcement — block manual parsing ──────────
+# Agents should use `blueprint backlog` CLI, not grep/sed/awk/cat on backlog files.
+
+if tool_name == "bash" and command:
+    _backlog_manual = (
+        re.search(r"(grep|sed|awk).*blueprint/backlog", command)
+        or re.search(r"for\s+\w+\s+in\s+.*blueprint/backlog", command)
+        or re.search(r"cat\s+.*blueprint/backlog", command)
+    )
+    if _backlog_manual:
+        block(
+            "Use `blueprint backlog` CLI to read backlog files — it handles both YAML and legacy formats correctly.\n\n"
+            "Available commands:\n"
+            "  blueprint sdlc backlog                  # JSON output (default)\n"
+            "  blueprint sdlc backlog --format table   # Pretty table\n"
+            "  blueprint sdlc backlog --archive        # Include archived items\n"
+            "  blueprint sdlc backlog migrate           # Convert old format → YAML\n\n"
+            "Never parse backlog files with grep/sed/awk/cat — the CLI is faster and correct."
+        )
 
 # ─── All good ────────────────────────────────────────────────────────────────
 sys.exit(0)

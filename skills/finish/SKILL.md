@@ -45,7 +45,7 @@ Only proceed if the user confirms or the PR has no required review policy.
 
 ## Step 1: Determine Base Branch
 
-Run: `echo "🏁 [finish:1] determining base branch"`
+Run: `echo "🔷 BP: finish [1/6] determining base branch"`
 
 ```bash
 CURRENT_BRANCH=$(git branch --show-current)
@@ -71,7 +71,7 @@ fi
 
 ## Step 2: Read Plan and Mark Complete
 
-Run: `echo "🏁 [finish:2] reading plan"`
+Run: `echo "🔷 BP: finish [2/6] reading plan"`
 
 ```bash
 # CLI first — returns plan_file path
@@ -99,7 +99,7 @@ fi
 
 ## Step 3: Archive Backlog Item (if applicable)
 
-Run: `echo "🏁 [finish:3] archiving backlog item"`
+Run: `echo "🔷 BP: finish [3/6] archiving backlog item"`
 
 Read the plan frontmatter for a `backlog:` field (e.g., `backlog: "0014"`).
 
@@ -128,7 +128,7 @@ fi
 ## Step 5: Commit, Push, and Pre-merge Checks
 
 ```bash
-echo "🏁 [finish:5] committing and pushing"
+echo "🔷 BP: finish [4/6] committing and pushing"
 
 # Commit plan file changes
 git add blueprint/ && git commit -m "🧹 chore: finish NNNN-<description>"
@@ -185,7 +185,7 @@ fi
 
 ## Step 6: Merge PR and Clean Up
 
-Run: `echo "🏁 [finish:6] merging PR"`
+Run: `echo "🔷 BP: finish [5/6] merging PR"`
 
 ```bash
 gh pr merge "$PR_NUMBER" --merge --delete-branch
@@ -233,7 +233,7 @@ fi
 
 ## Step 7: Handle Main Branch — MANDATORY
 
-Run: `echo "🏁 [finish:7] asking user about main merge"`
+Run: `echo "🔷 BP: finish [6/6] asking user about main merge"`
 
 **STOP. You MUST use `AskUserQuestion` here. ALWAYS.**
 

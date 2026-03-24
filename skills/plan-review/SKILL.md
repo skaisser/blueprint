@@ -45,7 +45,7 @@ These are non-negotiable:
 ## Step 1: Parallel Data Gather
 
 ```bash
-echo "🏁 [plan-review:1] reading plan + team-execution ref"
+echo "🔷 BP: plan-review [1/3] reading plan + team-execution ref"
 # Primary: CLI-first plan discovery
 ~/.blueprint/bin/blueprint meta
 
@@ -69,7 +69,7 @@ Do NOT proceed to Step 2 until you have read both.
 ## Step 2: Validate Plan
 
 ```bash
-echo "🏁 [plan-review:2] running sequential thinking validation"
+echo "🔷 BP: plan-review [2/3] running sequential thinking validation"
 ```
 
 You MUST use `mcp__sequential-thinking__sequentialthinking` here. This is MANDATORY — never skip it, even for small plans. Use it to validate:
@@ -327,7 +327,7 @@ Independent phases — Phase 1 touches `app/Services/`, Phase 2 touches `resourc
 ## Step 6: Pre-Commit Checklist
 
 ```bash
-echo "🏁 [plan-review:3] verifying pre-commit checklist"
+echo "🔷 BP: plan-review [3/3] verifying pre-commit checklist"
 ```
 
 Verify ALL items before committing:

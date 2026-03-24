@@ -114,7 +114,7 @@ if [ -f "blueprint/.flow-auto-lock" ]; then
 fi
 
 # Check 2: get plan metadata
-echo "🏁 [plan-approved:1] reading plan file"
+echo "🔷 BP: plan-approved [1/4] reading plan file"
 ~/.blueprint/bin/blueprint meta
 ```
 
@@ -164,7 +164,7 @@ Extract rounds, modes, model tiers, and worker assignments from the `## Executio
 ## Step 3: Commit Baseline
 
 ```bash
-echo "🏁 [plan-approved:2] committing baseline"
+echo "🔷 BP: plan-approved [2/4] committing baseline"
 
 # Project code baseline (if staged changes):
 blueprint commit "📋 plan: start execution NNNN"
@@ -180,7 +180,7 @@ Creates the baseline snapshot: project code via `blueprint commit`, plan state v
 ## Step 4: Execute Rounds
 
 ```bash
-echo "🏁 [plan-approved:3] starting execution — following strategy from plan"
+echo "🔷 BP: plan-approved [3/4] starting execution — following strategy from plan"
 ```
 
 **Context Protection:** Execute ONE round at a time. After each round: update plan → test → commit → assess context. With 1M context, most plans complete in a single session — suggest compacting only after 5+ rounds or when context visibly degrades.
@@ -359,7 +359,7 @@ If a worker reports test failures or incomplete work:
 ## Step 5: On Completion
 
 ```bash
-echo "🏁 [plan-approved:4] all phases complete"
+echo "🔷 BP: plan-approved [4/4] all phases complete"
 ```
 
 - Update frontmatter `status: completed` (v1 compat: also accepts `Completed`)

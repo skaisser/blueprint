@@ -32,7 +32,7 @@ Analyze and update the plan file for the current branch, comparing planned vs ac
 
 ## Step 1: Gather Plan + Diffs (parallel)
 
-Run: `echo "🏁 [plan-check:0] reading plan context + diffs"`
+Run: `echo "🔷 BP: plan-check [1/3] reading plan context + diffs"`
 
 Run these **simultaneously in a single step** (do not wait between them):
 
@@ -138,7 +138,7 @@ If the plan has an `## Acceptance Criteria` section, verify each item against th
 
 ## Step 4: Audit Commit — MANDATORY
 
-Run: `echo "🏁 [plan-check:4] audit commit — full task list with all marks visible"`
+Run: `echo "🔷 BP: plan-check [2/3] audit commit — full task list with all marks visible"`
 
 Count mismatches fixed, deleted tasks restored, and orphaned refs fixed during this audit to build a descriptive commit message:
 
@@ -152,7 +152,7 @@ The plan file MUST have the full task list with all `[x]` marks and timestamps b
 
 ## Step 5: Report
 
-Run: `echo "🏁 [plan-check:5] plan check complete"`
+Run: `echo "🔷 BP: plan-check [3/3] plan check complete"`
 
 ```
 Plan Check Complete:
