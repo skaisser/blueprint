@@ -21,8 +21,7 @@ Commit and push changes in one go.
 1. **Branch Safety Check** — Before anything, verify we're NOT on `main`:
    ```bash
    BRANCH=$(git branch --show-current)
-   STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml 2>/dev/null | awk '{print $2}')
-   STAGING_BRANCH=${STAGING_BRANCH:-staging}
+   STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
    if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
        echo "ERROR: Cannot push directly to '$BRANCH'. Use a PR workflow ($STAGING_BRANCH → $BRANCH)."
        exit 1

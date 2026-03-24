@@ -119,8 +119,7 @@ WORKTREE_PATH="${PARENT_DIR}/.worktrees/${REPO_NAME}-${WORKTREE_SLUG}"
 mkdir -p "${PARENT_DIR}/.worktrees"
 
 # Fetch latest from remote WITHOUT modifying main repo's HEAD or working directory
-STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
-STAGING_BRANCH=${STAGING_BRANCH:-staging}
+STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
 BASE_BRANCH=$(git rev-parse --verify "origin/$STAGING_BRANCH" 2>/dev/null && echo "$STAGING_BRANCH" || echo "main")
 git fetch origin "$BASE_BRANCH"
 
@@ -227,8 +226,7 @@ echo "🤖 [flow-auto-wt:7] creating pull request"
 
 1. Determine base branch:
    ```bash
-   STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
-   STAGING_BRANCH=${STAGING_BRANCH:-staging}
+   STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
    git rev-parse --verify "origin/$STAGING_BRANCH" 2>/dev/null && echo "$STAGING_BRANCH" || echo "main"
    ```
 2. Push branch:

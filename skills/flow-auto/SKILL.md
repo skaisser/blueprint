@@ -227,8 +227,7 @@ echo "🤖 [flow-auto:6] creating pull request"
 
 1. Determine base branch:
    ```bash
-   STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
-   STAGING_BRANCH=${STAGING_BRANCH:-staging}
+   STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
    git rev-parse --verify "$STAGING_BRANCH" 2>/dev/null && echo "$STAGING_BRANCH" || echo "main"
    ```
 2. Push branch:
@@ -344,8 +343,7 @@ Before posting the final report, trigger a context scan to update CLAUDE.md with
 
 ```bash
 # Only if significant code was added (more than just config changes)
-STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
-STAGING_BRANCH=${STAGING_BRANCH:-staging}
+STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
 FILE_COUNT=$(git diff --name-only "$(git merge-base HEAD "$STAGING_BRANCH" 2>/dev/null || echo HEAD~5)" HEAD | wc -l)
 if [ "$FILE_COUNT" -gt 10 ]; then
   echo "🤖 [flow-auto:8] updating project context (CLAUDE.md)"

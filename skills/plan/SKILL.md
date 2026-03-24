@@ -110,7 +110,7 @@ You MUST use `mcp__sequential-thinking__sequentialthinking`. This is where the p
 - With 1M context, there is no need to split plans — the coordinator only orchestrates (delegates to subagents), so even large plans (10+ phases, 40+ tasks) are fine. Keep everything in a single plan for simplicity.
 - Every plan MUST include test/verification tasks — testing is part of planning, not an afterthought
 - **Do NOT assign `[H]`/`[S]`/`[O]` complexity tiers** — `/plan-review` handles that
-- Keep focused: 3-6 thoughts is enough for most plans
+- Keep focused: 3-6 thoughts is enough for most plans, but feel free to use more if needed. Avoid verbosity — every sentence should add value.
 - Use `AskUserQuestion` for genuine ambiguities ONLY — do NOT assume
 
 ## Step 3: Create Plan and Branch

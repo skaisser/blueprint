@@ -59,8 +59,7 @@ Run `/ship` first to commit and push all current changes. DO NOT skip this.
 
 ```bash
 CURRENT_BRANCH=$(git branch --show-current)
-STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml 2>/dev/null | awk '{print $2}')
-STAGING_BRANCH=${STAGING_BRANCH:-staging}
+STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
 
 if [ "$CURRENT_BRANCH" = "$STAGING_BRANCH" ]; then
     BASE_BRANCH="main"

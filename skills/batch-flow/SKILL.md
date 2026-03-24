@@ -77,8 +77,7 @@ echo "🤖 [batch-flow:2] pre-flight checks"
 2. Check git status is clean (no uncommitted changes)
 3. Verify on the staging branch (or the correct base branch):
    ```bash
-   STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
-   STAGING_BRANCH=${STAGING_BRANCH:-staging}
+   STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
    ```
 4. Check that plans are in correct sequence (no gaps)
 5. Log the batch plan:

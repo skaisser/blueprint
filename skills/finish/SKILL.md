@@ -50,12 +50,7 @@ Run: `echo "🔷 BP: finish [1/6] determining base branch"`
 ```bash
 CURRENT_BRANCH=$(git branch --show-current)
 
-# Read staging branch from config — CLI first, fallback to grep
-STAGING_BRANCH=$(~/.blueprint/bin/blueprint meta 2>/dev/null | grep -o '"base_branch":"[^"]*"' | cut -d'"' -f4)
-if [ -z "$STAGING_BRANCH" ]; then
-    STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml 2>/dev/null | awk '{print $2}')
-fi
-STAGING_BRANCH=${STAGING_BRANCH:-staging}
+STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
 
 if [ "$CURRENT_BRANCH" = "$STAGING_BRANCH" ]; then
     BASE_BRANCH="main"

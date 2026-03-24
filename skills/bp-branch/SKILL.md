@@ -48,8 +48,7 @@ Create a new feature branch following our conventions.
 2. Start from latest base branch:
    ```bash
    # Determine base: use staging branch if it exists, otherwise main
-   STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml 2>/dev/null | awk '{print $2}')
-   STAGING_BRANCH=${STAGING_BRANCH:-staging}
+   STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
    if git show-ref --verify --quiet refs/heads/$STAGING_BRANCH; then
        BASE="$STAGING_BRANCH"
    else

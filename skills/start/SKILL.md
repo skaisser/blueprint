@@ -419,8 +419,7 @@ done
 Use the `staging_branch` name from `blueprint/.config.yml`:
 
 ```bash
-STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
-STAGING_BRANCH=${STAGING_BRANCH:-staging}
+STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
 
 if ! git show-ref --verify --quiet "refs/heads/$STAGING_BRANCH" && ! git show-ref --verify --quiet "refs/remotes/origin/$STAGING_BRANCH"; then
     git checkout -b "$STAGING_BRANCH"

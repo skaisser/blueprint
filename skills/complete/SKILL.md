@@ -36,7 +36,7 @@ echo "worktree=$IS_WORKTREE branch=$CURRENT_BRANCH"
 if [ "$IS_WORKTREE" = "yes" ]; then
   gh pr list --head "$CURRENT_BRANCH" --state merged --json number --jq '.[0].number' || echo "NO_MERGED_PR"
   git diff --quiet && git diff --cached --quiet && echo "clean" || echo "ERROR: uncommitted changes"
-  STAGING_BRANCH=$(grep 'staging_branch:' blueprint/.config.yml | awk '{print $2}')
+  STAGING_BRANCH=$(blueprint config get staging_branch 2>/dev/null || echo "staging")
   [[ "$CURRENT_BRANCH" =~ ^(main|master|develop)$ ]] || [[ "$CURRENT_BRANCH" == "$STAGING_BRANCH" ]] && echo "ERROR: protected branch" || echo "branch_safe"
 fi
 ```
