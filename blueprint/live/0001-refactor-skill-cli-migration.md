@@ -89,11 +89,11 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/finish/SKILL.md`, `skills/hotfix/SKILL.md`, `skills/pr/SKILL.md`, `skills/plan-review/SKILL.md`
 
-- [ ] [S] finish: replace `blueprint meta | python3 -c "import sys,json; ..."` with `blueprint meta plan_file`
-- [ ] [S] finish: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue`
-- [ ] [H] hotfix: replace inline Python meta parsing with `blueprint meta base_branch`
-- [ ] [H] pr: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue`
-- [ ] [S] plan-review: replace `cat blueprint/.config.yml | grep -A5 'stack:'` with `blueprint detect-stack`
+- [x] [S] finish: replace `blueprint meta | python3 -c "import sys,json; ..."` with `blueprint meta plan_file` ✅ 2026-03-24 05:38
+- [x] [S] finish: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue` ✅ 2026-03-24 05:38
+- [x] [H] hotfix: replace inline Python meta parsing with `blueprint meta base_branch` ✅ 2026-03-24 05:38
+- [x] [H] pr: replace `grep '^issue:' "$PLAN_FILE" | sed` with `blueprint meta issue` ✅ 2026-03-24 05:38
+- [x] [S] plan-review: replace `cat blueprint/.config.yml | grep -A5 'stack:'` with `blueprint detect-stack` ✅ 2026-03-24 05:38
 
 **Verify:** `grep -n "python3 -c.*json\|grep.*issue.*sed\|cat.*config.yml.*grep" skills/finish/SKILL.md skills/hotfix/SKILL.md skills/pr/SKILL.md skills/plan-review/SKILL.md && echo "FAIL" || echo "PASS"`
 
@@ -101,9 +101,9 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `skills/plan-check/SKILL.md`
 
-- [ ] [S] Replace `git log --oneline | grep "plan: review" | head -1 | awk '{print $1}'` with `blueprint plan-tasks --baseline` for task comparison
-- [ ] [H] Replace raw `grep -E "^- \[[ x]\]"` task counting with `blueprint plan-status`
-- [ ] [S] Replace `git show "$COMMIT:$FILE" | grep` task diffing with `blueprint plan-tasks --baseline $COMMIT`
+- [x] [S] Replace `git log --oneline | grep "plan: review" | head -1 | awk '{print $1}'` with `blueprint plan-tasks --baseline` for task comparison ✅ 2026-03-24 05:39
+- [x] [H] Replace raw `grep -E "^- \[[ x]\]"` task counting with `blueprint plan-status` ✅ 2026-03-24 05:39
+- [x] [S] Replace `git show "$COMMIT:$FILE" | grep` task diffing with `blueprint plan-tasks --baseline $COMMIT` ✅ 2026-03-24 05:39
 
 **Verify:** `grep -n "git log.*grep.*plan.*awk\|git show.*grep.*\\\\[" skills/plan-check/SKILL.md && echo "FAIL" || echo "PASS"`
 
