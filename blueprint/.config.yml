@@ -1,0 +1,18 @@
+# BLUEPRINT project configuration
+# All skills read from this file — edit freely.
+
+# The branch between feature branches and main.
+# Your hooks and workflows use this name automatically.
+staging_branch: staging
+
+# Language for generated content (plans, PRs, CLAUDE.md, messages).
+# auto = detect from user's messages. Or set explicitly: en, pt-BR, es, fr, de, ja, zh, etc.
+# Commit types (feat, fix) and frontmatter keys always stay in English.
+language: auto
+
+# Detected project stack (informational — used by /start and tests.yml)
+stack:
+  language: go             # go (CLI) + python (hooks) + shell (installer)
+  framework: none          # meta-project — skills framework, not an app
+  test_runner: none        # no test runner yet
+  has_assets: false
