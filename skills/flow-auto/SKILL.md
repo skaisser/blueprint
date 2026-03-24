@@ -40,8 +40,8 @@ The normal `/flow` has 2 mandatory checkpoints where it asks the user what to do
 3. **Delegate all implementation.** Same as `/plan-approved` — the coordinator never writes code. Dispatch subagents.
 4. **Commit after every stage.** Every stage produces a commit — the full git history is recoverable.
 5. **Loop review→fix max 3 times.** If review issues persist after 3 cycles, stop and leave a comment explaining what remains.
-6. **Skip Linear integration** unless $ARGUMENTS contains a Linear issue ID (e.g., KPG-42).
-7. **NEVER skip steps.** ALL 8 steps must execute in order. The audit hook BLOCKS PR creation if Step 5 (plan-check) was not run, and WARNS if Step 7 (review loop) was not attempted. Each step MUST echo its checkpoint: `echo "🤖 [flow-auto:N] description"` — this is how the audit hook tracks progress. Skipping a step is a pipeline violation.
+6. **Skip GitHub issue integration** unless $ARGUMENTS contains a GitHub issue number (e.g., #42).
+7. **NEVER skip steps.** ALL 8 steps must execute in order. The audit hook BLOCKS PR creation if Step 5 (plan-check) was not run, and WARNS if Step 7 (review loop) was not attempted. Each step MUST echo its checkpoint: `echo "🔷 BP: flow-auto [N/8] description"` — this is how the audit hook tracks progress. Skipping a step is a pipeline violation.
 8. **The checkpoint echo is NOT optional.** Every step MUST start with its echo command. Without it, the audit hook cannot verify the step ran and will block subsequent steps.
 9. **Effort budget per phase.** If a single phase takes more than 2 fix rounds (dispatch→fail→dispatch→fail), log a warning, mark the phase as "partially complete" with a note, and move on. Perfectionism on one phase should not block the entire pipeline. Data import tasks have a "good enough" threshold — if counts are within 80% of expected, proceed.
 10. **PR must be merge-ready on first attempt.** Step 5 (Quality Sweep + Green Gate) is the primary quality bar. The pipeline MUST NOT create a PR until Step 5's Green Gate passes (all targeted tests green) and the Quality Sweep is clean. If tests fail after 2 fix rounds in Step 5c, do NOT proceed to Step 6 — dispatch one final comprehensive fix agent targeting all failures, then re-run tests. Only proceed to PR creation when tests pass or after 3 total fix rounds (hard ceiling). The review loop (Step 7) exists as validation, not as the primary quality mechanism.
@@ -51,7 +51,7 @@ The normal `/flow` has 2 mandatory checkpoints where it asks the user what to do
 ## Step 1: Initialize
 
 ```bash
-echo "🤖 [flow-auto:1] initializing autonomous pipeline"
+echo "🔷 BP: flow-auto [1/8] initializing autonomous pipeline"
 blueprint meta 2>/dev/null
 ```
 
@@ -65,14 +65,14 @@ blueprint meta 2>/dev/null
 **If no active plan:** Continue to Step 2.
 
 Parse $ARGUMENTS for:
-- Linear issue ID (e.g., `KPG-42`) → store for PR body
+- GitHub issue number (e.g., `#42`) → store for PR body
 - `--from <stage>` → jump to that stage
 - Everything else → task description
 
 ## Step 2: Plan (replaces /plan)
 
 ```bash
-echo "🤖 [flow-auto:2] creating plan"
+echo "🔷 BP: flow-auto [2/8] creating plan"
 ```
 
 1. Read `~/.claude/skills/plan/references/plan-template.md` for the plan format
@@ -97,7 +97,7 @@ echo "🤖 [flow-auto:2] creating plan"
 ## Step 3: Review (replaces /plan-review)
 
 ```bash
-echo "🤖 [flow-auto:3] reviewing plan"
+echo "🔷 BP: flow-auto [3/8] reviewing plan"
 ```
 
 1. Read `~/.claude/skills/plan-review/references/team-execution.md` for execution strategy
@@ -120,7 +120,7 @@ echo "🤖 [flow-auto:3] reviewing plan"
 ## Step 4: Execute (replaces /plan-approved)
 
 ```bash
-echo "🤖 [flow-auto:4] executing plan"
+echo "🔷 BP: flow-auto [4/8] executing plan"
 ```
 
 1. Read the full plan file. Identify completed/pending phases.
@@ -157,7 +157,7 @@ echo "🤖 [flow-auto:4] executing plan"
 ## Step 5: Plan Check + Quality Sweep + Green Gate (replaces /plan-check)
 
 ```bash
-echo "🤖 [flow-auto:5] auditing implementation, quality sweep, and verifying tests"
+echo "🔷 BP: flow-auto [5/8] auditing implementation, quality sweep, and verifying tests"
 ```
 
 ### 5a: Audit plan vs implementation
@@ -227,7 +227,7 @@ fi
 ## Step 6: Create PR (replaces /pr)
 
 ```bash
-echo "🤖 [flow-auto:6] creating pull request"
+echo "🔷 BP: flow-auto [6/8] creating pull request"
 ```
 
 1. Determine base branch:
@@ -242,7 +242,7 @@ echo "🤖 [flow-auto:6] creating pull request"
 3. Gather context: `blueprint context`
 4. Create PR with `gh pr create`:
    - Title: emoji + type + short description (under 70 chars)
-   - Body: summary bullets, test plan, Linear issue link if provided
+   - Body: summary bullets, test plan, GitHub issue link if provided
    - Base branch: staging branch (if exists) or main
 
 ### Auto-Merge Chain (feat → staging → main)
@@ -278,7 +278,7 @@ git checkout "$BRANCH"
 ## Step 7: Review Loop (replaces /review + /address-pr)
 
 ```bash
-echo "🤖 [flow-auto:7] starting review loop"
+echo "🔷 BP: flow-auto [7/8] starting review loop"
 ```
 
 This is the autonomous review→fix cycle. Max 3 iterations.
@@ -290,7 +290,7 @@ Before starting the review loop, check if the @claude GitHub Action is configure
 ```bash
 CLAUDE_ACTION=$(gh api repos/{owner}/{repo}/actions/workflows --jq '.workflows[] | select(.name | test("claude|Claude|CLAUDE")) | .id' 2>/dev/null)
 if [ -z "$CLAUDE_ACTION" ]; then
-  echo "🤖 [flow-auto:7] skipping review loop — no @claude GitHub Action detected"
+  echo "🔷 BP: flow-auto [7/8] skipping review loop — no @claude GitHub Action detected"
   # Jump directly to Step 8
 fi
 ```
@@ -333,13 +333,13 @@ If no Claude workflow is found, skip the entire review loop and proceed to Step 
 
 ### Review loop exit:
 ```bash
-echo "🤖 [flow-auto:7] review loop complete after N iterations"
+echo "🔷 BP: flow-auto [7/8] review loop complete after N iterations"
 ```
 
 ## Step 8: Final Report (THE ONLY OUTPUT)
 
 ```bash
-echo "🤖 [flow-auto:8] pipeline complete — posting final report"
+echo "🔷 BP: flow-auto [8/8] pipeline complete — posting final report"
 ```
 
 ### Auto-update project context
@@ -351,7 +351,7 @@ Before posting the final report, trigger a context scan to update CLAUDE.md with
 BASE_BRANCH=$(blueprint base-branch | jq -r '.base')
 FILE_COUNT=$(git diff --name-only "$(git merge-base HEAD "$BASE_BRANCH" 2>/dev/null || echo HEAD~5)" HEAD | wc -l)
 if [ "$FILE_COUNT" -gt 10 ]; then
-  echo "🤖 [flow-auto:8] updating project context (CLAUDE.md)"
+  echo "🔷 BP: flow-auto [8/8] updating project context (CLAUDE.md)"
   # Dispatch a lightweight agent to run /context scan
 fi
 ```
@@ -427,4 +427,4 @@ Run full test suite to verify before merging.
 - `--max-cycles N`: Override the max review cycle count (default: 3)
 - `--batch N-M`: Execute plans N through M sequentially (see /batch-flow for full batch orchestration)
 
-Use $ARGUMENTS as the task description, Linear issue ID, or flags.
+Use $ARGUMENTS as the task description, GitHub issue number, or flags.

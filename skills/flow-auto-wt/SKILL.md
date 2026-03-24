@@ -52,7 +52,7 @@ Unlike `/plan-wt`, there's no Herd site, no VS Code window, no SSL setup — jus
 4. **Delegate all implementation.** Same as `/plan-approved` — the coordinator never writes code.
 5. **Commit after every stage.** Every stage produces a commit.
 6. **Loop review→fix max 3 times.** Prevent infinite loops.
-7. **Skip Linear integration** unless $ARGUMENTS contains a Linear issue ID.
+7. **Skip GitHub issue integration** unless $ARGUMENTS contains a GitHub issue number.
 8. **NEVER skip steps.** ALL 10 steps must execute in order.
 9. **The checkpoint echo is NOT optional.** Every step MUST start with its echo command.
 10. **Worktree is lightweight.** No Herd link/secure/open. No VS Code. No SSL. Just `git worktree add`.
@@ -63,7 +63,7 @@ Unlike `/plan-wt`, there's no Herd site, no VS Code window, no SSL setup — jus
 ## Step 1: Initialize
 
 ```bash
-echo "🤖 [flow-auto-wt:1] initializing autonomous worktree pipeline"
+echo "🔷 BP: flow-auto-wt [1/10] initializing autonomous worktree pipeline"
 ```
 
 ```bash
@@ -90,7 +90,7 @@ blueprint meta 2>/dev/null
 **If no active plan:** Continue to Step 2.
 
 Parse $ARGUMENTS for:
-- Linear issue ID (e.g., `KPG-42`) → store for PR body
+- GitHub issue number (e.g., `#42`) → store for PR body
 - `--from <stage>` → jump to that stage
 - `--keep-worktree` → skip auto-cleanup after PR
 - Everything else → task description
@@ -98,7 +98,7 @@ Parse $ARGUMENTS for:
 ## Step 2: Create Worktree
 
 ```bash
-echo "🤖 [flow-auto-wt:2] creating lightweight worktree"
+echo "🔷 BP: flow-auto-wt [2/10] creating lightweight worktree"
 ```
 
 **CRITICAL: Do NOT checkout or pull in the main repo. Use `git fetch` + remote refs only.**
@@ -155,7 +155,7 @@ cd "$WORKTREE_PATH"
 ## Step 3: Plan
 
 ```bash
-echo "🤖 [flow-auto-wt:3] creating plan"
+echo "🔷 BP: flow-auto-wt [3/10] creating plan"
 ```
 
 1. Read `~/.claude/skills/plan/references/plan-template.md` for the plan format
@@ -171,7 +171,7 @@ echo "🤖 [flow-auto-wt:3] creating plan"
 ## Step 4: Review
 
 ```bash
-echo "🤖 [flow-auto-wt:4] reviewing plan"
+echo "🔷 BP: flow-auto-wt [4/10] reviewing plan"
 ```
 
 1. Read `~/.claude/skills/plan-review/references/team-execution.md`
@@ -188,7 +188,7 @@ echo "🤖 [flow-auto-wt:4] reviewing plan"
 ## Step 5: Execute
 
 ```bash
-echo "🤖 [flow-auto-wt:5] executing plan"
+echo "🔷 BP: flow-auto-wt [5/10] executing plan"
 ```
 
 Same as flow-auto Step 4:
@@ -204,7 +204,7 @@ Same as flow-auto Step 4:
 ## Step 6: Plan Check
 
 ```bash
-echo "🤖 [flow-auto-wt:6] auditing implementation"
+echo "🔷 BP: flow-auto-wt [6/10] auditing implementation"
 ```
 
 Same as flow-auto Step 5:
@@ -220,7 +220,7 @@ Same as flow-auto Step 5:
 ## Step 7: Create PR
 
 ```bash
-echo "🤖 [flow-auto-wt:7] creating pull request"
+echo "🔷 BP: flow-auto-wt [7/10] creating pull request"
 ```
 
 1. Determine base branch:
@@ -238,7 +238,7 @@ echo "🤖 [flow-auto-wt:7] creating pull request"
 ## Step 8: Review Loop
 
 ```bash
-echo "🤖 [flow-auto-wt:8] starting review loop"
+echo "🔷 BP: flow-auto-wt [8/10] starting review loop"
 ```
 
 Same as flow-auto Step 7. Max 3 iterations:
@@ -250,7 +250,7 @@ Same as flow-auto Step 7. Max 3 iterations:
 ## Step 9: Cleanup & Report
 
 ```bash
-echo "🤖 [flow-auto-wt:9] pipeline complete — cleaning up and posting report"
+echo "🔷 BP: flow-auto-wt [9/10] pipeline complete — cleaning up and posting report"
 ```
 
 **Auto-cleanup worktree** (all code is safely on remote branch now):
@@ -303,7 +303,7 @@ EOF
 ## Step 10: Output to User
 
 ```bash
-echo "🤖 [flow-auto-wt:10] done"
+echo "🔷 BP: flow-auto-wt [10/10] done"
 ```
 
 ```
@@ -349,4 +349,4 @@ The user will run `/finish` to merge the PR and rename the plan file.
 - `--no-install`: Skip composer/npm install in worktree
 - `--keep-worktree`: Do not auto-cleanup worktree after PR creation
 
-Use $ARGUMENTS as the task description, Linear issue ID, or flags.
+Use $ARGUMENTS as the task description, GitHub issue number, or flags.

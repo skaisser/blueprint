@@ -37,7 +37,7 @@ Read `blueprint/.config.yml` → `language`. If `auto`, detect from the user's m
 | 3 | `/plan-approved` | Execute all phases | No — flows into check |
 | 4 | `/plan-check` | Verify all tasks complete, audit | **YES — user reviews check results** |
 | 5 | `/pr` | Create pull request | **YES — user reviews PR** |
-| 6 | `/finish` | Close plan, archive, Linear update | End |
+| 6 | `/finish` | Close plan, archive, GitHub issue update | End |
 
 ### Context Management (1M context)
 
@@ -57,7 +57,7 @@ The flow skill monitors actual context usage and suggests breaks only when genui
 /flow <description>              # Start from scratch — runs /plan first
 /flow --from plan-review         # Pick up from a specific stage
 /flow --from plan-approved       # Skip to execution (plan already reviewed)
-/flow KPG-42 <description>      # Start with Linear issue linked
+/flow #42 <description>          # Start with GitHub issue linked
 ```
 
 ## Process
@@ -65,7 +65,7 @@ The flow skill monitors actual context usage and suggests breaks only when genui
 ### Step 1: Determine Entry Point
 
 ```bash
-echo "🔀 [flow:1] determining entry point"
+echo "🔷 BP: flow [1/1] determining entry point"
 blueprint meta 2>/dev/null
 ```
 
@@ -132,7 +132,7 @@ Running /finish...
 Plan: NNNN-type-description
 Phases: N phases, M tasks
 Strategy: [execution mode summary]
-Linear: KPG-XX (if applicable)
+Issue: #XX (if applicable)
 
 Plan size determines next step:
     ≤15 tasks: continue directly to /plan-approved
@@ -220,7 +220,7 @@ Monitor context usage throughout the flow. At natural transition points:
 
 Plan: NNNN-type-description ✅
 PR: #NNN merged
-Linear: KPG-XX → Done
+Issue: #XX → Done
 Branch: cleaned up
 
 Total pipeline: /plan → /plan-review → /plan-approved → /plan-check → /pr → /finish
@@ -261,11 +261,11 @@ Redirecting to /resume for efficient re-entry...
 - **Suggest /hotfix for emergencies** — don't slow down urgent fixes
 - **Monitor context usage** — proactively warn about context limits
 - **Each stage is idempotent** — safe to re-run with `--from`
-- **Linear flows through** — issue IDs propagate across all stages automatically
+- **GitHub issues flow through** — issue IDs propagate across all stages automatically
 
 ## Flags
 
 - `--from <stage>`: Start from specific stage (plan, plan-review, plan-approved, plan-check, pr, finish)
 - `--wt`: Use worktree mode (passed to plan-review)
 
-Use $ARGUMENTS as the task description, Linear issue ID, or flags.
+Use $ARGUMENTS as the task description, GitHub issue number, or flags.

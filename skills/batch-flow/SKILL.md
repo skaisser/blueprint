@@ -51,7 +51,7 @@ Building an MVP often requires 5-10 sequential plans. Running `/flow-auto` manua
 ## Step 1: Parse Arguments and Discover Plans
 
 ```bash
-echo "🤖 [batch-flow:1] initializing batch pipeline"
+echo "🔷 BP: batch-flow [1/6] initializing batch pipeline"
 ```
 
 Parse $ARGUMENTS for:
@@ -70,7 +70,7 @@ Filter to the requested range. Build the execution queue.
 ## Step 2: Pre-flight Checks
 
 ```bash
-echo "🤖 [batch-flow:2] pre-flight checks"
+echo "🔷 BP: batch-flow [2/6] pre-flight checks"
 ```
 
 1. Verify all plan files in range exist
@@ -100,14 +100,14 @@ For each plan in the queue:
 # Read plan status via blueprint CLI
 STATUS=$(blueprint plan-status 2>/dev/null | jq -r '.status // empty')
 if [ "$STATUS" = "Completed" ]; then
-  echo "🤖 [batch-flow:3] skipping plan $PLAN_NUM — already completed"
+  echo "🔷 BP: batch-flow [3/6] skipping plan $PLAN_NUM — already completed"
   continue
 fi
 ```
 
 ### 3B: Prepare for plan execution
 ```bash
-echo "🤖 [batch-flow:3] starting plan $PLAN_NUM ($CURRENT/$TOTAL)"
+echo "🔷 BP: batch-flow [3/6] starting plan $PLAN_NUM ($CURRENT/$TOTAL)"
 
 # Ensure on staging branch
 git checkout "$STAGING_BRANCH" && git pull origin "$STAGING_BRANCH"
@@ -166,7 +166,7 @@ gh pr merge "$MAIN_PR_NUM" --merge -m "🔀 merge: $STAGING_BRANCH into main"
 ### 3E: Context management
 
 ```bash
-echo "🤖 [batch-flow:3e] checking context usage"
+echo "🔷 BP: batch-flow [4/6] checking context usage"
 ```
 
 After each plan completes:
@@ -177,13 +177,13 @@ After each plan completes:
 ### 3F: Update progress
 
 ```bash
-echo "🤖 [batch-flow:3f] plan $PLAN_NUM complete ($CURRENT/$TOTAL)"
+echo "🔷 BP: batch-flow [5/6] plan $PLAN_NUM complete ($CURRENT/$TOTAL)"
 ```
 
 ## Step 4: Final Report
 
 ```bash
-echo "🤖 [batch-flow:4] batch pipeline complete"
+echo "🔷 BP: batch-flow [6/6] batch pipeline complete"
 ```
 
 Output summary:
