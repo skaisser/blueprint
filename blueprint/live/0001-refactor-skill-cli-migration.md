@@ -57,10 +57,10 @@ Replace raw bash patterns (hardcoded paths, grep+awk, inline Python, manual bran
 
 **Touches:** `cli/cmd/sdlc.go`, `cli/cmd/root.go`, `cli/internal/plan/meta.go`
 
-- [ ] [S] Register `metaCmd` on `rootCmd` as alias so `blueprint meta` works without `sdlc` prefix
-- [ ] [S] Add optional positional arg to `blueprint meta` — `blueprint meta plan_file` returns just the value, no JSON wrapper
-- [ ] [H] Support all MetaResult fields: next_num, base_branch, branch, plan_file, plan_num, status, progress, project, git_remote, today
-- [ ] [H] Tests: meta single-field extraction + rootCmd alias in meta_test.go
+- [x] [S] Register `metaCmd` on `rootCmd` as alias so `blueprint meta` works without `sdlc` prefix ✅ 2026-03-24 05:36
+- [x] [S] Add optional positional arg to `blueprint meta` — `blueprint meta plan_file` returns just the value, no JSON wrapper ✅ 2026-03-24 05:36
+- [x] [H] Support all MetaResult fields: next_num, base_branch, branch, plan_file, plan_num, status, progress, project, git_remote, today ✅ 2026-03-24 05:36
+- [x] [H] Tests: meta single-field extraction + rootCmd alias in meta_test.go ✅ 2026-03-24 05:36
 
 **Verify:** `cd cli && go test ./internal/plan/ ./cmd/ -run "Meta" -v`
 
