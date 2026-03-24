@@ -4,9 +4,9 @@
 
 **Up to 200x faster. Fully automatic. Stack-agnostic. Zero paid dependencies.**
 
-[![Install](https://img.shields.io/badge/Install-curl_blueprint.skaisser.dev_|_bash-blue?style=for-the-badge)](https://blueprint.skaisser.dev) [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-0F6E56?style=for-the-badge)](LICENSE)
+[![Install](https://img.shields.io/badge/Install-One_Command-blue?style=for-the-badge)](https://github.com/skaisser/blueprint#install) [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-0F6E56?style=for-the-badge)](LICENSE)
 
-> macOS + Linux · Apple Silicon + Intel · Requires Claude Code
+> macOS + Linux · Apple Silicon + Intel · zsh + bash · Requires [Claude Code](https://claude.ai/claude-code)
 
 <p align="center">
   <img src="assets/blueprint.png" alt="Blueprint — SDLC Pipeline for Claude Code" width="720" />
@@ -33,19 +33,26 @@ BLUEPRINT turns Claude Code from a code assistant into a disciplined engineering
 
 ## Install
 
-### Run in any terminal
+### One command — works on macOS and Linux
+
+Open **any terminal** (Terminal.app, iTerm2, Warp, Alacritty, etc.) and paste:
 
 ```bash
-curl -fsSL blueprint.skaisser.dev | bash
+curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/refs/heads/main/install.sh | bash
 ```
+
+> **Using zsh?** Yes, this works perfectly on zsh (macOS default), bash, and any POSIX shell. The `| bash` part tells the system to run the script with bash — your shell stays untouched.
 
 <p align="center">
   <img src="assets/installer.png" alt="Blueprint installer with gradient banner" width="640" />
 </p>
 
-[gum](https://github.com/charmbracelet/gum) installs automatically if missing for a beautiful TUI experience. Falls back to plain prompts if gum isn't available.
+The installer auto-detects your platform, bootstraps [gum](https://github.com/charmbracelet/gum) for a beautiful TUI, and walks you through component selection. Everything is pre-selected by default — just hit Enter to accept all, or press `n` to skip any component.
 
-A component picker lets you choose exactly what to install. Core components always install, everything else is optional — all pre-selected by default.
+**What you need before installing:**
+- [Claude Code](https://claude.ai/claude-code) installed and working
+- `curl` and `git` (both come pre-installed on macOS and most Linux distros)
+- Homebrew (macOS) — for auto-installing gum. If missing, gum is fetched directly
 
 ### Clone (contributors / CLI hackers)
 
@@ -63,7 +70,7 @@ cd cli && make build-all   # builds arm64 · amd64 · linux
 ```bash
 ./install.sh --uninstall
 # or remotely:
-bash <(curl -fsSL blueprint.skaisser.dev) --uninstall
+bash <(curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/refs/heads/main/install.sh) --uninstall
 ```
 
 Removes `~/.blueprint/`, Blueprint skills from `~/.claude/skills/`, and the audit hook from settings — your other Claude Code settings are preserved.
