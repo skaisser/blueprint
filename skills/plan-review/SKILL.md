@@ -52,8 +52,8 @@ echo "🔷 BP: plan-review [1/3] reading plan + team-execution ref"
 # Fallback if CLI unavailable: find active plan manually
 # ls blueprint/live/[0-9]*-*.md
 
-# Also read config for staging_branch and stack info
-cat blueprint/.config.yml 2>/dev/null
+# Also read config for staging_branch and stack info — use the Read tool:
+# Read("blueprint/.config.yml")
 ```
 
 Primary: `~/.blueprint/bin/blueprint meta` returns JSON with branch, base_branch, plan_file, project, etc. Derive PLAN_NUM from the leading digits in `plan_file`. If $ARGUMENTS is a path or number, use that instead.
@@ -93,10 +93,9 @@ Refine existing tasks directly — do NOT create new phases, split phases, or re
 
 During Step 2's sequential thinking, also detect the project's tech stack. Read config FIRST (already populated by `/start` or `/bp-context`), only detect from project files if config is empty:
 
-```bash
-# Read stack from blueprint/.config.yml (populated by /start or /bp-context)
-cat blueprint/.config.yml 2>/dev/null | grep -A5 'stack:'
+Read `blueprint/.config.yml` using the Read tool (already fetched in Step 1) and check the `stack:` section. If stack is not in config, detect from project files:
 
+```bash
 # If stack not in config, detect from project files
 if [ -f composer.lock ]; then
     grep -A1 '"name": "laravel/framework"\|"livewire/livewire"' composer.lock | grep '"version"'

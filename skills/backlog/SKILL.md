@@ -28,7 +28,7 @@ Think of it as a parking lot for ideas: lightweight enough to add in seconds, st
 
 **Read-only commands (add, list, view, archive):** These MUST NOT run any git commands — no `git add`, no `git commit`, no `git status`, no `git mv`. They only create or read `blueprint/backlog/` files. The backlog is a scratch pad; ideas are uncommitted working-directory files until they graduate.
 
-**State-changing commands (promote, done, drop):** These DO use git (`git mv`, `git add`, `git commit`) because they represent decisions that should be recorded in history.
+**State-changing commands (promote, done, drop):** These DO use git (`git add`, `git commit`) because they represent decisions that should be recorded in history. `done` and `drop` also use `git mv` to move files to `expired/`. `promote` updates the file in-place (status + plan link) but does NOT move it — promoted items stay in `backlog/`.
 
 This separation is intentional: capturing an idea should be instant and zero-friction. Git operations only happen when the idea's lifecycle changes.
 
@@ -202,7 +202,7 @@ Promotion is the bridge between "idea" and "implementation." It means the idea h
 4. Ask the user: "Worktree or local?" — this determines whether to run `/plan` (works on current branch) or `/plan-wt` (creates an isolated git worktree)
 5. Hand off to the chosen plan skill with the idea's context. If the backlog item has an `issue:` number, pass it so the plan sets `issue: <NUMBER>` in its frontmatter
 6. Once the plan is created, update the backlog frontmatter: `plan: "PLAN_ID"` (e.g., `plan: "0177"`)
-7. Move the idea file to `blueprint/expired/` using `git mv` (preserves history)
+7. **Keep the idea file in `blueprint/backlog/`** — do NOT move it to `expired/`. Promoted items stay in `backlog/` with `status: planned` and a `plan:` link so they remain visible as active work. Only `done` and `drop` move files to `expired/`.
 8. Commit: `📋 plan: promote backlog NNNN to plan`
 
 The `/plan` skill will also set `backlog: "NNNN"` in the plan frontmatter, creating a bidirectional link.
@@ -243,7 +243,8 @@ The reason this matters: jumping straight to code skips the thinking that preven
 - **Old format migration: If you detect old blockquote-format files, suggest running `blueprint backlog migrate` to convert them to YAML frontmatter before proceeding.**
 - One idea per file — keep them atomic and independently promotable
 - IDs are global and never reused across active and expired
-- Always use `git mv` when moving files (promote/done/drop only) to preserve history
+- Always use `git mv` when moving files (done/drop only) to preserve history
+- **Promote does NOT move files** — promoted items stay in `backlog/` with `status: planned` and a `plan:` link. Only `done` and `drop` move to `expired/`.
 - The only output of `/backlog add` is: a `blueprint/backlog/NNNN-*.md` file written to disk. No git commands.
 - List, view, and archive commands are strictly read-only — no git commands, no file writes
 - Never scan the entire codebase — backlog is file-based, only read `blueprint/backlog/`

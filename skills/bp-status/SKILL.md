@@ -37,7 +37,8 @@ git log --oneline -3
 git status --short
 gh pr view --json number,title,url,state 2>/dev/null || echo "No open PR"
 ls blueprint/live/*.md 2>/dev/null || echo "No active plan"
-cat blueprint/.config.yml 2>/dev/null
+# Read config with the Read tool instead of cat:
+# Read("blueprint/.config.yml")
 ```
 
 ## Rules
