@@ -1,13 +1,13 @@
 # BLUEPRINT SDLC
 
 <p align="center">
-  <img src="assets/sdlc-infographic.webp" alt="BLUEPRINT SDLC Pipeline" width="720" />
+  <img src="assets/blueprint.png" alt="Blueprint — SDLC Pipeline for Claude Code" width="720" />
 </p>
 
 <p align="center">
   <a href="https://blueprint.skaisser.dev"><img src="https://img.shields.io/badge/docs-blueprint.skaisser.dev-0C447C?style=flat-square" alt="Docs" /></a>
   <img src="https://img.shields.io/badge/skills-27-185FA5?style=flat-square" alt="Skills" />
-  <img src="https://img.shields.io/badge/audit_rules-14-534AB7?style=flat-square" alt="Audit Rules" />
+  <img src="https://img.shields.io/badge/audit_rules-15-534AB7?style=flat-square" alt="Audit Rules" />
   <img src="https://img.shields.io/badge/Claude_Code-required-blueviolet?style=flat-square" alt="Claude Code" />
   <img src="https://img.shields.io/badge/macOS-arm64_·_amd64-black?style=flat-square&logo=apple" alt="macOS" />
   <img src="https://img.shields.io/badge/Linux-amd64-black?style=flat-square&logo=linux" alt="Linux" />
@@ -21,7 +21,7 @@
 
 ---
 
-BLUEPRINT turns Claude Code from a code assistant into a disciplined engineering partner — with planning, execution, review, and merge all governed by a structured pipeline of slash commands, an audit hook enforcing 14 rules on every tool call, and a Go CLI binary shipping pre-compiled for macOS and Linux.
+BLUEPRINT turns Claude Code from a code assistant into a disciplined engineering partner — with planning, execution, review, and merge all governed by a structured pipeline of slash commands, an audit hook enforcing 15 rules on every tool call, and a Go CLI binary shipping pre-compiled for macOS and Linux.
 
 > If you've tried GTD-style workflows with Claude Code, you know the pain: too slow, too manual, too much overhead. BLUEPRINT fixes that.
 >
