@@ -244,7 +244,28 @@ echo "🤖 [flow-auto-wt:7] creating pull request"
 echo "🤖 [flow-auto-wt:8] starting review loop"
 ```
 
-Same as flow-auto Step 7. Max 3 iterations:
+### Pre-check: GitHub Action exists? (MANDATORY — do NOT skip)
+
+**Do NOT rationalize skipping this step.** The pre-check below is the ONLY valid reason to skip. "The fix is small" or "tests already pass" are NOT valid skip reasons.
+
+Valid skip paths:
+1. `--no-review` is explicitly present in `$ARGUMENTS`
+2. The GitHub Action check runs and finds no @claude workflow
+
+```bash
+if echo "$ARGUMENTS" | grep -q '\-\-no-review'; then
+  echo "🤖 [flow-auto-wt:8] skipping review loop — --no-review flag set"
+  # Jump directly to Step 9
+fi
+
+CLAUDE_ACTION=$(gh api repos/{owner}/{repo}/actions/workflows --jq '.workflows[] | select(.name | test("claude|Claude|CLAUDE")) | .id' 2>/dev/null)
+if [ -z "$CLAUDE_ACTION" ]; then
+  echo "🤖 [flow-auto-wt:8] skipping review loop — no @claude GitHub Action detected"
+  # Jump directly to Step 9
+fi
+```
+
+If the workflow exists, run at least 1 review cycle. Max 3 iterations:
 1. Trigger review: `gh pr comment "$PR_NUM" --body "@claude review this PR and check if we are able to merge. Analyze the code changes for any issues, security concerns, or improvements needed."`
 2. Wait for review (poll every 5 min, max 20 min)
 3. If comments: fetch, categorize, dispatch fix agents, push

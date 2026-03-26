@@ -269,6 +269,62 @@ git checkout "$BRANCH"
 - If merge conflicts: stop and report — do NOT force merge
 - If staging→main PR already merged: skip silently
 
+### Step 6b: Post-Merge Cleanup (inline /finish)
+
+After the merge chain completes successfully, the pipeline must clean up plan and backlog state. Without this, the plan stays in `blueprint/live/` and the backlog item stays active — forcing the user to manually run `/finish`, which defeats the purpose of a zero-touch pipeline.
+
+```bash
+echo "🤖 [flow-auto:6b] running post-merge cleanup"
+```
+
+1. **Mark plan as completed:**
+   ```bash
+   PLAN_FILE=$(ls blueprint/live/[0-9]*-*.md 2>/dev/null | head -1)
+   ```
+   Update the plan's YAML frontmatter:
+   - `status: completed`
+   - `completed_at: DD/MM/YYYY HH:MM` (current timestamp)
+
+2. **Archive backlog item** (if the plan has a `backlog:` field):
+   ```bash
+   BACKLOG_ID=$(grep '^backlog:' "$PLAN_FILE" | awk '{print $2}' | tr -d '"')
+   if [ -n "$BACKLOG_ID" ] && [ "$BACKLOG_ID" != "null" ]; then
+     BACKLOG_FILE=$(ls blueprint/backlog/${BACKLOG_ID}-*.md 2>/dev/null | head -1)
+     if [ -n "$BACKLOG_FILE" ]; then
+       # Update status to archived in frontmatter, then move
+       mkdir -p blueprint/expired
+       git mv "$BACKLOG_FILE" "blueprint/expired/$(basename "$BACKLOG_FILE")"
+     fi
+   fi
+   ```
+
+3. **Move plan to upstream:**
+   ```bash
+   PLAN_BASENAME=$(basename "$PLAN_FILE")
+   DONE_FILE="blueprint/upstream/${PLAN_BASENAME%.md}-complete.md"
+   mkdir -p blueprint/upstream
+   git mv "$PLAN_FILE" "$DONE_FILE"
+   ```
+
+4. **Commit and push the cleanup:**
+   ```bash
+   git add blueprint/
+   git commit -m "🧹 chore: finish $(basename "$PLAN_FILE" .md)"
+   git push
+   ```
+
+5. **Sync cleanup to main** (if merge chain already landed on main, the cleanup commit needs to follow):
+   ```bash
+   # If we merged to staging→main, the cleanup commit is on the feature branch.
+   # Push it to staging so it flows to main on next merge, or cherry-pick if already merged.
+   git checkout "$STAGING_BRANCH" && git pull
+   git cherry-pick HEAD~1 --no-edit 2>/dev/null || true  # cherry-pick cleanup commit
+   git push origin "$STAGING_BRANCH"
+   git checkout "$BRANCH"
+   ```
+
+If the merge chain failed or was skipped (PR goes directly to main), still run steps 1-4 — the cleanup is valid regardless of merge target.
+
 **Autonomous decision:** Always proceed to Step 7.
 
 ## Step 7: Review Loop (replaces /review + /address-pr)
@@ -279,11 +335,24 @@ echo "🤖 [flow-auto:7] starting review loop"
 
 This is the autonomous review→fix cycle. Max 3 iterations.
 
-### Pre-check: GitHub Action exists?
+### Pre-check: GitHub Action exists? (MANDATORY — do NOT skip)
 
-Before starting the review loop, check if the @claude GitHub Action is configured:
+**Do NOT rationalize skipping this step.** Even for small fixes, single-file changes, or plans you're confident about — the review loop catches things self-review misses. The pre-check below is the ONLY valid reason to skip, and it must actually run (not be reasoned away).
+
+The only two valid skip paths are:
+1. `--no-review` is explicitly present in `$ARGUMENTS` — the user opted out
+2. The GitHub Action check below runs and finds no @claude workflow configured
+
+If neither condition is true, you MUST run at least 1 review cycle. "The fix is small" or "tests already pass" are NOT valid skip reasons.
 
 ```bash
+# Check 1: Explicit user opt-out
+if echo "$ARGUMENTS" | grep -q '\-\-no-review'; then
+  echo "🤖 [flow-auto:7] skipping review loop — --no-review flag set"
+  # Jump directly to Step 8
+fi
+
+# Check 2: GitHub Action must exist (this check MUST execute, not be skipped by reasoning)
 CLAUDE_ACTION=$(gh api repos/{owner}/{repo}/actions/workflows --jq '.workflows[] | select(.name | test("claude|Claude|CLAUDE")) | .id' 2>/dev/null)
 if [ -z "$CLAUDE_ACTION" ]; then
   echo "🤖 [flow-auto:7] skipping review loop — no @claude GitHub Action detected"
@@ -291,7 +360,7 @@ if [ -z "$CLAUDE_ACTION" ]; then
 fi
 ```
 
-If no Claude workflow is found, skip the entire review loop and proceed to Step 8. This saves up to 20 minutes of wasted polling.
+If the @claude workflow exists, proceed with at least 1 review cycle — even for trivial changes. External review catches blind spots that are invisible to the agent that wrote the code.
 
 ### For each iteration:
 

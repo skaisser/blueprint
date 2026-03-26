@@ -80,6 +80,28 @@ Use `AskUserQuestion` to quickly classify the idea. Ask a single multi-part ques
 
 If the user's original message already makes these obvious (e.g., "urgent bug: login is broken"), infer what you can and only ask about what's ambiguous.
 
+### Step 2b: Gather Evidence (for `fix` and `bug` type items)
+
+When the idea is a bug fix or error correction, vague descriptions like "some postbacks are failing" make poor backlog items — they're hard to prioritize and even harder to plan from. Before writing the idea file, gather concrete evidence that makes the item actionable:
+
+- **Query for specifics:** error counts, affected records, time range, impacted users/integrations
+- **Capture payload or data samples:** what does the failing input look like vs. the expected format?
+- **Identify scope:** how many records/users are affected? Is it growing?
+
+The goal is to turn "X is broken" into "X fails for N records since DATE because of REASON" — something a future planner can act on without re-investigating from scratch.
+
+Include all findings in the Context section of the idea file with concrete numbers:
+
+```markdown
+## Context
+- Error: `Undefined array key "customer"` in MonetizzeMapper line 42
+- Affected: 2,081 retornos with status `erro` since 15/03/2026
+- Root cause: Monetizze changed their payload structure — `customer` moved inside `data`
+- Sample payload: `{"data": {"customer": {...}}}` (was `{"customer": {...}}`)
+```
+
+This step is optional for `feat`, `refactor`, and `chore` type items where the context is already clear from the description. But for anything involving broken behavior or data issues, the evidence makes the difference between a useful backlog item and a placeholder.
+
 ### Step 3: Write the idea file
 
 Filename: `blueprint/backlog/NNNN-<type>-<short-slug>.md`
