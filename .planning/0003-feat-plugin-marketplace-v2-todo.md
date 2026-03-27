@@ -56,13 +56,13 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 ### Phase 1: Create Plugin Repo Structure
 **Touches:** new repo `skaisser/blueprint-plugin`
 
-- [ ] [H] Create `skaisser/blueprint-plugin` GitHub repo via `gh repo create` with description "Blueprint SDLC — Claude Code Plugin"
-- [ ] [H] Create `.claude-plugin/plugin.json` with name `blueprint`, description (focused on SDLC value prop), author (Shirleyson Kaisser)
-- [ ] [H] Create `.mcp.json` registering Context7 (`@upstash/context7-mcp`) and Sequential Thinking (`@anthropic-ai/mcp-sequential-thinking`)
-- [ ] [H] Copy all 27 `skills/*/` directories (SKILL.md + references/) from main repo to plugin repo
-- [ ] [H] Copy `config/statusline.sh` and `templates/` directory from main repo to plugin repo
-- [ ] [H] Add Apache 2.0 LICENSE file to plugin repo
-- [ ] [H] Create initial README.md with quick-start install instructions
+- [x] [H] Create `skaisser/blueprint-plugin` GitHub repo via `gh repo create` with description "Blueprint SDLC — Claude Code Plugin" ✅ 27/03/2026 18:41
+- [x] [H] Create `.claude-plugin/plugin.json` with name `blueprint`, description (focused on SDLC value prop), author (Shirleyson Kaisser) ✅ 27/03/2026 18:41
+- [x] [H] Create `.mcp.json` registering Context7 (`@upstash/context7-mcp`) and Sequential Thinking (`@anthropic-ai/mcp-sequential-thinking`) ✅ 27/03/2026 18:41
+- [x] [H] Copy all 27 `skills/*/` directories (SKILL.md + references/) from main repo to plugin repo ✅ 27/03/2026 18:41
+- [x] [H] Copy `config/statusline.sh` and `templates/` directory from main repo to plugin repo ✅ 27/03/2026 18:41
+- [x] [H] Add Apache 2.0 LICENSE file to plugin repo ✅ 27/03/2026 18:41
+- [x] [H] Create initial README.md with quick-start install instructions ✅ 27/03/2026 18:41
 
 **Verify:** `cat .claude-plugin/plugin.json && cat .mcp.json` — valid JSON, skills/ has 27 directories
 
@@ -91,10 +91,10 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 ### Phase 4: GoReleaser + Homebrew Tap
 **Touches:** `.goreleaser.yml` in main repo, `.github/workflows/release.yml` in main repo, new repo `skaisser/homebrew-tap`
 
-- [ ] [S] Create `.goreleaser.yml` in main repo root with builds for darwin-arm64, darwin-amd64, linux-amd64 — source dir `cli/`, binary name `blueprint`, ldflags for version injection
-- [ ] [S] Add GoReleaser `brews` section pointing to `skaisser/homebrew-tap` with formula name `blueprint`, install instructions, and test block
-- [ ] [S] Replace `.github/workflows/release.yml` with GoReleaser-based workflow (triggered on tag `v*`, uses `goreleaser/goreleaser-action@v6`)
-- [ ] [H] Create `skaisser/homebrew-tap` GitHub repo via `gh repo create` with initial README explaining `brew tap skaisser/tap && brew install blueprint`
+- [x] [S] Create `.goreleaser.yml` in main repo root with builds for darwin-arm64, darwin-amd64, linux-amd64 — source dir `cli/`, binary name `blueprint`, ldflags for version injection ✅ 27/03/2026 18:41
+- [x] [S] Add GoReleaser `brews` section pointing to `skaisser/homebrew-tap` with formula name `blueprint`, install instructions, and test block ✅ 27/03/2026 18:41
+- [x] [S] Replace `.github/workflows/release.yml` with GoReleaser-based workflow (triggered on tag `v*`, uses `goreleaser/goreleaser-action@v6`) ✅ 27/03/2026 18:41
+- [x] [H] Create `skaisser/homebrew-tap` GitHub repo via `gh repo create` with initial README explaining `brew tap skaisser/tap && brew install blueprint` ✅ 27/03/2026 18:41
 - [ ] [H] User action: create GitHub PAT `HOMEBREW_TAP_TOKEN` with repo scope, add as secret to skaisser/blueprint repo
 
 **Verify:** `goreleaser check` passes in main repo
@@ -112,10 +112,10 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 ### Phase 6: Skill Path Updates
 **Touches:** `skills/start/SKILL.md`, `skills/plan/SKILL.md`, `skills/plan-approved/SKILL.md`, `skills/plan-review/SKILL.md` in main repo
 
-- [ ] [H] Update `/start` skill to reference templates from `${CLAUDE_PLUGIN_ROOT}/templates/` with fallback to `~/.blueprint/templates/` and `~/.claude/templates/`
-- [ ] [H] Update `/plan` skill to reference `plan-template.md` via relative path (bundled with skill) — verify "references/plan-template.md" works from both plugin root and ~/.claude/skills/
-- [ ] [H] Update skills that hardcode `~/.claude/skills/{name}/references/` to use `${CLAUDE_PLUGIN_ROOT}/skills/{name}/references/` with fallback
-- [ ] [H] Add path-resolution helper comment at top of skills that reference external files
+- [x] [H] Update `/start` skill to reference templates from `${CLAUDE_PLUGIN_ROOT}/templates/` with fallback to `~/.blueprint/templates/` and `~/.claude/templates/` ✅ 27/03/2026 18:41
+- [x] [H] Update `/plan` skill to reference `plan-template.md` via relative path (bundled with skill) — verify "references/plan-template.md" works from both plugin root and ~/.claude/skills/ ✅ 27/03/2026 18:41
+- [x] [H] Update skills that hardcode `~/.claude/skills/{name}/references/` to use `${CLAUDE_PLUGIN_ROOT}/skills/{name}/references/` with fallback ✅ 27/03/2026 18:41
+- [x] [H] Add path-resolution helper comment at top of skills that reference external files ✅ 27/03/2026 18:41
 
 **Verify:** `grep -rn "CLAUDE_PLUGIN_ROOT\|~/.blueprint\|~/.claude/skills" skills/ | head -20` shows dual-path references
 
