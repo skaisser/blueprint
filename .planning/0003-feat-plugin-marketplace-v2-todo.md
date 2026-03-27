@@ -122,10 +122,10 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 ### Phase 7: README + Marketplace Submission
 **Touches:** `README.md` in both repos, external PR to `anthropics/claude-plugins-public`
 
-- [ ] [S] Write plugin repo README.md: hero section with badge, 2-second install command, feature list ("What's included": 27 skills, audit hook, MCP servers, statusline), "How it works" section, link to main repo for contributors
-- [ ] [S] Update main repo README.md: add "Install via Plugin (Recommended)" as primary method, keep curl|bash as secondary, add Homebrew as tertiary, add migration guide for existing users
-- [ ] [S] Draft marketplace submission PR to `anthropics/claude-plugins-public` — add entry to marketplace.json with source `skaisser/blueprint-plugin`, category `development`, description focused on SDLC pipeline value prop
-- [ ] [H] Add badges to plugin repo: GitHub stars, license, marketplace listing link
+- [x] [S] Write plugin repo README.md: hero section with badge, 2-second install command, feature list ("What's included": 27 skills, audit hook, MCP servers, statusline), "How it works" section, link to main repo for contributors ✅ 27/03/2026 18:47
+- [x] [S] Update main repo README.md: add "Install via Plugin (Recommended)" as primary method, keep curl|bash as secondary, add Homebrew as tertiary, add migration guide for existing users ✅ 27/03/2026 18:47
+- [x] [S] Draft marketplace submission PR to `anthropics/claude-plugins-public` — add entry to marketplace.json with source `skaisser/blueprint-plugin`, category `development`, description focused on SDLC pipeline value prop ✅ 27/03/2026 18:47
+- [x] [H] Add badges to plugin repo: GitHub stars, license, marketplace listing link ✅ 27/03/2026 18:47
 
 **Verify:** Both READMEs render correctly on GitHub, marketplace JSON entry is valid
 
