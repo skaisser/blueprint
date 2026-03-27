@@ -69,22 +69,22 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 ### Phase 2: Plugin Hooks (Audit + Auto-Update)
 **Touches:** `hooks/` in plugin repo
 
-- [ ] [H] Create `hooks/hooks.json` registering `PreToolUse` hook calling `${CLAUDE_PLUGIN_ROOT}/hooks/audit-wrapper.sh`
-- [ ] [S] Create `hooks/audit-wrapper.sh` — checks if `~/.blueprint/bin/blueprint` exists; if missing, runs setup script (lazy install); then pipes stdin to `blueprint audit`. Must handle: binary not found gracefully (exit 0), setup script failure (exit 0), and successful audit (forward exit code)
-- [ ] [H] Add auto-update check to hooks.json — register a `Stop` hook calling `${CLAUDE_PLUGIN_ROOT}/hooks/auto-update.sh` (NOTE: if Stop hook doesn't work for this purpose, fall back to embedding version check in audit-wrapper.sh with 24h cache)
-- [ ] [S] Create `hooks/auto-update.sh` — adapted from ~/Sites/claude's `skills-check.sh`: check GitHub API for latest release, compare with installed version, print stderr notification if update available. Cache result for 24h in `~/.blueprint/.update-check`
-- [ ] [H] Ensure all hook scripts have `chmod +x` set via git (use `git update-index --chmod=+x`)
+- [x] [H] Create `hooks/hooks.json` registering `PreToolUse` hook calling `${CLAUDE_PLUGIN_ROOT}/hooks/audit-wrapper.sh` ✅ 27/03/2026 18:43
+- [x] [S] Create `hooks/audit-wrapper.sh` — checks if `~/.blueprint/bin/blueprint` exists; if missing, runs setup script (lazy install); then pipes stdin to `blueprint audit`. Must handle: binary not found gracefully (exit 0), setup script failure (exit 0), and successful audit (forward exit code) ✅ 27/03/2026 18:43
+- [x] [H] Add auto-update check to hooks.json — register a `Stop` hook calling `${CLAUDE_PLUGIN_ROOT}/hooks/auto-update.sh` ✅ 27/03/2026 18:43
+- [x] [S] Create `hooks/auto-update.sh` — adapted from ~/Sites/claude's `skills-check.sh`: check GitHub API for latest release, compare with installed version, print stderr notification if update available. Cache result for 24h in `~/.blueprint/.update-check` ✅ 27/03/2026 18:43
+- [x] [H] Ensure all hook scripts have `chmod +x` set via git (use `git update-index --chmod=+x`) ✅ 27/03/2026 18:43
 
 **Verify:** `json_pp < hooks/hooks.json` valid, `bash -n hooks/audit-wrapper.sh` passes, `bash -n hooks/auto-update.sh` passes
 
 ### Phase 3: Setup Script (Binary Bootstrap)
 **Touches:** `scripts/setup.sh` in plugin repo
 
-- [ ] [S] Create `scripts/setup.sh` that detects platform (darwin-arm64, darwin-amd64, linux-amd64) and downloads latest `blueprint` binary from GitHub Releases (`skaisser/blueprint`) to `~/.blueprint/bin/blueprint`
-- [ ] [H] Add `~/.blueprint/bin` to PATH in shell RC file (~/.zshrc or ~/.bashrc) if not already present
-- [ ] [S] Configure statusline in `~/.claude/settings.json` — smart-merge statusLine command pointing to `${CLAUDE_PLUGIN_ROOT}/config/statusline.sh` (read existing, merge, write back — never overwrite)
-- [ ] [H] Make script idempotent — skip steps already done, compare installed version vs release version before downloading
-- [ ] [H] Add `--force` flag to re-download even if version matches
+- [x] [S] Create `scripts/setup.sh` that detects platform (darwin-arm64, darwin-amd64, linux-amd64) and downloads latest `blueprint` binary from GitHub Releases (`skaisser/blueprint`) to `~/.blueprint/bin/blueprint` ✅ 27/03/2026 18:43
+- [x] [H] Add `~/.blueprint/bin` to PATH in shell RC file (~/.zshrc or ~/.bashrc) if not already present ✅ 27/03/2026 18:43
+- [x] [S] Configure statusline in `~/.claude/settings.json` — smart-merge statusLine command pointing to `${CLAUDE_PLUGIN_ROOT}/config/statusline.sh` (read existing, merge, write back — never overwrite) ✅ 27/03/2026 18:43
+- [x] [H] Make script idempotent — skip steps already done, compare installed version vs release version before downloading ✅ 27/03/2026 18:43
+- [x] [H] Add `--force` flag to re-download even if version matches ✅ 27/03/2026 18:43
 
 **Verify:** `bash scripts/setup.sh && ~/.blueprint/bin/blueprint --version`
 
