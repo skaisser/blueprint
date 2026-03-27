@@ -33,7 +33,6 @@ release:
   github:
     owner: skaisser
     name: blueprint
-  generate_release_notes: true
 
 brews:
   - name: blueprint
