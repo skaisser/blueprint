@@ -6,7 +6,7 @@
 
 set -euo pipefail
 
-BLUEPRINT_VERSION="1.0.0"
+BLUEPRINT_VERSION="2.0.1"
 GITHUB_REPO="skaisser/blueprint"
 GITHUB_API="https://api.github.com/repos/${GITHUB_REPO}/releases/latest"
 TS="$(date +%Y%m%d-%H%M%S)"
