@@ -1,0 +1,51 @@
+version: 2
+
+project_name: blueprint
+
+builds:
+  - id: blueprint
+    dir: cli
+    main: .
+    binary: blueprint
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - darwin
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: linux
+        goarch: arm64
+    ldflags:
+      - -s -w -X main.Version={{.Version}}
+
+archives:
+  - id: blueprint
+    format: tar.gz
+    name_template: "blueprint-{{ .Os }}-{{ .Arch }}"
+
+checksum:
+  name_template: 'checksums.txt'
+
+release:
+  github:
+    owner: skaisser
+    name: blueprint
+  generate_release_notes: true
+
+brews:
+  - name: blueprint
+    repository:
+      owner: skaisser
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    directory: Formula
+    homepage: "https://github.com/skaisser/blueprint"
+    description: "Blueprint SDLC — Turn Claude Code into a disciplined engineering team"
+    license: "Apache-2.0"
+    install: |
+      bin.install "blueprint"
+    test: |
+      system "#{bin}/blueprint", "version"
