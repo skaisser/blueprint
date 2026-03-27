@@ -80,7 +80,7 @@ Installs the CLI binary only. Use with the plugin for full functionality.
 ### Option 3: Manual (Legacy)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/refs/heads/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/main/install.sh | bash
 ```
 
 Full install: binary + skills + hooks + settings + MCP servers.
@@ -106,13 +106,13 @@ Clean removal — keeps your other Claude Code settings intact:
 ```bash
 ./install.sh --uninstall
 # or remotely:
-bash <(curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/refs/heads/main/install.sh) --uninstall
+bash <(curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/main/install.sh) --uninstall
 ```
 
 ### Verify
 
 ```bash
-blueprint --version    # Should print: blueprint version v1.0.0
+blueprint version
 ```
 
 ---
