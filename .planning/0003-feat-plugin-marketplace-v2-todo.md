@@ -2,7 +2,7 @@
 id: "0003"
 title: "feat: Blueprint v2 — native Claude Code plugin in separate repo + Homebrew tap"
 type: feat
-status: approved
+status: in-progress
 project: blueprint
 branch: feat/plugin-marketplace-v2
 base: main
@@ -12,7 +12,7 @@ backlog: null
 created: "27/03/2026 18:30"
 completed: null
 pr: null
-session: null
+session: "aab06b74-4344-445a-a9ce-f497bc0a1b0f"
 strategy: parallel-subagents
 reviews:
   - "Phase 1: added LICENSE file task"
