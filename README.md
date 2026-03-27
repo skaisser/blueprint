@@ -59,39 +59,39 @@ The result? Features that used to take hours of back-and-forth now ship in minut
 
 ## Install
 
-### Option 1: One command (recommended)
+### Option 1: Claude Code Plugin (Recommended)
 
-Open **any terminal** (Terminal.app, iTerm2, Warp, Alacritty — works on zsh, bash, any POSIX shell) and paste:
+```
+/plugin marketplace add skaisser/blueprint-plugin
+/plugin install blueprint
+```
+
+2-second install. All 27 skills, audit hooks, MCP servers, and status line — active instantly.
+
+### Option 2: Homebrew (CLI only)
+
+```bash
+brew tap skaisser/tap
+brew install blueprint
+```
+
+Installs the CLI binary only. Use with the plugin for full functionality.
+
+### Option 3: Manual (Legacy)
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/skaisser/blueprint/refs/heads/main/install.sh | bash
 ```
 
-That's it. The installer auto-detects your platform (macOS/Linux, arm64/amd64), downloads the pre-compiled binary from GitHub Releases, installs all 27 skills, configures the audit hook, and sets up MCP servers. **Everything in under 60 seconds.**
+Full install: binary + skills + hooks + settings + MCP servers.
 
-> **"But I use zsh, not bash?"** — The `| bash` part just tells the system which interpreter to use for the script. Your shell, your `.zshrc`, your config — all untouched. Works identically on zsh, bash, fish, or any POSIX shell.
+### Migration from install.sh
 
-<p align="center">
-  <img src="assets/installer.png" alt="Blueprint installer with gradient banner" width="640" />
-</p>
-
-### Option 2: Clone and run locally
-
-Clone the repo and run the installer directly — it copies the binary from the repo instead of downloading from GitHub Releases:
+If you previously installed via `curl | bash`, the plugin install works alongside it. Skills from the plugin take priority. To clean up the old install:
 
 ```bash
-git clone https://github.com/skaisser/blueprint.git ~/blueprint
-cd ~/blueprint && ./install.sh
-```
-
-### Option 3: Clone for development
-
-Contributing to BLUEPRINT or hacking the CLI? Full dev setup:
-
-```bash
-git clone git@github.com:skaisser/blueprint.git ~/blueprint
-cd ~/blueprint && ./install.sh
-cd cli && make build-all   # builds arm64 · amd64 · linux
+./install.sh --uninstall   # Remove old install
+# Then install via plugin
 ```
 
 ### What you need

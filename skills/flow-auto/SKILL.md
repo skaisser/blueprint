@@ -75,7 +75,7 @@ Parse $ARGUMENTS for:
 echo "🤖 [flow-auto:2] creating plan"
 ```
 
-1. Read `~/.claude/skills/plan/references/plan-template.md` for the plan format
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/plan/references/plan-template.md` (plugin install) or `~/.claude/skills/plan/references/plan-template.md` (traditional install) for the plan format
 2. Use `mcp__sequential-thinking__sequentialthinking` to analyze the task:
    - Break into phases with clear, actionable tasks
    - Identify file dependencies and parallel opportunities
@@ -100,7 +100,7 @@ echo "🤖 [flow-auto:2] creating plan"
 echo "🤖 [flow-auto:3] reviewing plan"
 ```
 
-1. Read `~/.claude/skills/plan-review/references/team-execution.md` for execution strategy
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/plan-review/references/team-execution.md` (plugin install) or `~/.claude/skills/plan-review/references/team-execution.md` (traditional install) for execution strategy
 2. Use `mcp__sequential-thinking__sequentialthinking` to validate:
    - Completeness, dependencies, file conflicts, missing tests
    - Fix issues directly — don't flag them

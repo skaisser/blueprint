@@ -9,6 +9,8 @@ description: >
   CLAUDE.md, configurable staging branch. Updates are handled by `blueprint update` — no separate sync skills needed.
 ---
 
+<!-- Path resolution: Templates are found via ${CLAUDE_PLUGIN_ROOT}/templates (plugin install), ~/.blueprint/templates (brew/manual install), or ~/.claude/templates (legacy). -->
+
 # Start: Initialize Project
 
 Initialize a new project with GitHub Actions, git hooks, BLUEPRINT workspace, CLAUDE.md, and branch setup.
@@ -144,7 +146,9 @@ Copy hooks from BLUEPRINT templates. The pre-push hook reads `staging_branch` fr
 
 ```bash
 TEMPLATE_DIR=""
-if [ -d "$HOME/.blueprint/templates" ]; then
+if [ -n "${CLAUDE_PLUGIN_ROOT:-}" ] && [ -d "${CLAUDE_PLUGIN_ROOT}/templates" ]; then
+    TEMPLATE_DIR="${CLAUDE_PLUGIN_ROOT}/templates"
+elif [ -d "$HOME/.blueprint/templates" ]; then
     TEMPLATE_DIR="$HOME/.blueprint/templates"
 elif [ -d "$HOME/.claude/templates" ]; then
     TEMPLATE_DIR="$HOME/.claude/templates"
