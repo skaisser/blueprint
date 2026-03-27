@@ -95,7 +95,7 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 - [x] [S] Add GoReleaser `brews` section pointing to `skaisser/homebrew-tap` with formula name `blueprint`, install instructions, and test block ✅ 27/03/2026 18:41
 - [x] [S] Replace `.github/workflows/release.yml` with GoReleaser-based workflow (triggered on tag `v*`, uses `goreleaser/goreleaser-action@v6`) ✅ 27/03/2026 18:41
 - [x] [H] Create `skaisser/homebrew-tap` GitHub repo via `gh repo create` with initial README explaining `brew tap skaisser/tap && brew install blueprint` ✅ 27/03/2026 18:41
-- [ ] [H] User action: create GitHub PAT `HOMEBREW_TAP_TOKEN` with repo scope, add as secret to skaisser/blueprint repo
+- [x] [H] User action: create GitHub PAT `HOMEBREW_TAP_TOKEN` with repo scope, add as secret to skaisser/blueprint repo ✅ 27/03/2026 18:52
 
 **Verify:** `goreleaser check` passes in main repo
 
@@ -105,7 +105,7 @@ Create a new `skaisser/blueprint-plugin` repo that packages Blueprint as a Claud
 - [x] [S] Create `.github/workflows/sync-plugin.yml` — triggered on tag push `v*` (runs after release). Checks out both repos, copies `skills/`, `config/`, `templates/`, `hooks/` (from plugin source) to plugin repo ✅ 27/03/2026 18:45
 - [x] [S] Action updates plugin repo's `plugin.json` version field to match release tag using `jq` ✅ 27/03/2026 18:45
 - [x] [H] Action commits and pushes to `skaisser/blueprint-plugin` main branch with message `🔄 ci: sync from blueprint v{tag}` ✅ 27/03/2026 18:45
-- [ ] [H] User action: create GitHub PAT `PLUGIN_REPO_TOKEN` with repo scope, add as secret to skaisser/blueprint repo
+- [x] [H] User action: create GitHub PAT `PLUGIN_REPO_TOKEN` with repo scope, add as secret to skaisser/blueprint repo ✅ 27/03/2026 18:52
 
 **Verify:** Manually trigger action via `workflow_dispatch`, verify plugin repo gets updated files
 
