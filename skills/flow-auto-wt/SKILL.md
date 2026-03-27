@@ -160,7 +160,7 @@ cd "$WORKTREE_PATH"
 echo "🤖 [flow-auto-wt:3] creating plan"
 ```
 
-1. Read `~/.claude/skills/plan/references/plan-template.md` for the plan format
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/plan/references/plan-template.md` (plugin install) or `~/.claude/skills/plan/references/plan-template.md` (traditional install) for the plan format
 2. Use `mcp__sequential-thinking__sequentialthinking` to analyze the task
 3. Write the plan file to `blueprint/live/NNNN-feat-description.md`
    - Include `worktree: $WORKTREE_PATH` in frontmatter
@@ -176,7 +176,7 @@ echo "🤖 [flow-auto-wt:3] creating plan"
 echo "🤖 [flow-auto-wt:4] reviewing plan"
 ```
 
-1. Read `~/.claude/skills/plan-review/references/team-execution.md`
+1. Read `${CLAUDE_PLUGIN_ROOT}/skills/plan-review/references/team-execution.md` (plugin install) or `~/.claude/skills/plan-review/references/team-execution.md` (traditional install)
 2. Use `mcp__sequential-thinking__sequentialthinking` to validate
 3. Mark ALL tasks with `[H]`/`[S]`/`[O]` complexity
 4. Determine execution strategy (Mode A-G)

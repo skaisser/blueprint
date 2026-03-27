@@ -24,7 +24,7 @@ Create a plan and branch in the current repository. The plan document lives in `
 
 These are non-negotiable — violating them produces broken plans:
 
-1. **Read the template first.** Read `references/plan-template.md` (bundled with this skill) at Step 1. Never create a plan without it.
+1. **Read the template first.** Read `references/plan-template.md` (bundled with this skill) at Step 1. Never create a plan without it. This relative path works from both `${CLAUDE_PLUGIN_ROOT}/skills/plan/` (plugin install) and `~/.claude/skills/plan/` (traditional install).
 2. **Use sequential thinking.** Call `mcp__sequential-thinking__sequentialthinking` at Step 2. This forces structured analysis before writing.
 3. **Ask when ambiguous.** Use `AskUserQuestion` at Step 2 if anything is unclear. Don't assume scope, priority, or approach.
 4. **Follow step order.** Steps are designed to build on each other. Skipping or reordering breaks the data flow.
