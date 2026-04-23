@@ -1,0 +1,65 @@
+# OS
+.DS_Store
+**/.DS_Store
+Thumbs.db
+Desktop.ini
+._*
+
+# Go
+cli/blueprint-darwin-*
+cli/blueprint-linux-*
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+hooks/logs/
+*.log
+
+# Firecrawl cache
+.firecrawl/
+
+# Environment / Secrets
+.env
+.env.*
+!.env.example
+
+# DB sync (per-project)
+.db-sync.env
+database/backups/
+
+# Local working files
+temp/
+tmp/
+.planning/
+CLAUDE.md
+
+# Dev-only workspace (clients create theirs via /start)
+blueprint/
+
+# --- SDLC exclusions ---
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+.opencode/
+.codex/
+.gemini/
+.agents/
+.planning/
+graphify-out/
+.firecrawl/
+docs/translations/
