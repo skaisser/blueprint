@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "graphify": {
+      "command": "/Users/skaisser/.local/bin/graphify-mcp",
+      "args": ["/Users/skaisser/Sites/context/projects/blueprint/graphify-out/graph.json"]
+    }
+  }
+}
